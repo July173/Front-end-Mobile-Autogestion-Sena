@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Experiencias_Significativas_App.MAUI.ContentViews.BottomMenu"
+             BackgroundColor="Transparent"
+             HeightRequest="80">
+
+    <Frame BackgroundColor="White"
+           CornerRadius="40"
+           Padding="10"
+           Margin="20,0,20,10"
+           HasShadow="True"
+           VerticalOptions="End"
+           HorizontalOptions="FillAndExpand">
+
+        <Grid ColumnDefinitions="*,*,*,*"
+              VerticalOptions="Center"
+              HorizontalOptions="FillAndExpand">
+
+            <!-- 🏠 Home -->
+            <VerticalStackLayout Grid.Column="0" HorizontalOptions="Center">
+                <ImageButton
+                    x:Name="HomeButton"
+                    Source="casa.svg"
+                    HeightRequest="30"
+                    WidthRequest="30"
+                    BackgroundColor="Transparent"
+                    Clicked="OnHomeTapped" />
+                <Label Text="Inicio"
+                       FontSize="10"
+                       TextColor="Gray"
+                       HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+
+            <!-- 📊 Seguimiento -->
+            <VerticalStackLayout Grid.Column="1" HorizontalOptions="Center">
+                <ImageButton
+                    x:Name="FollowUpButton"
+                    Source="seguimiento.svg"
+                    HeightRequest="30"
+                    WidthRequest="30"
+                    BackgroundColor="Transparent"
+                    Clicked="OnFollowUpTapped" />
+                <Label Text="Seguimiento"
+                       FontSize="10"
+                       TextColor="Gray"
+                       HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+
+            <!-- 🧩 Experiencias -->
+            <VerticalStackLayout Grid.Column="2" HorizontalOptions="Center">
+                <ImageButton
+                    x:Name="ExperienceButton"
+                    Source="experiencias.svg"
+                    HeightRequest="30"
+                    WidthRequest="30"
+                    BackgroundColor="Transparent"
+                    Clicked="OnExperienceTapped" />
+                <Label Text="Experiencia"
+                       FontSize="10"
+                       TextColor="Gray"
+                       HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+
+            <!-- 👤 Perfil -->
+            <VerticalStackLayout Grid.Column="3" HorizontalOptions="Center">
+                <ImageButton
+                    x:Name="ProfileButton"
+                    Source="user.svg"
+                    HeightRequest="30"
+                    WidthRequest="30"
+                    BackgroundColor="Transparent"
+                    Clicked="OnProfileTapped" />
+                <Label Text="Perfil"
+                       FontSize="10"
+                       TextColor="Gray"
+                       HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+        </Grid>
+    </Frame>
+</ContentView>
