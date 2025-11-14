@@ -16,7 +16,7 @@ namespace AutogestionSena.MAUI.ViewModels
 
         public LoginViewModel()
         {
-            _apiService = new UserService(new HttpClient());
+            _apiService = new UserService();
             LoginCommand = new Command(async () => await LoginAsync(), () => !IsBusy);
         }
 
@@ -60,13 +60,13 @@ namespace AutogestionSena.MAUI.ViewModels
             // Validaciones básicas
             if (string.IsNullOrWhiteSpace(Username))
             {
-                await Application.Current.MainPage.DisplayAlert("Error", "Ingresa tu usuario", "Aceptar");
+                await Application.Current?.MainPage?.DisplayAlert("Error", "Ingresa tu usuario", "Aceptar")!;
                 return;
             }
 
             if (string.IsNullOrWhiteSpace(Password))
             {
-                await Application.Current.MainPage.DisplayAlert("Error", "Ingresa tu contraseña", "Aceptar");
+                await Application.Current?.MainPage?.DisplayAlert("Error", "Ingresa tu contraseña", "Aceptar")!;
                 return;
             }
 
@@ -81,31 +81,31 @@ namespace AutogestionSena.MAUI.ViewModels
                     // ✅ Guardamos el token
                     Preferences.Set("AuthToken", response.Access);
 
-                    await Application.Current.MainPage.DisplayAlert(
+                    await Application.Current?.MainPage?.DisplayAlert(
                         "Éxito",
                         "Inicio de sesión correcto.",
                         "Continuar"
-                    );
+                    )!;
 
                     // Navegar a la página principal
-                    await Shell.Current.GoToAsync("//HomePage");
+                    await Shell.Current?.GoToAsync("//HomePage")!;
                 }
                 else
                 {
-                    await Application.Current.MainPage.DisplayAlert(
+                    await Application.Current?.MainPage?.DisplayAlert(
                         "Error",
                         "Usuario o contraseña incorrectos.",
                         "Aceptar"
-                    );
+                    )!;
                 }
             }
             catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert(
+                await Application.Current?.MainPage?.DisplayAlert(
                     "Error de conexión",
                     $"No se pudo conectar con el servidor:\n{ex.Message}",
                     "Aceptar"
-                );
+                )!;
             }
             finally
             {

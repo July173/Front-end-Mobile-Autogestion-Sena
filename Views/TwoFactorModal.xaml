@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AutogestionSena.MAUI.Views.TwoFactorModal"
+             x:Name="TwoFactorModalView">
+    
+    <!-- Overlay de fondo -->
+    <Grid x:Name="ModalContainer" IsVisible="{Binding IsVisible}" BackgroundColor="#80000000">
+        <!-- Modal centrado -->
+        <Frame MaximumWidthRequest="400" 
+               MaximumHeightRequest="350"
+               CornerRadius="15" 
+               Padding="30" 
+               BackgroundColor="White"
+               HorizontalOptions="Center" 
+               VerticalOptions="Center"
+               HasShadow="True">
+            
+            <VerticalStackLayout Spacing="20">
+                <!-- Título -->
+                <Label Text="Autenticación de Segundo Factor"
+                       FontFamily="Roboto-Bold"
+                       FontSize="20"
+                       FontAttributes="Bold"
+                       TextColor="#43A047"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center"/>
+                
+                <!-- Mensaje -->
+                <Label x:Name="MessageLabel"
+                       Text="Código enviado a: usuario@soy.sena.edu.co"
+                       FontFamily="Roboto-Regular"
+                       FontSize="14"
+                       TextColor="#757575"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center"/>
+                
+                <!-- Inputs de código (6 dígitos) -->
+                <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+                    <Frame BorderColor="#e0e0e0" CornerRadius="8" Padding="0" HasShadow="False" WidthRequest="45" HeightRequest="50" BackgroundColor="White">
+                        <Entry x:Name="Code1Entry" 
+                               MaxLength="1" 
+                               Keyboard="Numeric" 
+                               HorizontalTextAlignment="Center"
+                               FontSize="24"
+                               TextColor="#424242"
+                               TextChanged="OnCodeEntryChanged"/>
+                    </Frame>
+                    <Frame BorderColor="#e0e0e0" CornerRadius="8" Padding="0" HasShadow="False" WidthRequest="45" HeightRequest="50" BackgroundColor="White">
+                        <Entry x:Name="Code2Entry" 
+                               MaxLength="1" 
+                               Keyboard="Numeric" 
+                               HorizontalTextAlignment="Center"
+                               FontSize="24"
+                               TextColor="#424242"
+                               TextChanged="OnCodeEntryChanged"/>
+                    </Frame>
+                    <Frame BorderColor="#e0e0e0" CornerRadius="8" Padding="0" HasShadow="False" WidthRequest="45" HeightRequest="50" BackgroundColor="White">
+                        <Entry x:Name="Code3Entry" 
+                               MaxLength="1" 
+                               Keyboard="Numeric" 
+                               HorizontalTextAlignment="Center"
+                               FontSize="24"
+                               TextColor="#424242"
+                               TextChanged="OnCodeEntryChanged"/>
+                    </Frame>
+                    <Frame BorderColor="#e0e0e0" CornerRadius="8" Padding="0" HasShadow="False" WidthRequest="45" HeightRequest="50" BackgroundColor="White">
+                        <Entry x:Name="Code4Entry" 
+                               MaxLength="1" 
+                               Keyboard="Numeric" 
+                               HorizontalTextAlignment="Center"
+                               FontSize="24"
+                               TextColor="#424242"
+                               TextChanged="OnCodeEntryChanged"/>
+                    </Frame>
+                    <Frame BorderColor="#e0e0e0" CornerRadius="8" Padding="0" HasShadow="False" WidthRequest="45" HeightRequest="50" BackgroundColor="White">
+                        <Entry x:Name="Code5Entry" 
+                               MaxLength="1" 
+                               Keyboard="Numeric" 
+                               HorizontalTextAlignment="Center"
+                               FontSize="24"
+                               TextColor="#424242"
+                               TextChanged="OnCodeEntryChanged"/>
+                    </Frame>
+                    <Frame BorderColor="#e0e0e0" CornerRadius="8" Padding="0" HasShadow="False" WidthRequest="45" HeightRequest="50" BackgroundColor="White">
+                        <Entry x:Name="Code6Entry" 
+                               MaxLength="1" 
+                               Keyboard="Numeric" 
+                               HorizontalTextAlignment="Center"
+                               FontSize="24"
+                               TextColor="#424242"
+                               TextChanged="OnCodeEntryChanged"/>
+                    </Frame>
+                </HorizontalStackLayout>
+                
+                <!-- Indicador de carga -->
+                <ActivityIndicator x:Name="LoadingIndicator" 
+                                 IsRunning="False" 
+                                 IsVisible="False" 
+                                 Color="#43A047" />
+                
+                <!-- Botón Verificar -->
+                <Button x:Name="VerifyButton"
+                        Text="Verificar Código"
+                        BackgroundColor="#388e3c"
+                        TextColor="White"
+                        FontFamily="Roboto-SemiBold"
+                        FontSize="16"
+                        CornerRadius="8"
+                        HeightRequest="45"
+                        Clicked="OnVerifyClicked"/>
+                
+                <!-- Botón Cancelar -->
+                <Button Text="Cancelar"
+                        BackgroundColor="Transparent"
+                        TextColor="#757575"
+                        FontFamily="Roboto-Regular"
+                        FontSize="14"
+                        Clicked="OnCancelClicked"/>
+            </VerticalStackLayout>
+        </Frame>
+    </Grid>
+</ContentView>

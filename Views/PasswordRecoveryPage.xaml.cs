@@ -13,7 +13,7 @@ namespace AutogestionSena.MAUI.Views
         public PasswordRecoveryPage()
         {
             InitializeComponent();
-            _apiService = new UserService(new HttpClient());
+            _apiService = new UserService();
         }
 
         private async void OnSendCodeClicked(object sender, EventArgs e)

@@ -8,18 +8,24 @@ namespace AutogestionSena.MAUI.Views
 {
     public partial class LoginPage : ContentPage
     {
-        private readonly UserService _apiService;
+        private readonly UserService _userService;
+        private string _currentEmail = string.Empty;
+        private string _currentPassword = string.Empty;
 
         public LoginPage()
         {
             InitializeComponent();
-            _apiService = new UserService(new HttpClient());
+            _userService = new UserService();
+            
+            // Suscribirse a eventos del modal
+            TwoFactorModal.CodeVerified += OnCodeVerified;
+            TwoFactorModal.Cancelled += OnTwoFactorCancelled;
         }
 
         private async void OnLoginClicked(object sender, EventArgs e)
         {
-            string username = UsernameEntry.Text?.Trim();
-            string password = PasswordEntry.Text?.Trim();
+            string? username = UsernameEntry.Text?.Trim();
+            string? password = PasswordEntry.Text?.Trim();
 
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
             {
@@ -33,19 +39,24 @@ namespace AutogestionSena.MAUI.Views
                 LoadingIndicator.IsRunning = true;
                 IsEnabled = false;
 
-                var response = await _apiService.ValidateLoginAsync(username, password);
+                // Guardar credenciales para usar después del 2FA
+                _currentEmail = username;
+                _currentPassword = password;
 
-                if (response != null && !string.IsNullOrEmpty(response.Access))
+                var response = await _userService.ValidateLoginAsync(username, password);
+
+                if (response != null)
                 {
-                    await DisplayAlert("Éxito", "Inicio de sesión correcto.", "Continuar");
-                    Preferences.Set("AuthToken", response.Access);
-
-                    // Navegar a la página principal cuando exista
-                    // await Navigation.PushAsync(new HomePage());
+                    // Si hay token, significa que el login fue exitoso
+                    // Ahora mostrar el modal de segundo factor
+                    LoadingIndicator.IsVisible = false;
+                    LoadingIndicator.IsRunning = false;
+                    
+                    TwoFactorModal.Show(username);
                 }
                 else
                 {
-                    await DisplayAlert("Error", "Usuario o contraseña incorrectos o servidor no disponible.", "Aceptar");
+                    await DisplayAlert("Error", "Usuario o contraseña incorrectos.", "Aceptar");
                 }
             }
             catch (Exception ex)
@@ -68,6 +79,58 @@ namespace AutogestionSena.MAUI.Views
         private async void OnForgotPasswordTapped(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new PasswordRecoveryPage());
+        }
+
+        private async void OnCodeVerified(object? sender, string code)
+        {
+            try
+            {
+                var request = new SecondFactorRequest
+                {
+                    Email = _currentEmail,
+                    Code = code
+                };
+
+                // Validar el código 2FA directamente - la API devuelve los tokens
+                var response = await _userService.ValidateSecondFactorAsync(request);
+
+                if (response != null && !string.IsNullOrEmpty(response.Access))
+                {
+                    // Guardar tokens
+                    Preferences.Set("AuthToken", response.Access);
+                    if (!string.IsNullOrEmpty(response.Refresh))
+                    {
+                        Preferences.Set("RefreshToken", response.Refresh);
+                    }
+                    
+                    _userService.SetAuthToken(response.Access);
+                    
+                    TwoFactorModal.ShowSuccess();
+                    await DisplayAlert("Éxito", "Inicio de sesión correcto.", "Continuar");
+                    
+                    // Limpiar credenciales
+                    _currentEmail = string.Empty;
+                    _currentPassword = string.Empty;
+                    
+                    // Navegar a la página principal cuando exista
+                    // await Navigation.PushAsync(new HomePage());
+                }
+                else
+                {
+                    TwoFactorModal.ShowError("Código incorrecto. Por favor intenta de nuevo.");
+                }
+            }
+            catch (Exception ex)
+            {
+                TwoFactorModal.ShowError($"Error al verificar el código: {ex.Message}");
+            }
+        }
+
+        private void OnTwoFactorCancelled(object? sender, EventArgs e)
+        {
+            IsEnabled = true;
+            _currentEmail = string.Empty;
+            _currentPassword = string.Empty;
         }
     }
 }

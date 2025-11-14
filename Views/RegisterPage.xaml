@@ -53,8 +53,12 @@
                     </Grid>
                 </Frame>
                 <!-- Nombres y Apellidos -->
-                <HorizontalStackLayout Spacing="10">
-                    <Frame BorderColor="#e5e7eb" CornerRadius="6" Padding="0" HasShadow="False" HorizontalOptions="FillAndExpand" BackgroundColor="White">
+                <Grid ColumnSpacing="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Frame Grid.Column="0" BorderColor="#e5e7eb" CornerRadius="6" Padding="0" HasShadow="False" BackgroundColor="White">
                         <Grid Padding="11,0" HeightRequest="50" VerticalOptions="Center" BackgroundColor="White">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
@@ -64,7 +68,7 @@
                             <Entry x:Name="NombresEntry" Grid.Column="1" Placeholder="Nombres" FontSize="16" TextColor="#424242" FontFamily="Roboto-Regular" BackgroundColor="White"/>
                         </Grid>
                     </Frame>
-                    <Frame BorderColor="#e5e7eb" CornerRadius="6" Padding="0" HasShadow="False" HorizontalOptions="FillAndExpand" BackgroundColor="White">
+                    <Frame Grid.Column="1" BorderColor="#e5e7eb" CornerRadius="6" Padding="0" HasShadow="False" BackgroundColor="White">
                         <Grid Padding="11,0" HeightRequest="50" VerticalOptions="Center" BackgroundColor="White">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
@@ -74,7 +78,7 @@
                             <Entry x:Name="ApellidosEntry" Grid.Column="1" Placeholder="Apellidos" FontSize="16" TextColor="#424242" FontFamily="Roboto-Regular" BackgroundColor="White"/>
                         </Grid>
                     </Frame>
-                </HorizontalStackLayout>
+                </Grid>
                 <!-- Tipo de documento (Picker) -->
                 <Frame BorderColor="#c4c4c4" CornerRadius="10" Padding="0" HasShadow="False" BackgroundColor="White">
                     <Grid Padding="10,0" HeightRequest="36" VerticalOptions="Center" BackgroundColor="White">
@@ -94,8 +98,12 @@
                     </Grid>
                 </Frame>
                 <!-- Número de documento y Teléfono -->
-                <HorizontalStackLayout Spacing="10">
-                    <Frame BorderColor="#e5e7eb" CornerRadius="6" Padding="0" HasShadow="False" HorizontalOptions="FillAndExpand" BackgroundColor="White">
+                <Grid ColumnSpacing="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Frame Grid.Column="0" BorderColor="#e5e7eb" CornerRadius="6" Padding="0" HasShadow="False" BackgroundColor="White">
                         <Grid Padding="13,0" HeightRequest="50" VerticalOptions="Center" BackgroundColor="White">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
@@ -105,7 +113,7 @@
                             <Entry x:Name="DocumentoEntry" Grid.Column="1" Placeholder="Número de documento" FontSize="13" TextColor="#424242" FontFamily="Roboto-Regular" BackgroundColor="White"/>
                         </Grid>
                     </Frame>
-                    <Frame BorderColor="#e5e7eb" CornerRadius="6" Padding="0" HasShadow="False" HorizontalOptions="FillAndExpand" BackgroundColor="White">
+                    <Frame Grid.Column="1" BorderColor="#e5e7eb" CornerRadius="6" Padding="0" HasShadow="False" BackgroundColor="White">
                         <Grid Padding="12,0" HeightRequest="50" VerticalOptions="Center" BackgroundColor="White">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
@@ -115,7 +123,7 @@
                             <Entry x:Name="TelefonoEntry" Grid.Column="1" Placeholder="Teléfono" FontSize="16" TextColor="#424242" FontFamily="Roboto-Regular" BackgroundColor="White"/>
                         </Grid>
                     </Frame>
-                </HorizontalStackLayout>
+                </Grid>
                 <!-- Términos y condiciones -->
                 <HorizontalStackLayout Spacing="5" VerticalOptions="Center">
                     <CheckBox Color="#388e3c"/>

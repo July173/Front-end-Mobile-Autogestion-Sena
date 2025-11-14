@@ -1,5 +1,5 @@
-using System.Net.Http;
-using System.Net.Http.Json;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutogestionSena.MAUI.Api.Dtos;
 using AutogestionSena.MAUI.Api;
@@ -8,57 +8,90 @@ namespace AutogestionSena.MAUI.Api.Services
 {
     public class UserService
     {
-        public async Task<List<DocumentTypeDto>> GetDocumentTypesAsync()
-        {
-            var url = Endpoints.DocumentType.GetAll;
-            return await _httpClient.GetFromJsonAsync<List<DocumentTypeDto>>(url);
-        }
-        private readonly HttpClient _httpClient;
+        private readonly ApiService _apiService;
 
-        public UserService(HttpClient httpClient)
+        public UserService()
         {
-            _httpClient = httpClient;
+            _apiService = new ApiService();
         }
 
-        public async Task<User> GetUserByIdAsync(int id)
+        public UserService(ApiService apiService)
         {
-            var url = Endpoints.User.GetUserId(id);
-            return await _httpClient.GetFromJsonAsync<User>(url);
+            _apiService = apiService;
         }
 
-        public async Task<RegisterResponse> RegisterUserAsync(User user)
+        /// <summary>
+        /// Obtiene todos los tipos de documento disponibles
+        /// </summary>
+        public async Task<List<DocumentTypeDto>?> GetDocumentTypesAsync()
         {
-            var url = Endpoints.User.GetUser;
-            var response = await _httpClient.PostAsJsonAsync(url, user);
-            response.EnsureSuccessStatusCode();
-            return await response.Content.ReadFromJsonAsync<RegisterResponse>();
+            return await _apiService.GetAsync<List<DocumentTypeDto>>(Endpoints.DocumentType.GetAll);
         }
 
-        public async Task<ValidateLoginResponse> ValidateLoginAsync(string email, string password)
+        /// <summary>
+        /// Obtiene un usuario por su ID
+        /// </summary>
+        public async Task<User?> GetUserByIdAsync(int id)
         {
-            var url = Endpoints.User.ValidateLogin;
+            return await _apiService.GetAsync<User>(Endpoints.User.GetUserId(id));
+        }
+
+        /// <summary>
+        /// Registra un nuevo usuario (aprendiz)
+        /// </summary>
+        public async Task<RegisterResponse?> RegisterUserAsync(User user)
+        {
+            return await _apiService.PostAsync<User, RegisterResponse>(Endpoints.Person.RegisterApprentice, user);
+        }
+
+        /// <summary>
+        /// Registra un nuevo aprendiz con el payload correcto
+        /// </summary>
+        public async Task<RegisterResponse?> RegisterApprenticeAsync(RegisterPayloadDto payload)
+        {
+            return await _apiService.PostAsync<RegisterPayloadDto, RegisterResponse>(Endpoints.Person.RegisterApprentice, payload);
+        }
+
+        /// <summary>
+        /// Valida el login institucional del usuario
+        /// </summary>
+        public async Task<ValidateLoginResponse?> ValidateLoginAsync(string email, string password)
+        {
             var payload = new { email, password };
-            var response = await _httpClient.PostAsJsonAsync(url, payload);
-            response.EnsureSuccessStatusCode();
-            return await response.Content.ReadFromJsonAsync<ValidateLoginResponse>();
+            return await _apiService.PostAsync<object, ValidateLoginResponse>(Endpoints.User.ValidateLogin, payload);
         }
 
+        /// <summary>
+        /// Solicita el restablecimiento de contraseña
+        /// </summary>
         public async Task RequestPasswordResetAsync(string email)
         {
-            var url = Endpoints.User.RequestPasswordReset;
             var payload = new { email };
-            var response = await _httpClient.PostAsJsonAsync(url, payload);
-            response.EnsureSuccessStatusCode();
+            await _apiService.PostAsync(Endpoints.User.RequestPasswordReset, payload);
         }
 
-        public async Task<bool> ValidateSecondFactorAsync(SecondFactorRequest request)
+        /// <summary>
+        /// Valida el código de segundo factor de autenticación y retorna los tokens
+        /// </summary>
+        public async Task<ValidateLoginResponse?> ValidateSecondFactorAsync(SecondFactorRequest request)
         {
-            var url = Endpoints.User.ValidateSecondFactor;
-            var response = await _httpClient.PostAsJsonAsync(url, request);
-            response.EnsureSuccessStatusCode();
-            return response.IsSuccessStatusCode;
+            return await _apiService.PostAsync<SecondFactorRequest, ValidateLoginResponse>(Endpoints.User.ValidateSecondFactor, request);
         }
 
-        // Agrega aquí más métodos según tus necesidades
+        /// <summary>
+        /// Configura el token de autenticación
+        /// </summary>
+        public void SetAuthToken(string token)
+        {
+            _apiService.SetAuthToken(token);
+        }
+
+        /// <summary>
+        /// Limpia el token de autenticación
+        /// </summary>
+        public void ClearAuthToken()
+        {
+            _apiService.ClearAuthToken();
+        }
     }
 }

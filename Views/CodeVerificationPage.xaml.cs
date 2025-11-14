@@ -17,7 +17,7 @@ namespace AutogestionSena.MAUI.Views
         public CodeVerificationPage(string email)
         {
             InitializeComponent();
-            _apiService = new UserService(new HttpClient());
+            _apiService = new UserService();
             _email = email;
         }
 

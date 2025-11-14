@@ -8,8 +8,25 @@ namespace AutogestionSena.MAUI.Api
 {
     public static class Endpoints{
 
-        // Puedes hacer que esta URL sea configurable leyendo de un archivo de configuración si lo deseas
-        public static string API_BASE_URL => "http://django:8000/api/";
+        // Configuración de URL base según la plataforma
+        // Para emulador Android: usa 10.0.2.2 en lugar de localhost/127.0.0.1
+        // Para dispositivo físico Android: usa la IP de tu red local (192.168.1.18)
+        // Para iOS: usa la IP de tu red local
+        // Para Windows: usa localhost o la IP de tu red local
+        private static string GetBaseUrl()
+        {
+#if ANDROID
+            // Si estás usando emulador Android, usa 10.0.2.2
+            // Si usas dispositivo físico, mantén 192.168.1.18
+            return "http://192.168.1.18:8000/api/";
+#elif IOS
+            return "http://192.168.1.18:8000/api/";
+#else
+            return "http://192.168.1.18:8000/api/";
+#endif
+        }
+
+        public static string API_BASE_URL => GetBaseUrl();
 
         public static class Person
         {
