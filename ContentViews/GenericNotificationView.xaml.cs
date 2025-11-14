@@ -70,8 +70,8 @@ namespace ContentViews
             set => SetValue(ShowSecondaryButtonProperty, value);
         }
 
-        public event EventHandler PrimaryButtonClicked;
-        public event EventHandler SecondaryButtonClicked;
+        public event EventHandler? PrimaryButtonClicked;
+        public event EventHandler? SecondaryButtonClicked;
 
         public GenericNotificationView()
         {

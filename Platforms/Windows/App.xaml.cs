@@ -1,10 +1,9 @@
 ﻿using Microsoft.UI.Xaml;
-using Experiencias_Significativas_App.MAUI;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
-namespace Experiencias_Significativas_App.MAUI.WinUI;
+namespace AutogestionSena.MAUI.WinUI;
 
 /// <summary>
 /// Provides application-specific behavior to supplement the default Application class.
@@ -20,6 +19,11 @@ public partial class App : MauiWinUIApplication
 		this.InitializeComponent();
 	}
 
-	protected override MauiApp CreateMauiApp() => MauiProgram.CreateMauiApp();
+    private void InitializeComponent()
+    {
+        throw new NotImplementedException();
+    }
+
+    protected override MauiApp CreateMauiApp() => MauiProgram.CreateMauiApp();
 }
 

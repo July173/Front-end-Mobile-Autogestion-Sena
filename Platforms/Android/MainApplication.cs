@@ -1,8 +1,8 @@
 ﻿using Android.App;
 using Android.Runtime;
-using Experiencias_Significativas_App.MAUI;
+using AutogestionSena.MAUI;
 
-namespace Experiencias_Significativas_App.MAUI;
+namespace AutogestionSena.MAUI;
 
 [Application]
 public class MainApplication : MauiApplication

@@ -17,6 +17,11 @@ namespace AutogestionSena.MAUI.Api
             public static string IdPerson(int id) => $"{API_BASE_URL}security/persons/{id}/";
         }
 
+        public static class DocumentType
+        {
+            public static string GetAll => $"{API_BASE_URL}security/document-types/";
+        }
+
         public static class User
         {
             public static string ValidateLogin => $"{API_BASE_URL}security/users/validate-institutional-login/";

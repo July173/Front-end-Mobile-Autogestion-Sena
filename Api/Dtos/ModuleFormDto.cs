@@ -5,7 +5,7 @@ namespace AutogestionSena.MAUI.Api.Dtos
 {
     public class ModuleFormDto
     {
-        public string Name { get; set; }
-        public List<FormDto> Form { get; set; }
+        public string? Name { get; set; }
+        public List<FormDto>? Form { get; set; }
     }
 }

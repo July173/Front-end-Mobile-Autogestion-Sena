@@ -5,7 +5,7 @@
              x:Class="AutogestionSena.MAUI.Views.LoginPage"
              BackgroundColor="White">
     <ScrollView>
-        <VerticalStackLayout Padding="30,40" Spacing="30" HorizontalOptions="Center" WidthRequest="400">
+        <VerticalStackLayout Padding="30,40" Spacing="30" HorizontalOptions="Center" MaximumWidthRequest="600">
             <!-- Logo -->
             <Frame Padding="0" HasShadow="False" CornerRadius="40" HeightRequest="80" WidthRequest="80" BackgroundColor="Transparent" HorizontalOptions="Center">
                 <Image Source="../Resources/AppIcon/LogoSenaVerde.svg" Aspect="AspectFill" HeightRequest="80" WidthRequest="80"/>
@@ -22,7 +22,7 @@
                    FontFamily="Roboto-Bold"
                    FontSize="36"
                    FontAttributes="Bold"
-                   TextColor="#424242"
+                   TextColor="Black"
                    HorizontalOptions="Center"/>
             <Label Text="Ingresa tus credenciales para acceder a tu cuenta."
                    FontFamily="Roboto-Regular"
@@ -32,30 +32,34 @@
             <!-- Inputs -->
             <VerticalStackLayout Spacing="17">
                 <!-- Email -->
-                <Frame BorderColor="#e0e0e0" CornerRadius="8" Padding="0" HasShadow="False">
-                    <Grid Padding="17,0" HeightRequest="50" VerticalOptions="Center">
+                <Frame BorderColor="#e0e0e0" CornerRadius="8" Padding="0" HasShadow="False" BackgroundColor="White">
+                    <Grid Padding="17,0" HeightRequest="50" VerticalOptions="Center" BackgroundColor="White">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <Image Source="https://www.figma.com/api/mcp/asset/748ee653-82c0-4e01-8913-4ce3bd25dea5" HeightRequest="35" WidthRequest="35" VerticalOptions="Center"/>
-                        <Entry x:Name="UsernameEntry" Grid.Column="1" Placeholder="ejemplo@soy.sena.edu.co" FontSize="16" TextColor="#90A4AE" FontFamily="Roboto-Regular"/>
+                        <Entry x:Name="UsernameEntry" Grid.Column="1" Placeholder="ejemplo@soy.sena.edu.co" FontSize="16" TextColor="#424242" FontFamily="Roboto-Regular" BackgroundColor="White"/>
                     </Grid>
                 </Frame>
                 <!-- Password -->
-                <Frame BorderColor="#e0e0e0" CornerRadius="8" Padding="0" HasShadow="False">
-                    <Grid Padding="18,0" HeightRequest="50" VerticalOptions="Center">
+                <Frame BorderColor="#e0e0e0" CornerRadius="8" Padding="0" HasShadow="False" BackgroundColor="White">
+                    <Grid Padding="18,0" HeightRequest="50" VerticalOptions="Center" BackgroundColor="White">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <Image Source="https://www.figma.com/api/mcp/asset/e55a7151-6e91-40a1-8a59-4b0c738c425e" HeightRequest="35" WidthRequest="35" VerticalOptions="Center"/>
-                        <Entry x:Name="PasswordEntry" Grid.Column="1" Placeholder="Contraseña" IsPassword="True" FontSize="16" TextColor="Black" FontFamily="Roboto-Regular"/>
+                        <Entry x:Name="PasswordEntry" Grid.Column="1" Placeholder="Contraseña" IsPassword="True" FontSize="16" TextColor="#424242" FontFamily="Roboto-Regular" BackgroundColor="White"/>
                     </Grid>
                 </Frame>
             </VerticalStackLayout>
             <!-- ¿Olvidaste tu contraseña? -->
-            <Label Text="¿Olvidaste tu contraseña?" FontFamily="Roboto-Bold" FontSize="18" TextColor="#43A047" HorizontalOptions="Center"/>
+            <Label Text="¿Olvidaste tu contraseña?" FontFamily="Roboto-Bold" FontSize="18" TextColor="#43A047" HorizontalOptions="Center">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnForgotPasswordTapped"/>
+                </Label.GestureRecognizers>
+            </Label>
             <!-- Indicador de carga -->
             <ActivityIndicator x:Name="LoadingIndicator" IsRunning="False" IsVisible="False" Color="#43A047" />
             <!-- Botón Iniciar Sesión -->
@@ -72,7 +76,11 @@
             <!-- ¿No tienes una cuenta? Regístrate aquí -->
             <HorizontalStackLayout HorizontalOptions="Center" Spacing="5">
                 <Label Text="¿No tienes una cuenta?" FontSize="20" TextColor="#757575" FontFamily="Roboto-Regular"/>
-                <Label Text="Regístrate aquí" FontSize="20" TextColor="#43A047" FontFamily="Roboto-Medium"/>
+                <Label Text="Regístrate aquí" FontSize="20" TextColor="#43A047" FontFamily="Roboto-Medium">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnRegisterLinkTapped"/>
+                    </Label.GestureRecognizers>
+                </Label>
             </HorizontalStackLayout>
             <!-- Soporte, Términos, Privacidad -->
             <HorizontalStackLayout HorizontalOptions="Center" Spacing="20" Margin="0,20,0,0">

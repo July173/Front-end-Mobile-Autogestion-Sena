@@ -5,14 +5,31 @@ using AutogestionSena.MAUI.Api.Services;
 
 namespace AutogestionSena.MAUI.Views
 {
+
     public partial class RegisterPage : ContentPage
     {
         private readonly UserService _apiService;
+        public List<DocumentTypeDto> DocumentTypes { get; set; } = new();
 
         public RegisterPage()
         {
             InitializeComponent();
             _apiService = new UserService(new HttpClient());
+            BindingContext = this;
+            LoadDocumentTypes();
+        }
+
+        private async void LoadDocumentTypes()
+        {
+            try
+            {
+                DocumentTypes = await _apiService.GetDocumentTypesAsync();
+                TipoDocumentoPicker.ItemsSource = DocumentTypes;
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Error", $"No se pudieron cargar los tipos de documento: {ex.Message}", "Aceptar");
+            }
         }
 
         private async void OnRegisterClicked(object sender, EventArgs e)
@@ -54,6 +71,11 @@ namespace AutogestionSena.MAUI.Views
             } else {
                 await DisplayAlert("Error", "No se pudo registrar el usuario.", "Aceptar");
             }
+        }
+
+        private async void OnBackToLoginClicked(object sender, EventArgs e)
+        {
+            await Navigation.PopAsync();
         }
     }
 }

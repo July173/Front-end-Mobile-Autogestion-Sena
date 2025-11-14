@@ -8,6 +8,11 @@ namespace AutogestionSena.MAUI.Api.Services
 {
     public class UserService
     {
+        public async Task<List<DocumentTypeDto>> GetDocumentTypesAsync()
+        {
+            var url = Endpoints.DocumentType.GetAll;
+            return await _httpClient.GetFromJsonAsync<List<DocumentTypeDto>>(url);
+        }
         private readonly HttpClient _httpClient;
 
         public UserService(HttpClient httpClient)

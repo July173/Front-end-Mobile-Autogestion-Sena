@@ -64,5 +64,10 @@ namespace AutogestionSena.MAUI.Views
         {
             await Navigation.PushAsync(new RegisterPage());
         }
+
+        private async void OnForgotPasswordTapped(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new PasswordRecoveryPage());
+        }
     }
 }

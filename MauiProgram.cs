@@ -1,6 +1,6 @@
 ﻿using AutogestionSena.MAUI;
 
-namespace Experiencias_Significativas_App.MAUI
+namespace AutogestionSena.MAUI
 {
     public static class MauiProgram
     {
