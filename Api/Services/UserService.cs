@@ -57,7 +57,10 @@ namespace AutogestionSena.MAUI.Api.Services
         /// </summary>
         public async Task<ValidateLoginResponse?> ValidateLoginAsync(string email, string password)
         {
-            var payload = new { email, password };
+            var payload = new { email = email.Trim(), password = password.Trim() };
+            System.Diagnostics.Debug.WriteLine($"[LOGIN] Endpoint: {Endpoints.User.ValidateLogin}");
+            System.Diagnostics.Debug.WriteLine($"[LOGIN] Email: {email}");
+            System.Diagnostics.Debug.WriteLine($"[LOGIN] Payload: {System.Text.Json.JsonSerializer.Serialize(payload)}");
             return await _apiService.PostAsync<object, ValidateLoginResponse>(Endpoints.User.ValidateLogin, payload);
         }
 

@@ -12,7 +12,12 @@ namespace AutogestionSena.MAUI.Api.Services
 
         public ApiService()
         {
-            _httpClient = new HttpClient
+            var handler = new HttpClientHandler
+            {
+                ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true
+            };
+            
+            _httpClient = new HttpClient(handler)
             {
                 Timeout = TimeSpan.FromSeconds(30)
             };
@@ -55,13 +60,56 @@ namespace AutogestionSena.MAUI.Api.Services
         {
             try
             {
-                var response = await _httpClient.PostAsJsonAsync(endpoint, payload);
-                response.EnsureSuccessStatusCode();
-                return await response.Content.ReadFromJsonAsync<TResponse>();
+                System.Diagnostics.Debug.WriteLine($"[API] POST Request to: {endpoint}");
+                
+                // Serializar manualmente con opciones específicas
+                var jsonOptions = new System.Text.Json.JsonSerializerOptions
+                {
+                    PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase,
+                    PropertyNameCaseInsensitive = true,
+                    WriteIndented = false
+                };
+                
+                var jsonContent = System.Text.Json.JsonSerializer.Serialize(payload, jsonOptions);
+                System.Diagnostics.Debug.WriteLine($"[API] Payload JSON: {jsonContent}");
+                
+                var content = new StringContent(jsonContent, System.Text.Encoding.UTF8, "application/json");
+                
+                var response = await _httpClient.PostAsync(endpoint, content);
+                
+                System.Diagnostics.Debug.WriteLine($"[API] Response Status: {(int)response.StatusCode} - {response.StatusCode}");
+                
+                var responseContent = await response.Content.ReadAsStringAsync();
+                System.Diagnostics.Debug.WriteLine($"[API] Response Content: {responseContent}");
+                
+                if (!response.IsSuccessStatusCode)
+                {
+                    throw new HttpRequestException(
+                        $"Error {(int)response.StatusCode} ({response.StatusCode}): {responseContent}"
+                    );
+                }
+
+                // Intentar deserializar con manejo de errores mejorado
+                try
+                {
+                    return System.Text.Json.JsonSerializer.Deserialize<TResponse>(responseContent, jsonOptions);
+                }
+                catch (System.Text.Json.JsonException jsonEx)
+                {
+                    System.Diagnostics.Debug.WriteLine($"[API] JSON Deserialization Error: {jsonEx.Message}");
+                    System.Diagnostics.Debug.WriteLine($"[API] Response was: {responseContent}");
+                    throw new Exception($"Error al procesar la respuesta del servidor. Respuesta: {responseContent}", jsonEx);
+                }
             }
             catch (HttpRequestException ex)
             {
+                System.Diagnostics.Debug.WriteLine($"[API] HttpRequestException: {ex.Message}");
                 throw new Exception($"Error en la petición POST a {endpoint}: {ex.Message}", ex);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[API] Exception: {ex}");
+                throw;
             }
         }
 

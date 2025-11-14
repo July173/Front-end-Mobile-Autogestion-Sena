@@ -16,13 +16,12 @@ namespace AutogestionSena.MAUI.Api
         private static string GetBaseUrl()
         {
 #if ANDROID
-            // Si estás usando emulador Android, usa 10.0.2.2
-            // Si usas dispositivo físico, mantén 192.168.1.18
-            return "http://192.168.1.18:8000/api/";
+            // Usando la IP directa de la máquina en la red
+            return "http://10.3.234.25:8000/api/";
 #elif IOS
-            return "http://192.168.1.18:8000/api/";
+            return "http://10.3.234.25:8000/api/";
 #else
-            return "http://192.168.1.18:8000/api/";
+            return "http://localhost:8000/api/";
 #endif
         }
 

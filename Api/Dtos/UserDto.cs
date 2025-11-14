@@ -42,6 +42,7 @@ namespace AutogestionSena.MAUI.Api.Dtos
 
     public class ValidateLoginResponse
     {
+        public string? Success { get; set; }  // Para el primer endpoint
         public string? Access { get; set; }
         public string? Refresh { get; set; }
         public UserLoginData? User { get; set; }
@@ -53,10 +54,10 @@ namespace AutogestionSena.MAUI.Api.Dtos
     public class UserLoginData
     {
         public string? Email { get; set; }
-        public string? Id { get; set; }
-        public int? Role { get; set; }
-        public string? Person { get; set; }
-        public bool? Registered { get; set; }
+        public int Id { get; set; }
+        public int Role { get; set; }
+        public int Person { get; set; }
+        public bool Registered { get; set; }
     }
 
     public class UserStatus
