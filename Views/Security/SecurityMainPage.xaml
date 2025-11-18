@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AutogestionSenaMaui.Views.Security.SecurityMainPage"
+             xmlns:vm="clr-namespace:AutogestionSenaMaui.ViewModels.Security"
+             xmlns:contentViews="clr-namespace:AutogestionSenaMaui.ContentViews"
+             x:DataType="vm:SecurityMainViewModel"
+             Title="Seguridad">
+
+    <Grid RowDefinitions="Auto,*,Auto" BackgroundColor="#F8F9FA">
+        
+        <!-- Header Section -->
+        <Grid Grid.Row="0" Padding="20" BackgroundColor="White">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Título principal -->
+            <Label Grid.Row="0"
+                   Text="Administración de Permisos"
+                   FontSize="28"
+                   FontAttributes="Bold"
+                   TextColor="#020817"
+                   HorizontalTextAlignment="Center"
+                   Margin="0,0,0,10"/>
+
+            <!-- Subtítulo -->
+            <Label Grid.Row="1"
+                   Text="Gestiona usuarios, roles, módulos y permisos desde una sola pantalla"
+                   FontSize="14"
+                   TextColor="#64748B"
+                   HorizontalTextAlignment="Center"
+                   Margin="0,0,0,20"/>
+
+            <!-- Tarjetas de estadísticas -->
+            <ScrollView Grid.Row="2" 
+                       Orientation="Horizontal"
+                       HorizontalScrollBarVisibility="Never"
+                       Margin="0,0,0,20">
+                <HorizontalStackLayout Spacing="15">
+                    
+                    <!-- Tarjeta Usuarios -->
+                    <Border StrokeThickness="1"
+                            Stroke="#E2E8F0"
+                            BackgroundColor="White"
+                            Padding="15"
+                            HeightRequest="102"
+                            WidthRequest="160">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="8"/>
+                        </Border.StrokeShape>
+                        <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="Auto,*">
+                            <!-- Icono -->
+                            <Image Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"
+                                   Source="user_icon.png"
+                                   WidthRequest="32"
+                                   HeightRequest="32"
+                                   VerticalOptions="Center"
+                                   Margin="0,0,10,0"/>
+                            <!-- Número -->
+                            <Label Grid.Row="0" Grid.Column="1"
+                                   Text="{Binding UsersCount}"
+                                   FontSize="24"
+                                   FontAttributes="Bold"
+                                   TextColor="#020817"
+                                   VerticalOptions="End"/>
+                            <!-- Etiqueta -->
+                            <Label Grid.Row="1" Grid.Column="1"
+                                   Text="Usuarios"
+                                   FontSize="14"
+                                   TextColor="#64748B"
+                                   VerticalOptions="Start"/>
+                        </Grid>
+                    </Border>
+
+                    <!-- Tarjeta Roles -->
+                    <Border StrokeThickness="1"
+                            Stroke="#E2E8F0"
+                            BackgroundColor="White"
+                            Padding="15"
+                            HeightRequest="102"
+                            WidthRequest="160">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="8"/>
+                        </Border.StrokeShape>
+                        <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="Auto,*">
+                            <!-- Icono -->
+                            <Image Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"
+                                   Source="shield_icon.png"
+                                   WidthRequest="32"
+                                   HeightRequest="32"
+                                   VerticalOptions="Center"
+                                   Margin="0,0,10,0"/>
+                            <!-- Número -->
+                            <Label Grid.Row="0" Grid.Column="1"
+                                   Text="{Binding RolesCount}"
+                                   FontSize="24"
+                                   FontAttributes="Bold"
+                                   TextColor="#020817"
+                                   VerticalOptions="End"/>
+                            <!-- Etiqueta -->
+                            <Label Grid.Row="1" Grid.Column="1"
+                                   Text="Roles"
+                                   FontSize="14"
+                                   TextColor="#64748B"
+                                   VerticalOptions="Start"/>
+                        </Grid>
+                    </Border>
+
+                    <!-- Tarjeta Módulos -->
+                    <Border StrokeThickness="1"
+                            Stroke="#E2E8F0"
+                            BackgroundColor="White"
+                            Padding="15"
+                            HeightRequest="102"
+                            WidthRequest="160">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="8"/>
+                        </Border.StrokeShape>
+                        <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="Auto,*">
+                            <!-- Icono -->
+                            <Image Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"
+                                   Source="grid_icon.png"
+                                   WidthRequest="32"
+                                   HeightRequest="32"
+                                   VerticalOptions="Center"
+                                   Margin="0,0,10,0"/>
+                            <!-- Número -->
+                            <Label Grid.Row="0" Grid.Column="1"
+                                   Text="{Binding ModulesCount}"
+                                   FontSize="24"
+                                   FontAttributes="Bold"
+                                   TextColor="#020817"
+                                   VerticalOptions="End"/>
+                            <!-- Etiqueta -->
+                            <Label Grid.Row="1" Grid.Column="1"
+                                   Text="Módulos"
+                                   FontSize="14"
+                                   TextColor="#64748B"
+                                   VerticalOptions="Start"/>
+                        </Grid>
+                    </Border>
+
+                    <!-- Tarjeta Formularios -->
+                    <Border StrokeThickness="1"
+                            Stroke="#E2E8F0"
+                            BackgroundColor="White"
+                            Padding="15"
+                            HeightRequest="102"
+                            WidthRequest="160">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="8"/>
+                        </Border.StrokeShape>
+                        <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="Auto,*">
+                            <!-- Icono -->
+                            <Image Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"
+                                   Source="document_icon.png"
+                                   WidthRequest="32"
+                                   HeightRequest="32"
+                                   VerticalOptions="Center"
+                                   Margin="0,0,10,0"/>
+                            <!-- Número -->
+                            <Label Grid.Row="0" Grid.Column="1"
+                                   Text="{Binding FormsCount}"
+                                   FontSize="24"
+                                   FontAttributes="Bold"
+                                   TextColor="#020817"
+                                   VerticalOptions="End"/>
+                            <!-- Etiqueta -->
+                            <Label Grid.Row="1" Grid.Column="1"
+                                   Text="Formularios"
+                                   FontSize="14"
+                                   TextColor="#64748B"
+                                   VerticalOptions="Start"/>
+                        </Grid>
+                    </Border>
+
+                </HorizontalStackLayout>
+            </ScrollView>
+
+            <!-- Navegación por Tabs -->
+            <Border Grid.Row="3"
+                    BackgroundColor="#E1E2ED"
+                    Padding="10">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="10"/>
+                </Border.StrokeShape>
+                
+                <Grid ColumnDefinitions="*,*,*,*" ColumnSpacing="5">
+                    
+                    <!-- Tab Resumen -->
+                    <Border Grid.Column="0"
+                            BackgroundColor="{Binding SelectedTab, Converter={StaticResource TabToColorConverter}, ConverterParameter='Resumen'}"
+                            Padding="10,8">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="10"/>
+                        </Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding SelectTabCommand}" CommandParameter="Resumen"/>
+                        </Border.GestureRecognizers>
+                        <HorizontalStackLayout Spacing="5" HorizontalOptions="Center">
+                            <Image Source="home_icon.png" 
+                                   WidthRequest="10" 
+                                   HeightRequest="10"
+                                   VerticalOptions="Center"/>
+                            <Label Text="Resumen"
+                                   FontSize="10"
+                                   FontAttributes="Bold"
+                                   TextColor="{Binding SelectedTab, Converter={StaticResource TabToTextColorConverter}, ConverterParameter='Resumen'}"
+                                   VerticalOptions="Center"/>
+                        </HorizontalStackLayout>
+                    </Border>
+
+                    <!-- Tab Usuarios -->
+                    <Border Grid.Column="1"
+                            BackgroundColor="{Binding SelectedTab, Converter={StaticResource TabToColorConverter}, ConverterParameter='Usuarios'}"
+                            Padding="10,8">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="10"/>
+                        </Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding SelectTabCommand}" CommandParameter="Usuarios"/>
+                        </Border.GestureRecognizers>
+                        <HorizontalStackLayout Spacing="5" HorizontalOptions="Center">
+                            <Image Source="users_icon.png" 
+                                   WidthRequest="10" 
+                                   HeightRequest="10"
+                                   VerticalOptions="Center"/>
+                            <Label Text="Usuarios"
+                                   FontSize="10"
+                                   FontAttributes="Bold"
+                                   TextColor="{Binding SelectedTab, Converter={StaticResource TabToTextColorConverter}, ConverterParameter='Usuarios'}"
+                                   VerticalOptions="Center"/>
+                        </HorizontalStackLayout>
+                    </Border>
+
+                    <!-- Tab Roles -->
+                    <Border Grid.Column="2"
+                            BackgroundColor="{Binding SelectedTab, Converter={StaticResource TabToColorConverter}, ConverterParameter='Roles'}"
+                            Padding="10,8">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="10"/>
+                        </Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding SelectTabCommand}" CommandParameter="Roles"/>
+                        </Border.GestureRecognizers>
+                        <HorizontalStackLayout Spacing="5" HorizontalOptions="Center">
+                            <Image Source="shield_small_icon.png" 
+                                   WidthRequest="10" 
+                                   HeightRequest="10"
+                                   VerticalOptions="Center"/>
+                            <Label Text="Roles"
+                                   FontSize="10"
+                                   FontAttributes="Bold"
+                                   TextColor="{Binding SelectedTab, Converter={StaticResource TabToTextColorConverter}, ConverterParameter='Roles'}"
+                                   VerticalOptions="Center"/>
+                        </HorizontalStackLayout>
+                    </Border>
+
+                    <!-- Tab Módulos -->
+                    <Border Grid.Column="3"
+                            BackgroundColor="{Binding SelectedTab, Converter={StaticResource TabToColorConverter}, ConverterParameter='Módulos'}"
+                            Padding="10,8">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="10"/>
+                        </Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding SelectTabCommand}" CommandParameter="Módulos"/>
+                        </Border.GestureRecognizers>
+                        <HorizontalStackLayout Spacing="5" HorizontalOptions="Center">
+                            <Image Source="grid_small_icon.png" 
+                                   WidthRequest="10" 
+                                   HeightRequest="10"
+                                   VerticalOptions="Center"/>
+                            <Label Text="Módulos"
+                                   FontSize="10"
+                                   FontAttributes="Bold"
+                                   TextColor="{Binding SelectedTab, Converter={StaticResource TabToTextColorConverter}, ConverterParameter='Módulos'}"
+                                   VerticalOptions="Center"/>
+                        </HorizontalStackLayout>
+                    </Border>
+
+                </Grid>
+            </Border>
+
+        </Grid>
+
+        <!-- Content Section (Dinámico según el Tab seleccionado) -->
+        <ScrollView Grid.Row="1" Padding="20,10">
+            <ContentView Content="{Binding CurrentContent}"/>
+        </ScrollView>
+
+        <!-- Bottom Menu (comentado temporalmente) -->
+        <!-- <contentViews:BottomMenu Grid.Row="2"/> -->
+
+    </Grid>
+
+</ContentPage>

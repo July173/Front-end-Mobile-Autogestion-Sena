@@ -3,6 +3,8 @@
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
        xmlns:views="clr-namespace:AutogestionSena.MAUI.Views"
        xmlns:AutogestionSena="clr-namespace:AutogestionSena.MAUI.Views"
+       xmlns:mauidash="clr-namespace:AutogestionSenaMaui.Views"
+       xmlns:security="clr-namespace:AutogestionSenaMaui.Views.Security"
        x:Class="AutogestionSena.MAUI.AppShell">
 
     <!-- Define tus rutas -->
@@ -11,5 +13,12 @@
     <ShellContent Route="PasswordRecoveryPage" ContentTemplate="{DataTemplate AutogestionSena:PasswordRecoveryPage}" />
     <ShellContent Route="CodeVerificationPage" ContentTemplate="{DataTemplate views:CodeVerificationPage}" />
     <ShellContent Route="PasswordResetPage" ContentTemplate="{DataTemplate AutogestionSena:PasswordResetPage}" />
+   <ShellContent Route="MainDashboard" Title="Main Dashboard" ContentTemplate="{DataTemplate mauidash:MainDashboardPage}" />
+    
+    <!-- Módulo de Seguridad -->
+    <ShellContent Route="SecurityMainPage" 
+                  Title="Seguridad"
+                  Icon="shield_icon.png"
+                  ContentTemplate="{DataTemplate security:SecurityMainPage}" />
 
 </Shell>

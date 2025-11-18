@@ -221,6 +221,68 @@ namespace AutogestionSenaMaui.Tests.Services
                 .WithMessage("*Error en la petición POST*");
         }
 
+        [Fact(DisplayName = "ParseApiResponseAsync - Con success true - Debe parsear correctamente")] 
+        public async Task ParseApiResponseAsync_WithSuccessTrue_ShouldParseCorrectly()
+        {
+            // Arrange
+            var mockHandler = new Mock<HttpMessageHandler>();
+            var jsonResponse = "{ \"success\": true, \"detail\": \"Operación correcta\" }";
+
+            mockHandler.Protected()
+                .Setup<Task<HttpResponseMessage>>(
+                    "SendAsync",
+                    ItExpr.IsAny<HttpRequestMessage>(),
+                    ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync(new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.OK,
+                    Content = new StringContent(jsonResponse, System.Text.Encoding.UTF8, "application/json")
+                });
+
+            var httpClient = new HttpClient(mockHandler.Object);
+            var service = new ApiService(httpClient);
+
+            // Act
+            var resp = await httpClient.PostAsync("http://test.com/api/test", new StringContent("{}", System.Text.Encoding.UTF8, "application/json"));
+            var parsed = await service.ParseApiResponseAsync(resp);
+
+            // Assert
+            parsed.Should().NotBeNull();
+            parsed!.Success.Should().BeTrue();
+            parsed.Detail.Should().Contain("Operación correcta");
+        }
+
+        [Fact(DisplayName = "ParseApiResponseAsync - Con success false y mensaje - Debe parsear correctamente")] 
+        public async Task ParseApiResponseAsync_WithSuccessFalse_ShouldParseCorrectly()
+        {
+            // Arrange
+            var mockHandler = new Mock<HttpMessageHandler>();
+            var jsonResponse = "{ \"success\": false, \"detail\": \"Error en la operación\" }";
+
+            mockHandler.Protected()
+                .Setup<Task<HttpResponseMessage>>(
+                    "SendAsync",
+                    ItExpr.IsAny<HttpRequestMessage>(),
+                    ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync(new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.BadRequest,
+                    Content = new StringContent(jsonResponse, System.Text.Encoding.UTF8, "application/json")
+                });
+
+            var httpClient = new HttpClient(mockHandler.Object);
+            var service = new ApiService(httpClient);
+
+            // Act
+            var resp = await httpClient.PostAsync("http://test.com/api/test", new StringContent("{}", System.Text.Encoding.UTF8, "application/json"));
+            var parsed = await service.ParseApiResponseAsync(resp);
+
+            // Assert
+            parsed.Should().NotBeNull();
+            parsed!.Success.Should().BeFalse();
+            parsed.Detail.Should().Contain("Error en la operación");
+        }
+
         [Fact(DisplayName = "DeleteAsync - Con respuesta exitosa - Debe retornar HttpResponseMessage")]
         public async Task DeleteAsync_WithSuccessResponse_ShouldReturnHttpResponseMessage()
         {

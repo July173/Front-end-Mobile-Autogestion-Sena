@@ -183,5 +183,114 @@ namespace AutogestionSena.MAUI.Api.Services
         {
             _httpClient.DefaultRequestHeaders.Authorization = null;
         }
+
+        /// <summary>
+        /// Intenta parsear una respuesta HttpResponseMessage a un objeto que contenga
+        /// la información de éxito y detalle, independientemente de cómo el servidor la envíe.
+        /// </summary>
+        public async Task<AutogestionSena.MAUI.Api.Dtos.ApiResponseParsedDto> ParseApiResponseAsync(HttpResponseMessage response)
+        {
+            var result = new AutogestionSena.MAUI.Api.Dtos.ApiResponseParsedDto
+            {
+                StatusCode = (int)response.StatusCode,
+                IsSuccessStatusCode = response.IsSuccessStatusCode,
+                Success = response.IsSuccessStatusCode
+            };
+
+            if (response.Content == null)
+                return result;
+
+            string content = string.Empty;
+            try
+            {
+                content = await response.Content.ReadAsStringAsync();
+            }
+            catch
+            {
+                return result;
+            }
+
+            if (string.IsNullOrWhiteSpace(content))
+                return result;
+
+            try
+            {
+                using var doc = System.Text.Json.JsonDocument.Parse(content);
+                var root = doc.RootElement;
+
+                // Helper to find property case-insensitively
+                bool TryGetPropertyIgnoreCase(System.Text.Json.JsonElement element, string propertyName, out System.Text.Json.JsonElement found)
+                {
+                    foreach (var p in element.EnumerateObject())
+                    {
+                        if (string.Equals(p.Name, propertyName, StringComparison.OrdinalIgnoreCase))
+                        {
+                            found = p.Value;
+                            return true;
+                        }
+                    }
+                    found = default;
+                    return false;
+                }
+
+                // Try 'success' field
+                if (TryGetPropertyIgnoreCase(root, "success", out var successProp))
+                {
+                    switch (successProp.ValueKind)
+                    {
+                        case System.Text.Json.JsonValueKind.True:
+                        case System.Text.Json.JsonValueKind.False:
+                            result.Success = successProp.GetBoolean();
+                            break;
+                        case System.Text.Json.JsonValueKind.String:
+                            var s = successProp.GetString();
+                            if (bool.TryParse(s, out var b)) result.Success = b;
+                            break;
+                        case System.Text.Json.JsonValueKind.Number:
+                            if (successProp.TryGetInt32(out var i)) result.Success = i != 0;
+                            break;
+                    }
+                }
+
+                // Try to obtain a detail/message
+                string? GetFirstStringProperty(System.Text.Json.JsonElement element, params string[] names)
+                {
+                    foreach (var name in names)
+                    {
+                        if (TryGetPropertyIgnoreCase(element, name, out var prop))
+                        {
+                            if (prop.ValueKind == System.Text.Json.JsonValueKind.String)
+                                return prop.GetString();
+                            else
+                                return prop.ToString();
+                        }
+                    }
+                    return null;
+                }
+
+                var detail = GetFirstStringProperty(root, "detail", "message", "error", "errors", "description");
+                if (!string.IsNullOrEmpty(detail)) result.Detail = detail;
+                else
+                {
+                    // If not found but top-level is a string or primitive, take whole content
+                    if (root.ValueKind == System.Text.Json.JsonValueKind.String)
+                        result.Detail = root.GetString();
+                    else
+                        result.Detail = content;
+                }
+            }
+            catch (System.Text.Json.JsonException jsonEx)
+            {
+                // Not a JSON document; default to raw content
+                System.Diagnostics.Debug.WriteLine($"[API] ParseApiResponseAsync: Not JSON: {jsonEx.Message}");
+                result.Detail = content;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[API] ParseApiResponseAsync: Error: {ex}");
+            }
+
+            return result;
+        }
     }
 }

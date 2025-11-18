@@ -71,4 +71,17 @@ namespace AutogestionSena.MAUI.Api.Dtos
         public string? Email { get; set; }
         public string? Code { get; set; }
     }
+
+    public class PasswordResetRequestResponse
+    {
+        public string? Detail { get; set; }
+        public string? Code { get; set; }  // Código de recuperación que retorna el backend
+        public bool Success { get; set; }
+    }
+
+    public class PasswordResetResponse
+    {
+        public string? Detail { get; set; }
+        public bool Success { get; set; }
+    }
 }

@@ -1,0 +1,641 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AutogestionSenaMaui.Views.Security.SecuritySummaryView">
+    
+    <VerticalStackLayout Spacing="20">
+        
+        <!-- Matriz de Permisos por Rol -->
+        <Border BackgroundColor="White"
+                StrokeThickness="1"
+                Stroke="#E2E8F0"
+                Padding="25,20">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="8"/>
+            </Border.StrokeShape>
+            
+            <VerticalStackLayout Spacing="15">
+                <!-- Título -->
+                <Label Text="Matriz de Permisos por Rol"
+                       FontSize="20"
+                       FontAttributes="Bold"
+                       TextColor="#020817"/>
+
+                <!-- Tabla con ScrollView -->
+                <ScrollView Orientation="Both" HeightRequest="300">
+                    <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto"
+                          ColumnDefinitions="150,180,80,80,80,120"
+                          RowSpacing="0"
+                          ColumnSpacing="0">
+
+                        <!-- Header -->
+                        <Label Grid.Row="0" Grid.Column="0" 
+                               Text="Rol" 
+                               FontAttributes="Bold"
+                               FontSize="14"
+                               TextColor="#020817"
+                               Padding="8,10"
+                               VerticalOptions="Center"/>
+                        
+                        <Label Grid.Row="0" Grid.Column="1" 
+                               Text="Formulario" 
+                               FontAttributes="Bold"
+                               FontSize="14"
+                               TextColor="#020817"
+                               Padding="8,10"
+                               VerticalOptions="Center"/>
+                        
+                        <Label Grid.Row="0" Grid.Column="2" 
+                               Text="Visualizar" 
+                               FontAttributes="Bold"
+                               FontSize="14"
+                               TextColor="#020817"
+                               Padding="8,10"
+                               HorizontalTextAlignment="Center"
+                               VerticalOptions="Center"/>
+                        
+                        <Label Grid.Row="0" Grid.Column="3" 
+                               Text="Editar" 
+                               FontAttributes="Bold"
+                               FontSize="14"
+                               TextColor="#020817"
+                               Padding="8,10"
+                               HorizontalTextAlignment="Center"
+                               VerticalOptions="Center"/>
+                        
+                        <Label Grid.Row="0" Grid.Column="4" 
+                               Text="Eliminar" 
+                               FontAttributes="Bold"
+                               FontSize="14"
+                               TextColor="#020817"
+                               Padding="8,10"
+                               HorizontalTextAlignment="Center"
+                               VerticalOptions="Center"/>
+                        
+                        <Label Grid.Row="0" Grid.Column="5" 
+                               Text="Inhabilitar/Habilitar" 
+                               FontAttributes="Bold"
+                               FontSize="12"
+                               TextColor="#020817"
+                               Padding="8,10"
+                               HorizontalTextAlignment="Center"
+                               VerticalOptions="Center"/>
+
+                        <!-- Línea divisora del header -->
+                        <BoxView Grid.Row="0" Grid.ColumnSpan="6" 
+                                 BackgroundColor="#E2E8F0" 
+                                 HeightRequest="1" 
+                                 VerticalOptions="End"/>
+
+                        <!-- Fila 1: Administrador - Crear Usuario -->
+                        <Border Grid.Row="1" Grid.Column="0" 
+                                BackgroundColor="#F8F9FA"
+                                StrokeThickness="1"
+                                Stroke="#E2E8F0"
+                                Padding="8">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="20"/>
+                            </Border.StrokeShape>
+                            <Label Text="Administrador" 
+                                   FontSize="12"
+                                   FontAttributes="Bold"
+                                   TextColor="#020817"
+                                   VerticalOptions="Center"/>
+                        </Border>
+                        
+                        <Label Grid.Row="1" Grid.Column="1" 
+                               Text="Crear Usuario" 
+                               FontSize="14"
+                               TextColor="#020817"
+                               Padding="8"
+                               VerticalOptions="Center"/>
+                        
+                        <Image Grid.Row="1" Grid.Column="2" 
+                               Source="check_icon.png" 
+                               WidthRequest="16" 
+                               HeightRequest="16"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                        
+                        <Image Grid.Row="1" Grid.Column="3" 
+                               Source="check_icon.png" 
+                               WidthRequest="16" 
+                               HeightRequest="16"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                        
+                        <Image Grid.Row="1" Grid.Column="4" 
+                               Source="close_icon.png" 
+                               WidthRequest="16" 
+                               HeightRequest="16"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                        
+                        <Image Grid.Row="1" Grid.Column="5" 
+                               Source="close_icon.png" 
+                               WidthRequest="16" 
+                               HeightRequest="16"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+
+                        <BoxView Grid.Row="1" Grid.ColumnSpan="6" 
+                                 BackgroundColor="#E2E8F0" 
+                                 HeightRequest="1" 
+                                 VerticalOptions="End"/>
+
+                        <!-- Fila 2: Administrador - Editar Usuario -->
+                        <Border Grid.Row="2" Grid.Column="0" 
+                                BackgroundColor="#F8F9FA"
+                                StrokeThickness="1"
+                                Stroke="#E2E8F0"
+                                Padding="8">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="20"/>
+                            </Border.StrokeShape>
+                            <Label Text="Administrador" 
+                                   FontSize="12"
+                                   FontAttributes="Bold"
+                                   TextColor="#020817"
+                                   VerticalOptions="Center"/>
+                        </Border>
+                        
+                        <Label Grid.Row="2" Grid.Column="1" 
+                               Text="Editar Usuario" 
+                               FontSize="14"
+                               TextColor="#020817"
+                               Padding="8"
+                               VerticalOptions="Center"/>
+                        
+                        <Image Grid.Row="2" Grid.Column="2" 
+                               Source="close_icon.png" 
+                               WidthRequest="16" 
+                               HeightRequest="16"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                        
+                        <Image Grid.Row="2" Grid.Column="3" 
+                               Source="close_icon.png" 
+                               WidthRequest="16" 
+                               HeightRequest="16"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                        
+                        <Image Grid.Row="2" Grid.Column="4" 
+                               Source="close_icon.png" 
+                               WidthRequest="16" 
+                               HeightRequest="16"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                        
+                        <Image Grid.Row="2" Grid.Column="5" 
+                               Source="close_icon.png" 
+                               WidthRequest="16" 
+                               HeightRequest="16"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+
+                        <BoxView Grid.Row="2" Grid.ColumnSpan="6" 
+                                 BackgroundColor="#E2E8F0" 
+                                 HeightRequest="1" 
+                                 VerticalOptions="End"/>
+
+                        <!-- Fila 3: Administrador - Reporte Ventas -->
+                        <Border Grid.Row="3" Grid.Column="0" 
+                                BackgroundColor="#F8F9FA"
+                                StrokeThickness="1"
+                                Stroke="#E2E8F0"
+                                Padding="8">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="20"/>
+                            </Border.StrokeShape>
+                            <Label Text="Administrador" 
+                                   FontSize="12"
+                                   FontAttributes="Bold"
+                                   TextColor="#020817"
+                                   VerticalOptions="Center"/>
+                        </Border>
+                        
+                        <Label Grid.Row="3" Grid.Column="1" 
+                               Text="Reporte Ventas" 
+                               FontSize="14"
+                               TextColor="#020817"
+                               Padding="8"
+                               VerticalOptions="Center"/>
+                        
+                        <Image Grid.Row="3" Grid.Column="2" 
+                               Source="close_icon.png" 
+                               WidthRequest="16" 
+                               HeightRequest="16"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                        
+                        <Image Grid.Row="3" Grid.Column="3" 
+                               Source="close_icon.png" 
+                               WidthRequest="16" 
+                               HeightRequest="16"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                        
+                        <Image Grid.Row="3" Grid.Column="4" 
+                               Source="close_icon.png" 
+                               WidthRequest="16" 
+                               HeightRequest="16"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                        
+                        <Image Grid.Row="3" Grid.Column="5" 
+                               Source="close_icon.png" 
+                               WidthRequest="16" 
+                               HeightRequest="16"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+
+                        <BoxView Grid.Row="3" Grid.ColumnSpan="6" 
+                                 BackgroundColor="#E2E8F0" 
+                                 HeightRequest="1" 
+                                 VerticalOptions="End"/>
+
+                        <!-- Fila 4: Usuario - Crear Usuario -->
+                        <Border Grid.Row="4" Grid.Column="0" 
+                                BackgroundColor="#F8F9FA"
+                                StrokeThickness="1"
+                                Stroke="#E2E8F0"
+                                Padding="8">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="20"/>
+                            </Border.StrokeShape>
+                            <Label Text="Usuario" 
+                                   FontSize="12"
+                                   FontAttributes="Bold"
+                                   TextColor="#020817"
+                                   VerticalOptions="Center"/>
+                        </Border>
+                        
+                        <Label Grid.Row="4" Grid.Column="1" 
+                               Text="Crear Usuario" 
+                               FontSize="14"
+                               TextColor="#020817"
+                               Padding="8"
+                               VerticalOptions="Center"/>
+                        
+                        <Image Grid.Row="4" Grid.Column="2" 
+                               Source="check_icon.png" 
+                               WidthRequest="16" 
+                               HeightRequest="16"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                        
+                        <Image Grid.Row="4" Grid.Column="3" 
+                               Source="close_icon.png" 
+                               WidthRequest="16" 
+                               HeightRequest="16"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                        
+                        <Image Grid.Row="4" Grid.Column="4" 
+                               Source="close_icon.png" 
+                               WidthRequest="16" 
+                               HeightRequest="16"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                        
+                        <Image Grid.Row="4" Grid.Column="5" 
+                               Source="close_icon.png" 
+                               WidthRequest="16" 
+                               HeightRequest="16"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+
+                        <BoxView Grid.Row="4" Grid.ColumnSpan="6" 
+                                 BackgroundColor="#E2E8F0" 
+                                 HeightRequest="1" 
+                                 VerticalOptions="End"/>
+
+                        <!-- Fila 5: Usuario - Editar Usuario -->
+                        <Border Grid.Row="5" Grid.Column="0" 
+                                BackgroundColor="#F8F9FA"
+                                StrokeThickness="1"
+                                Stroke="#E2E8F0"
+                                Padding="8">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="20"/>
+                            </Border.StrokeShape>
+                            <Label Text="Usuario" 
+                                   FontSize="12"
+                                   FontAttributes="Bold"
+                                   TextColor="#020817"
+                                   VerticalOptions="Center"/>
+                        </Border>
+                        
+                        <Label Grid.Row="5" Grid.Column="1" 
+                               Text="Editar Usuario" 
+                               FontSize="14"
+                               TextColor="#020817"
+                               Padding="8"
+                               VerticalOptions="Center"/>
+                        
+                        <Image Grid.Row="5" Grid.Column="2" 
+                               Source="close_icon.png" 
+                               WidthRequest="16" 
+                               HeightRequest="16"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                        
+                        <Image Grid.Row="5" Grid.Column="3" 
+                               Source="close_icon.png" 
+                               WidthRequest="16" 
+                               HeightRequest="16"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                        
+                        <Image Grid.Row="5" Grid.Column="4" 
+                               Source="close_icon.png" 
+                               WidthRequest="16" 
+                               HeightRequest="16"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                        
+                        <Image Grid.Row="5" Grid.Column="5" 
+                               Source="close_icon.png" 
+                               WidthRequest="16" 
+                               HeightRequest="16"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+
+                        <BoxView Grid.Row="5" Grid.ColumnSpan="6" 
+                                 BackgroundColor="#E2E8F0" 
+                                 HeightRequest="1" 
+                                 VerticalOptions="End"/>
+
+                        <!-- Fila 6: Usuario - Reporte Ventas -->
+                        <Border Grid.Row="6" Grid.Column="0" 
+                                BackgroundColor="#F8F9FA"
+                                StrokeThickness="1"
+                                Stroke="#E2E8F0"
+                                Padding="8">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="20"/>
+                            </Border.StrokeShape>
+                            <Label Text="Usuario" 
+                                   FontSize="12"
+                                   FontAttributes="Bold"
+                                   TextColor="#020817"
+                                   VerticalOptions="Center"/>
+                        </Border>
+                        
+                        <Label Grid.Row="6" Grid.Column="1" 
+                               Text="Reporte Ventas" 
+                               FontSize="14"
+                               TextColor="#020817"
+                               Padding="8"
+                               VerticalOptions="Center"/>
+                        
+                        <Image Grid.Row="6" Grid.Column="2" 
+                               Source="close_icon.png" 
+                               WidthRequest="16" 
+                               HeightRequest="16"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                        
+                        <Image Grid.Row="6" Grid.Column="3" 
+                               Source="close_icon.png" 
+                               WidthRequest="16" 
+                               HeightRequest="16"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                        
+                        <Image Grid.Row="6" Grid.Column="4" 
+                               Source="close_icon.png" 
+                               WidthRequest="16" 
+                               HeightRequest="16"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                        
+                        <Image Grid.Row="6" Grid.Column="5" 
+                               Source="close_icon.png" 
+                               WidthRequest="16" 
+                               HeightRequest="16"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+
+                    </Grid>
+                </ScrollView>
+
+            </VerticalStackLayout>
+        </Border>
+
+        <!-- Distribución por Roles -->
+        <Border BackgroundColor="White"
+                Padding="20">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="10"/>
+            </Border.StrokeShape>
+            
+            <VerticalStackLayout Spacing="15">
+                
+                <!-- Título -->
+                <Label Text="Distribución por Roles"
+                       FontSize="20"
+                       FontAttributes="Bold"
+                       TextColor="#020817"/>
+                
+                <Label Text="Usuarios asignados por rol"
+                       FontSize="16"
+                       TextColor="#020817"/>
+
+                <!-- Rol: Administrador -->
+                <Border BackgroundColor="White"
+                        StrokeThickness="1"
+                        Stroke="Black"
+                        Padding="15,10">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="10"/>
+                    </Border.StrokeShape>
+                    
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Administrador"
+                               FontSize="14"
+                               TextColor="#525363"
+                               FontAttributes="Bold"/>
+                        <Label Text="Acceso completo al sistema"
+                               FontSize="12"
+                               TextColor="#949CB2"/>
+                        
+                        <Border BackgroundColor="#E0F5CD"
+                                Padding="10"
+                                WidthRequest="125"
+                                HorizontalOptions="Start">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="10"/>
+                            </Border.StrokeShape>
+                            <Label HorizontalOptions="Center">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="3" FontAttributes="Bold" TextColor="#16A34A" FontSize="14"/>
+                                        <Span Text="&#10;" />
+                                        <Span Text="Administradores" TextColor="#16A34A" FontSize="12"/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </Border>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Rol: Usuarios -->
+                <Border BackgroundColor="White"
+                        StrokeThickness="1"
+                        Stroke="Black"
+                        Padding="15,10">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="10"/>
+                    </Border.StrokeShape>
+                    
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Usuarios"
+                               FontSize="14"
+                               TextColor="#525363"
+                               FontAttributes="Bold"/>
+                        <Label Text="Usuarios del sistema"
+                               FontSize="12"
+                               TextColor="#949CB2"/>
+                        
+                        <Border BackgroundColor="#F5CDCD"
+                                Padding="10"
+                                WidthRequest="125"
+                                HorizontalOptions="Start">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="10"/>
+                            </Border.StrokeShape>
+                            <Label HorizontalOptions="Center">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="22" FontAttributes="Bold" TextColor="#DC2626" FontSize="14"/>
+                                        <Span Text="&#10;" />
+                                        <Span Text="usuarios" TextColor="#DC2626" FontSize="12"/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </Border>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Rol: Aprendices -->
+                <Border BackgroundColor="White"
+                        StrokeThickness="1"
+                        Stroke="Black"
+                        Padding="15,10">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="10"/>
+                    </Border.StrokeShape>
+                    
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Aprendices"
+                               FontSize="14"
+                               TextColor="#525363"
+                               FontAttributes="Bold"/>
+                        <Label Text="Aprendices del sistema"
+                               FontSize="12"
+                               TextColor="#949CB2"/>
+                        
+                        <Border BackgroundColor="#CDDEF5"
+                                Padding="10"
+                                WidthRequest="125"
+                                HorizontalOptions="Start">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="10"/>
+                            </Border.StrokeShape>
+                            <Label HorizontalOptions="Center">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="3321" FontAttributes="Bold" TextColor="#154FEF" FontSize="14"/>
+                                        <Span Text="&#10;" />
+                                        <Span Text="Aprendices" TextColor="#154FEF" FontSize="12"/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </Border>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Rol: Instructores -->
+                <Border BackgroundColor="White"
+                        StrokeThickness="1"
+                        Stroke="Black"
+                        Padding="15,10">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="10"/>
+                    </Border.StrokeShape>
+                    
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Instructores"
+                               FontSize="14"
+                               TextColor="#525363"
+                               FontAttributes="Bold"/>
+                        <Label Text="Instructores del sistema"
+                               FontSize="12"
+                               TextColor="#949CB2"/>
+                        
+                        <Border BackgroundColor="#F5EDCD"
+                                Padding="10"
+                                WidthRequest="125"
+                                HorizontalOptions="Start">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="10"/>
+                            </Border.StrokeShape>
+                            <Label HorizontalOptions="Center">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="33" FontAttributes="Bold" TextColor="#ED6A06" FontSize="14"/>
+                                        <Span Text="&#10;" />
+                                        <Span Text="instructores" TextColor="#ED6A06" FontSize="12"/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </Border>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Rol: Coordinadores -->
+                <Border BackgroundColor="White"
+                        StrokeThickness="1"
+                        Stroke="Black"
+                        Padding="15,10">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="10"/>
+                    </Border.StrokeShape>
+                    
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Coordinadores"
+                               FontSize="14"
+                               TextColor="#525363"
+                               FontAttributes="Bold"/>
+                        <Label Text="coordinadores del sistema"
+                               FontSize="12"
+                               TextColor="#949CB2"/>
+                        
+                        <Border BackgroundColor="#F0CDF5"
+                                Padding="10"
+                                WidthRequest="125"
+                                HorizontalOptions="Start">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="10"/>
+                            </Border.StrokeShape>
+                            <Label HorizontalOptions="Center">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="1" FontAttributes="Bold" TextColor="#DA06ED" FontSize="14"/>
+                                        <Span Text="&#10;" />
+                                        <Span Text="Coordinadores" TextColor="#DA06ED" FontSize="12"/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </Border>
+                    </VerticalStackLayout>
+                </Border>
+
+            </VerticalStackLayout>
+        </Border>
+
+    </VerticalStackLayout>
+    
+</ContentView>

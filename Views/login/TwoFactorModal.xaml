@@ -5,39 +5,39 @@
              x:Name="TwoFactorModalView">
     
     <!-- Overlay de fondo -->
-    <Grid x:Name="ModalContainer" IsVisible="{Binding IsVisible}" BackgroundColor="#80000000">
+    <Grid x:Name="ModalContainer" IsVisible="{Binding IsVisible}" BackgroundColor="#80000000" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
         <!-- Modal centrado -->
-        <Frame MaximumWidthRequest="400" 
-               MaximumHeightRequest="350"
-               CornerRadius="15" 
-               Padding="30" 
-               BackgroundColor="White"
-               HorizontalOptions="Center" 
-               VerticalOptions="Center"
-               HasShadow="True">
+          <Frame x:Name="ModalFrame"
+              Padding="20"
+              CornerRadius="12" 
+              BackgroundColor="White"
+              HorizontalOptions="Center" 
+              VerticalOptions="Center"
+              HasShadow="True">
             
-            <VerticalStackLayout Spacing="20">
+            <VerticalStackLayout Spacing="16">
                 <!-- Título -->
-                <Label Text="Autenticación de Segundo Factor"
+                <Label x:Name="TitleLabel" Text="Autenticación de Segundo Factor"
                        FontFamily="Roboto-Bold"
-                       FontSize="20"
+                       FontSize="18"
                        FontAttributes="Bold"
                        TextColor="#43A047"
                        HorizontalOptions="Center"
                        HorizontalTextAlignment="Center"/>
                 
                 <!-- Mensaje -->
-                <Label x:Name="MessageLabel"
+                  <Label x:Name="MessageLabel"
                        Text="Código enviado a: usuario@soy.sena.edu.co"
                        FontFamily="Roboto-Regular"
-                       FontSize="14"
+                       FontSize="13"
                        TextColor="#757575"
-                       HorizontalOptions="Center"
-                       HorizontalTextAlignment="Center"/>
+                      HorizontalOptions="Center"
+                      HorizontalTextAlignment="Center"
+                      LineBreakMode="WordWrap"/>
                 
                 <!-- Inputs de código (6 dígitos) -->
-                <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
-                    <Frame BorderColor="#e0e0e0" CornerRadius="8" Padding="0" HasShadow="False" WidthRequest="45" HeightRequest="50" BackgroundColor="White">
+                <HorizontalStackLayout Spacing="8" HorizontalOptions="Center">
+                    <Frame x:Name="Code1Frame" BorderColor="#e0e0e0" CornerRadius="8" Padding="0" HasShadow="False" WidthRequest="40" HeightRequest="45" BackgroundColor="White">
                         <Entry x:Name="Code1Entry" 
                                MaxLength="1" 
                                Keyboard="Numeric" 
@@ -46,7 +46,7 @@
                                TextColor="#424242"
                                TextChanged="OnCodeEntryChanged"/>
                     </Frame>
-                    <Frame BorderColor="#e0e0e0" CornerRadius="8" Padding="0" HasShadow="False" WidthRequest="45" HeightRequest="50" BackgroundColor="White">
+                    <Frame x:Name="Code2Frame" BorderColor="#e0e0e0" CornerRadius="8" Padding="0" HasShadow="False" WidthRequest="45" HeightRequest="50" BackgroundColor="White">
                         <Entry x:Name="Code2Entry" 
                                MaxLength="1" 
                                Keyboard="Numeric" 
@@ -55,7 +55,7 @@
                                TextColor="#424242"
                                TextChanged="OnCodeEntryChanged"/>
                     </Frame>
-                    <Frame BorderColor="#e0e0e0" CornerRadius="8" Padding="0" HasShadow="False" WidthRequest="45" HeightRequest="50" BackgroundColor="White">
+                    <Frame x:Name="Code3Frame" BorderColor="#e0e0e0" CornerRadius="8" Padding="0" HasShadow="False" WidthRequest="45" HeightRequest="50" BackgroundColor="White">
                         <Entry x:Name="Code3Entry" 
                                MaxLength="1" 
                                Keyboard="Numeric" 
@@ -64,7 +64,7 @@
                                TextColor="#424242"
                                TextChanged="OnCodeEntryChanged"/>
                     </Frame>
-                    <Frame BorderColor="#e0e0e0" CornerRadius="8" Padding="0" HasShadow="False" WidthRequest="45" HeightRequest="50" BackgroundColor="White">
+                    <Frame x:Name="Code4Frame" BorderColor="#e0e0e0" CornerRadius="8" Padding="0" HasShadow="False" WidthRequest="45" HeightRequest="50" BackgroundColor="White">
                         <Entry x:Name="Code4Entry" 
                                MaxLength="1" 
                                Keyboard="Numeric" 
@@ -73,7 +73,7 @@
                                TextColor="#424242"
                                TextChanged="OnCodeEntryChanged"/>
                     </Frame>
-                    <Frame BorderColor="#e0e0e0" CornerRadius="8" Padding="0" HasShadow="False" WidthRequest="45" HeightRequest="50" BackgroundColor="White">
+                    <Frame x:Name="Code5Frame" BorderColor="#e0e0e0" CornerRadius="8" Padding="0" HasShadow="False" WidthRequest="45" HeightRequest="50" BackgroundColor="White">
                         <Entry x:Name="Code5Entry" 
                                MaxLength="1" 
                                Keyboard="Numeric" 
@@ -82,12 +82,12 @@
                                TextColor="#424242"
                                TextChanged="OnCodeEntryChanged"/>
                     </Frame>
-                    <Frame BorderColor="#e0e0e0" CornerRadius="8" Padding="0" HasShadow="False" WidthRequest="45" HeightRequest="50" BackgroundColor="White">
+                    <Frame x:Name="Code6Frame" BorderColor="#e0e0e0" CornerRadius="8" Padding="0" HasShadow="False" WidthRequest="40" HeightRequest="45" BackgroundColor="White">
                         <Entry x:Name="Code6Entry" 
                                MaxLength="1" 
                                Keyboard="Numeric" 
                                HorizontalTextAlignment="Center"
-                               FontSize="24"
+                               FontSize="22"
                                TextColor="#424242"
                                TextChanged="OnCodeEntryChanged"/>
                     </Frame>
@@ -105,9 +105,10 @@
                         BackgroundColor="#388e3c"
                         TextColor="White"
                         FontFamily="Roboto-SemiBold"
-                        FontSize="16"
+                        FontSize="15"
                         CornerRadius="8"
-                        HeightRequest="45"
+                    HeightRequest="42"
+                    HorizontalOptions="FillAndExpand"
                         Clicked="OnVerifyClicked"/>
                 
                 <!-- Botón Cancelar -->
@@ -116,7 +117,8 @@
                         TextColor="#757575"
                         FontFamily="Roboto-Regular"
                         FontSize="14"
-                        Clicked="OnCancelClicked"/>
+                    HorizontalOptions="Center"
+                    Clicked="OnCancelClicked"/>
             </VerticalStackLayout>
         </Frame>
     </Grid>
