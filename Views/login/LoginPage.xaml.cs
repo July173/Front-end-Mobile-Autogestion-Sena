@@ -105,15 +105,64 @@ namespace AutogestionSena.MAUI.Views
                     
                     _userService.SetAuthToken(response.Access);
                     
-                    TwoFactorModal.ShowSuccess();
-                    await DisplayAlert("Éxito", "Inicio de sesión correcto.", "Continuar");
+                    // Guardar datos del usuario para el menú dinámico
+                    try
+                    {
+                        int roleId = 0;
+                        string firstName = string.Empty;
+                        
+                        if (response.User != null)
+                        {
+                            roleId = response.User.Role;
+                            firstName = response.User.Email ?? _currentEmail;
+                        }
+                        else if (response.Role != null)
+                        {
+                            roleId = response.Role.Value;
+                        }
+
+                        var userToSave = new
+                        {
+                            firstName = firstName,
+                            roleId = roleId
+                        };
+                        var userJson = System.Text.Json.JsonSerializer.Serialize(userToSave);
+                        Preferences.Set("user_data", userJson);
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"[LOGIN] Error saving user_data: {ex}");
+                    }
                     
+                    TwoFactorModal.ShowSuccess();
+                    
+                    // Navegar según el roleId
+                    int navigateRoleId = 0;
+                    if (response.User != null) navigateRoleId = response.User.Role;
+                    else if (response.Role != null) navigateRoleId = response.Role.Value;
+
+                    string route = "MainDashboard";
+                    if (navigateRoleId == 1)
+                        route = "SecurityMainPage";
+                    else
+                        route = "MainDashboard";
+
                     // Limpiar credenciales
                     _currentEmail = string.Empty;
                     _currentPassword = string.Empty;
                     
-                    // Navegar a la página principal cuando exista
-                    // await Navigation.PushAsync(new HomePage());
+                    try
+                    {
+                        if (Shell.Current != null)
+                        {
+                            await Shell.Current.GoToAsync($"///{route}");
+                        }
+                    }
+                    catch (Exception navEx)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"[LOGIN] Error navegando a {route}: {navEx}");
+                        await DisplayAlert("Error", "No se pudo navegar al dashboard.", "Aceptar");
+                    }
                 }
                 else
                 {
