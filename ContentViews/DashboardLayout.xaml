@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:contentViews="clr-namespace:AutogestionSenaMaui.ContentViews"
+             x:Class="AutogestionSenaMaui.ContentViews.DashboardLayout">
+
+    <Grid BackgroundColor="White">
+        
+        <!-- Contenido Principal -->
+        <Grid RowDefinitions="Auto,*">
+            
+            <!-- Header con breadcrumb y notificaciones -->
+            <Border Grid.Row="0" 
+                    BackgroundColor="#DFE3E8"
+                    Padding="20,10"
+                    Margin="0">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="10"/>
+                </Border.StrokeShape>
+                
+                <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,Auto">
+                    
+                    <!-- Botón de menú hamburguesa -->
+                    <Label Grid.Row="0" Grid.Column="0"
+                           Text="&#xf479;"
+                           FontFamily="BootstrapIcons"
+                           FontSize="36"
+                           TextColor="#263238"
+                           HorizontalOptions="Start"
+                           VerticalOptions="Center"
+                           Margin="0,0,0,10">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnMenuButtonClicked"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                    
+                    <!-- Breadcrumb -->
+                    <HorizontalStackLayout Grid.Row="1" Grid.Column="0"
+                                          Spacing="10"
+                                          Padding="10,0">
+                        <Label x:Name="BreadcrumbRoot"
+                               Text="Dashboard"
+                               FontSize="14"
+                               FontFamily="Roboto-Regular"
+                               TextColor="#263238"
+                               Opacity="0.5"
+                               VerticalOptions="Center"/>
+                        <Label Text=">"
+                               FontSize="14"
+                               FontFamily="Roboto-Regular"
+                               TextColor="#607D8B"
+                               VerticalOptions="Center"/>
+                        <Label x:Name="BreadcrumbCurrent"
+                               Text="Inicio"
+                               FontSize="20"
+                               FontFamily="Roboto-Regular"
+                               TextColor="#263238"
+                               VerticalOptions="Center"/>
+                    </HorizontalStackLayout>
+
+                    <!-- Notificaciones -->
+                    <Border Grid.Row="0" Grid.RowSpan="2" Grid.Column="1"
+                            BackgroundColor="Transparent"
+                            Padding="10"
+                            VerticalOptions="Center">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="8"/>
+                        </Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnNotificationsTapped"/>
+                        </Border.GestureRecognizers>
+                        
+                        <HorizontalStackLayout Spacing="10">
+                            <Label Text="&#xf234;"
+                                   FontFamily="BootstrapIcons"
+                                   FontSize="20"
+                                   TextColor="#607D8B"/>
+                            <Label Text="Notificaciones"
+                                   FontSize="14"
+                                   FontFamily="Roboto-Regular"
+                                   TextColor="Black"
+                                   VerticalOptions="Center"/>
+                        </HorizontalStackLayout>
+                    </Border>
+                    
+                </Grid>
+            </Border>
+
+            <!-- Contenido dinámico con scroll -->
+            <ScrollView Grid.Row="1">
+                <ContentView x:Name="MainContent" Padding="0,20">
+                    <!-- El contenido se cargará dinámicamente desde el código -->
+                </ContentView>
+            </ScrollView>
+
+        </Grid>
+
+        <!-- Overlay oscuro (cuando el menú está abierto) -->
+        <BoxView x:Name="MenuOverlay"
+                 BackgroundColor="Black"
+                 Opacity="0"
+                 IsVisible="False"
+                 InputTransparent="True">
+            <BoxView.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnOverlayTapped"/>
+            </BoxView.GestureRecognizers>
+        </BoxView>
+
+        <!-- Menú Lateral Dinámico (deslizante) -->
+        <contentViews:DynamicSideMenu x:Name="SideMenu"
+                                      HorizontalOptions="Start"
+                                      TranslationX="-320"/>
+
+    </Grid>
+
+</ContentView>
