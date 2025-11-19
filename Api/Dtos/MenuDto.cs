@@ -6,9 +6,9 @@ namespace AutogestionSenaMaui.Api.Dtos;
 public class MenuDto
 {
     public int Id { get; set; }
-    public string Name { get; set; }
-    public string Icon { get; set; }
-    public string Route { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public string Icon { get; set; } = string.Empty;
+    public string Route { get; set; } = string.Empty;
     public int? ParentId { get; set; }
     public int Order { get; set; }
     public bool IsExpanded { get; set; }
@@ -21,6 +21,6 @@ public class MenuDto
 public class MenuResponseDto
 {
     public int RoleId { get; set; }
-    public string RoleName { get; set; }
+    public string RoleName { get; set; } = string.Empty;
     public List<MenuDto> MenuItems { get; set; } = new();
 }

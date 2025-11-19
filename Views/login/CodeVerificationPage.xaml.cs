@@ -186,6 +186,15 @@ namespace AutogestionSena.MAUI.Views
                             };
                             var userJson = System.Text.Json.JsonSerializer.Serialize(userToSave);
                             Preferences.Set("user_data", userJson);
+                            // Guardar rol explícito
+                            try
+                            {
+                                Preferences.Set("UserRole", roleId);
+                            }
+                            catch (Exception ex)
+                            {
+                                System.Diagnostics.Debug.WriteLine($"[NAV] No se pudo guardar UserRole en Preferences: {ex}");
+                            }
                         }
                         catch (Exception ex)
                         {
@@ -198,11 +207,29 @@ namespace AutogestionSena.MAUI.Views
                         else if (result.Role != null) navigateRoleId = result.Role.Value;
 
                         string route = "MainDashboard";
-                        // Mapear roles a rutas (1 -> SecurityMainPage como ejemplo)
-                        if (navigateRoleId == 1)
-                            route = "SecurityMainPage";
-                        else
-                            route = "MainDashboard";
+                        // Mapear roles a rutas según roleId (ajusta IDs según el backend)
+                        // 1 -> Seguridad, 2 -> Aprendiz, 3 -> Instructor, 4 -> Coordinador, 5 -> Operador SofiaPlus
+                        switch (navigateRoleId)
+                        {
+                            case 1:
+                                route = "SecurityMainPage";
+                                break;
+                            case 2:
+                                route = "ApprenticeDashboard";
+                                break;
+                            case 3:
+                                route = "InstructorDashboard";
+                                break;
+                            case 4:
+                                route = "CoordinatorDashboard";
+                                break;
+                            case 5:
+                                route = "SofiaOperatorDashboard";
+                                break;
+                            default:
+                                route = "MainDashboard";
+                                break;
+                        }
 
                         try
                         {

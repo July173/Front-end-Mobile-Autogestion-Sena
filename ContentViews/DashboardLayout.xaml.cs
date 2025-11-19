@@ -1,3 +1,4 @@
+using AutogestionSenaMaui.ViewModels;
 namespace AutogestionSenaMaui.ContentViews;
 
 public partial class DashboardLayout : ContentView
@@ -7,6 +8,8 @@ public partial class DashboardLayout : ContentView
     public DashboardLayout()
     {
         InitializeComponent();
+        // Cuando el componente se haya cargado, intentar seleccionar el dashboard por defecto
+        this.Loaded += DashboardLayout_Loaded;
     }
 
     // Propiedad para establecer el texto del breadcrumb actual
@@ -91,6 +94,75 @@ public partial class DashboardLayout : ContentView
         if (_isMenuOpen)
         {
             await CloseMenu();
+        }
+    }
+
+    private async void DashboardLayout_Loaded(object? sender, EventArgs e)
+    {
+        // Si SideMenu está inicializado, esperar su carga y seleccionar la ruta por defecto
+        try
+        {
+            var vm = SideMenu?.BindingContext as AutogestionSenaMaui.ViewModels.DynamicSideMenuViewModel;
+            if (vm == null) return;
+
+            // Esperar hasta que el menu termine de cargar (con timeout)
+            var timeout = DateTime.UtcNow.AddSeconds(8);
+            while (vm.IsLoading && DateTime.UtcNow < timeout)
+            {
+                await Task.Delay(100);
+            }
+
+            // Encontrar ruta por defecto: 'Inicio' o 'MainDashboard' o la primera disponible (incluso submenus)
+            string? route = null;
+            MenuItemViewModel? inicioItem = null;
+
+            // Revisa elementos principales (por nombre, por mapeo de ruta o por backend route '/home')
+            inicioItem = vm.MenuItems.FirstOrDefault(m =>
+                (!string.IsNullOrEmpty(m.Route) && (m.Name?.ToLower().Contains("inicio") == true || (m.Route?.ToLower().Contains("main") == true) || (m.Route?.ToLower().Contains("dashboard") == true))))
+                ?? vm.MenuItems.FirstOrDefault(m => (m.BackendRoute?.ToLower().Contains("/home") == true || m.BackendRoute?.ToLower().Contains("home") == true));
+
+            // Si no, revisa submenus
+            if (inicioItem == null)
+            {
+                foreach (var m in vm.MenuItems)
+                {
+                    var sub = m.SubMenus.FirstOrDefault(s => !string.IsNullOrEmpty(s.Route) && (s.Name?.ToLower().Contains("inicio") == true || s.Route?.ToLower().Contains("main") == true || s.Route?.ToLower().Contains("dashboard") == true)
+                        || (s.BackendRoute?.ToLower().Contains("/home") == true || s.BackendRoute?.ToLower().Contains("home") == true));
+                    if (sub != null)
+                    {
+                        inicioItem = sub;
+                        break;
+                    }
+                }
+            }
+
+            // Si aun no encontramos, tomar la primera ruta disponible (item o submenu)
+            if (inicioItem == null)
+            {
+                if (vm.MenuItems.Any(m => !string.IsNullOrEmpty(m.Route)))
+                    inicioItem = vm.MenuItems.First(m => !string.IsNullOrEmpty(m.Route));
+                else
+                {
+                    var s = vm.MenuItems.SelectMany(m => m.SubMenus).FirstOrDefault(sm => !string.IsNullOrEmpty(sm.Route));
+                    if (s != null) inicioItem = s;
+                }
+            }
+
+            if (inicioItem != null)
+                route = inicioItem.Route;
+
+            if (!string.IsNullOrEmpty(route))
+            {
+                // Ejecutar la navegación usando el comando del viewmodel si está disponible
+                if (vm.NavigateCommand?.CanExecute(route) == true)
+                    vm.NavigateCommand.Execute(route);
+                else if (Shell.Current != null)
+                    await Shell.Current.GoToAsync($"//{route}");
+            }
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"[DashboardLayout] Error al seleccionar ruta por defecto: {ex}");
         }
     }
 }

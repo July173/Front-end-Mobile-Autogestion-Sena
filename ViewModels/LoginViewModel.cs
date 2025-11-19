@@ -198,8 +198,52 @@ namespace AutogestionSena.MAUI.ViewModels
                 "Continuar"
             )!;
 
-            // Navegar a la página principal
-            await Shell.Current?.GoToAsync("//HomePage")!;
+            // Determinar ruta según rol y navegar
+            int navigateRoleId = 0;
+            if (response.User != null) navigateRoleId = response.User.Role;
+            else if (response.Role != null) navigateRoleId = response.Role.Value;
+
+            try
+            {
+                Preferences.Set("UserRole", navigateRoleId);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[LOGIN] No se pudo guardar UserRole en Preferences: {ex}");
+            }
+
+            string route = "HomePage";
+            switch (navigateRoleId)
+            {
+                case 1:
+                    route = "SecurityMainPage";
+                    break;
+                case 2:
+                    route = "ApprenticeDashboard";
+                    break;
+                case 3:
+                    route = "InstructorDashboard";
+                    break;
+                case 4:
+                    route = "CoordinatorDashboard";
+                    break;
+                case 5:
+                    route = "SofiaOperatorDashboard";
+                    break;
+                default:
+                    route = "HomePage";
+                    break;
+            }
+
+            System.Diagnostics.Debug.WriteLine($"[LOGIN] Navegando a {route} por role {navigateRoleId}");
+            try
+            {
+                await Shell.Current?.GoToAsync($"///{route}")!;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[NAV] Error navegando a {route}: {ex}");
+            }
         }
     }
 }

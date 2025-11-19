@@ -1,5 +1,6 @@
-﻿using AutogestionSena.MAUI.Views;
+﻿using AutogestionSenaMaui.Views;
 using AutogestionSenaMaui.Views.Security;
+using AutogestionSena.MAUI.Views;
 
 namespace AutogestionSena.MAUI
 {
@@ -14,6 +15,7 @@ namespace AutogestionSena.MAUI
             Routing.RegisterRoute(nameof(CodeVerificationPage), typeof(CodeVerificationPage));
             Routing.RegisterRoute(nameof(PasswordResetPage), typeof(PasswordResetPage));
             Routing.RegisterRoute(nameof(SecurityMainPage), typeof(SecurityMainPage));
+            // Dashboards de rol están definidos como ShellContent en AppShell.xaml
         }
     }
 }

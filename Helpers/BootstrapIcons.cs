@@ -1,4 +1,4 @@
-namespace AutogestionSena.MAUI.Helpers
+namespace AutogestionSenaMaui.Helpers
 {
     /// <summary>
     /// Clase estática con constantes de Bootstrap Icons.

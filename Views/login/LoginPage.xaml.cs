@@ -128,6 +128,14 @@ namespace AutogestionSena.MAUI.Views
                         };
                         var userJson = System.Text.Json.JsonSerializer.Serialize(userToSave);
                         Preferences.Set("user_data", userJson);
+                        try
+                        {
+                            await SecureStorage.SetAsync("user_data", userJson);
+                        }
+                        catch (Exception sx)
+                        {
+                            System.Diagnostics.Debug.WriteLine($"[LOGIN] SecureStorage not available or set failed: {sx}");
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -141,11 +149,38 @@ namespace AutogestionSena.MAUI.Views
                     if (response.User != null) navigateRoleId = response.User.Role;
                     else if (response.Role != null) navigateRoleId = response.Role.Value;
 
+                    // Guardar role en Preferences para menú y navegación futura
+                    try
+                    {
+                        Preferences.Set("UserRole", navigateRoleId);
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"[LOGIN] No se pudo guardar UserRole en Preferences: {ex}");
+                    }
+
                     string route = "MainDashboard";
-                    if (navigateRoleId == 1)
-                        route = "SecurityMainPage";
-                    else
-                        route = "MainDashboard";
+                    switch (navigateRoleId)
+                    {
+                        case 1:
+                            route = "SecurityMainPage";
+                            break;
+                        case 2:
+                            route = "ApprenticeDashboard";
+                            break;
+                        case 3:
+                            route = "InstructorDashboard";
+                            break;
+                        case 4:
+                            route = "CoordinatorDashboard";
+                            break;
+                        case 5:
+                            route = "SofiaOperatorDashboard";
+                            break;
+                        default:
+                            route = "MainDashboard";
+                            break;
+                    }
 
                     // Limpiar credenciales
                     _currentEmail = string.Empty;

@@ -14,11 +14,17 @@
     <ShellContent Route="CodeVerificationPage" ContentTemplate="{DataTemplate views:CodeVerificationPage}" />
     <ShellContent Route="PasswordResetPage" ContentTemplate="{DataTemplate AutogestionSena:PasswordResetPage}" />
    <ShellContent Route="MainDashboard" Title="Main Dashboard" ContentTemplate="{DataTemplate mauidash:MainDashboardPage}" />
+   <ShellContent Route="NotImplemented" Title="No implementado" ContentTemplate="{DataTemplate mauidash:NotImplementedPage}" />
     
     <!-- Módulo de Seguridad -->
     <ShellContent Route="SecurityMainPage" 
                   Title="Seguridad"
                   Icon="shield_icon.png"
                   ContentTemplate="{DataTemplate security:SecurityMainPage}" />
+   <!-- Dashboards por rol -->
+   <ShellContent Route="ApprenticeDashboard" Title="Aprendiz" ContentTemplate="{DataTemplate mauidash:ApprenticeDashboardPage}" />
+   <ShellContent Route="InstructorDashboard" Title="Instructor" ContentTemplate="{DataTemplate mauidash:InstructorDashboardPage}" />
+   <ShellContent Route="CoordinatorDashboard" Title="Coordinador" ContentTemplate="{DataTemplate mauidash:CoordinatorDashboardPage}" />
+   <ShellContent Route="SofiaOperatorDashboard" Title="Operador SofiaPlus" ContentTemplate="{DataTemplate mauidash:SofiaOperatorDashboardPage}" />
 
 </Shell>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:contentViews="clr-namespace:AutogestionSenaMaui.ContentViews"
+             x:Class="AutogestionSenaMaui.Views.SofiaOperatorDashboardPage"
+             Title="Dashboard - Operador SofiaPlus">
+
+    <contentViews:DashboardLayout x:Name="DashboardLayout">
+        <contentViews:DashboardLayout.PageContent>
+            <VerticalStackLayout Spacing="12" Padding="20">
+                <Label Text="Dashboard - Operador SofiaPlus"
+                       FontSize="26"
+                       FontFamily="Roboto-Bold"
+                       TextColor="#2E7D32"
+                       HorizontalTextAlignment="Center"/> 
+                <Label Text="Contenido del dashboard para operadores SofiaPlus (placeholder)." FontSize="16"/>
+            </VerticalStackLayout>
+        </contentViews:DashboardLayout.PageContent>
+    </contentViews:DashboardLayout>
+
+</ContentPage>
