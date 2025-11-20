@@ -6,7 +6,7 @@
   "/home/sofia-operator": "SofiaOperatorDashboardPage",
   "/request-registration": "NotImplemented",
   "/mass-registration": "NotImplemented",
-  "/admin": "NotImplemented",
+  "/admin": "AdminDashboard",
   "/reassign": "NotImplemented",
   "/following": "NotImplemented",
   "/following-history": "NotImplemented",

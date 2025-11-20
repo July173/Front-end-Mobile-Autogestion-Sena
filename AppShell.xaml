@@ -23,6 +23,7 @@
                   ContentTemplate="{DataTemplate security:SecurityMainPage}" />
    <!-- Dashboards por rol -->
    <ShellContent Route="ApprenticeDashboard" Title="Aprendiz" ContentTemplate="{DataTemplate mauidash:ApprenticeDashboardPage}" />
+   <ShellContent Route="AdminDashboard" Title="Administración" ContentTemplate="{DataTemplate mauidash:AdminDashboardPage}" />
    <ShellContent Route="InstructorDashboard" Title="Instructor" ContentTemplate="{DataTemplate mauidash:InstructorDashboardPage}" />
    <ShellContent Route="CoordinatorDashboard" Title="Coordinador" ContentTemplate="{DataTemplate mauidash:CoordinatorDashboardPage}" />
    <ShellContent Route="SofiaOperatorDashboard" Title="Operador SofiaPlus" ContentTemplate="{DataTemplate mauidash:SofiaOperatorDashboardPage}" />

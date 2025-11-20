@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:contentViews="clr-namespace:AutogestionSenaMaui.ContentViews"
+             x:Class="AutogestionSenaMaui.Views.AdminDashboardPage"
+             Title="Dashboard - Administración">
+
+    <contentViews:DashboardLayout x:Name="DashboardLayout">
+        <contentViews:DashboardLayout.PageContent>
+            <ScrollView>
+                <VerticalStackLayout Spacing="12" Padding="20">
+                    <Label Text="Administración" FontSize="26" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+
+                    <contentViews:DashboardCards BindingContext="{Binding}"/>
+
+                    <!-- Admin specific summary -->
+                    <Grid ColumnDefinitions="*,*" RowDefinitions="Auto" ColumnSpacing="12">
+                        <Frame BackgroundColor="White" CornerRadius="8" HasShadow="True" Padding="12">
+                            <VerticalStackLayout Spacing="8">
+                                <Label Text="Usuarios" FontAttributes="Bold" FontSize="16" />
+                                <Label Text="Total de usuarios registrados" TextColor="#777"/>
+                                <Label Text="{Binding TotalUsers}" FontAttributes="Bold" FontSize="22" TextColor="#2E7D32"/>
+                            </VerticalStackLayout>
+                        </Frame>
+
+                        <Frame BackgroundColor="White" CornerRadius="8" HasShadow="True" Padding="12">
+                            <VerticalStackLayout Spacing="8">
+                                <Label Text="Roles" FontAttributes="Bold" FontSize="16" />
+                                <Label Text="Tipos de roles disponibles" TextColor="#777"/>
+                                <Label Text="{Binding TotalRoles}" FontAttributes="Bold" FontSize="22" TextColor="#16A34A"/>
+                            </VerticalStackLayout>
+                        </Frame>
+
+                        <Frame BackgroundColor="White" CornerRadius="8" HasShadow="True" Padding="12" Grid.Row="1">
+                            <VerticalStackLayout Spacing="8">
+                                <Label Text="Módulos" FontAttributes="Bold" FontSize="16" />
+                                <Label Text="Módulos registrados" TextColor="#777"/>
+                                <Label Text="{Binding TotalModules}" FontAttributes="Bold" FontSize="22" TextColor="#7C3AED"/>
+                            </VerticalStackLayout>
+                        </Frame>
+
+                        <Frame BackgroundColor="White" CornerRadius="8" HasShadow="True" Padding="12" Grid.Row="1">
+                            <VerticalStackLayout Spacing="8">
+                                <Label Text="Formularios" FontAttributes="Bold" FontSize="16" />
+                                <Label Text="Formularios disponibles" TextColor="#777"/>
+                                <Label Text="{Binding TotalForms}" FontAttributes="Bold" FontSize="22" TextColor="#0EA5A6"/>
+                            </VerticalStackLayout>
+                        </Frame>
+
+                        <!-- Charts placeholder -->
+                        <Frame Grid.ColumnSpan="2" BackgroundColor="White" CornerRadius="8" HasShadow="True" Padding="12">
+                            <contentViews:DashboardCharts BindingContext="{Binding}" />
+                        </Frame>
+                    </Grid>
+
+                </VerticalStackLayout>
+            </ScrollView>
+        </contentViews:DashboardLayout.PageContent>
+    </contentViews:DashboardLayout>
+</ContentPage>

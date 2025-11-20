@@ -22,6 +22,7 @@ namespace AutogestionSena.MAUI
             RouteMap.Register("/request-registration", "MainDashboard");
             RouteMap.Register("/security", "SecurityMainPage");
             RouteMap.Register("/security/users", "SecurityMainPage");
+            RouteMap.Register("/admin", "AdminDashboard");
 
             // Load route mappings from Resources/Raw/routeMap.json if present
             try

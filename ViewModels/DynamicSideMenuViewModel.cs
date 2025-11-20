@@ -148,7 +148,7 @@ public class DynamicSideMenuViewModel : INotifyPropertyChanged
 
     private async Task InitializeAsync()
     {
-        try
+            try
         {
             IsLoading = true;
 
@@ -338,10 +338,12 @@ public class DynamicSideMenuViewModel : INotifyPropertyChanged
                 // If this route is the NotImplemented route (placeholder), send the original backend route as a parameter
                 if (string.Equals(shellRoute, "NotImplemented", StringComparison.OrdinalIgnoreCase) && !string.IsNullOrEmpty(backendRoute))
                 {
+                    System.Diagnostics.Debug.WriteLine($"[SIDE-MENU] Navigating to {shellRoute} (backend={backendRoute})");
                     await Shell.Current.GoToAsync($"//{shellRoute}?backendPath={Uri.EscapeDataString(backendRoute)}");
                 }
                 else
                 {
+                    System.Diagnostics.Debug.WriteLine($"[SIDE-MENU] Navigating to {shellRoute}");
                     await Shell.Current.GoToAsync($"//{shellRoute}");
                 }
             }
@@ -443,6 +445,19 @@ public class DynamicSideMenuViewModel : INotifyPropertyChanged
 
         defaultMenu.SubMenus.Add(subMenu1);
         MenuItems.Add(defaultMenu);
+
+        // Add Admin menu as fallback in default menu
+        var adminMenu = new MenuItemViewModel
+        {
+            Id = 100,
+            Name = "Administración",
+            Icon = "\uf002",
+            Route = "admin",
+            IsExpanded = false,
+            ToggleCommand = new Command(() => { }),
+            NavigateCommand = new Command(() => NavigateToRoute("admin"))
+        };
+        MenuItems.Add(adminMenu);
 
         RoleName = "Usuario";
     }

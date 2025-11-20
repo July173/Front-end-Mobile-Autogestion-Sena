@@ -15,6 +15,8 @@
             <converters:TabToColorConverter x:Key="TabToColorConverter"/>
             <converters:TabToTextColorConverter x:Key="TabToTextColorConverter"/>
             <converters:BoolToSubmenuBackgroundConverter x:Key="BoolToSubmenuBackgroundConverter"/>
+            <converters:InvertBoolConverter x:Key="InvertBoolConverter"/>
+            <converters:NotNullToBoolConverter x:Key="NotNullToBoolConverter"/>
             
             <!-- Colors -->
             <Color x:Key="PrimaryColor">#233D91</Color>

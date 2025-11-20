@@ -15,6 +15,7 @@ namespace AutogestionSena.MAUI
             Routing.RegisterRoute(nameof(CodeVerificationPage), typeof(CodeVerificationPage));
             Routing.RegisterRoute(nameof(PasswordResetPage), typeof(PasswordResetPage));
             Routing.RegisterRoute(nameof(SecurityMainPage), typeof(SecurityMainPage));
+            Routing.RegisterRoute(nameof(AdminDashboardPage), typeof(AdminDashboardPage));
             // Dashboards de rol están definidos como ShellContent en AppShell.xaml
         }
     }

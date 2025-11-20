@@ -192,6 +192,19 @@ namespace AutogestionSena.MAUI.ViewModels
             // Configurar el token en el servicio
             _apiService.SetAuthToken(response.Access ?? "");
 
+            // Guardar en SecureStorage tambien para consistencia con la lectura del menú
+            try
+            {
+                var userToSave = new { firstName = response.User?.Email ?? string.Empty, roleId = response.User?.Role ?? 0 };
+                var userJson = System.Text.Json.JsonSerializer.Serialize(userToSave);
+                Preferences.Set("user_data", userJson);
+                await SecureStorage.SetAsync("user_data", userJson);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[LOGIN] Error guardando user_data en SecureStorage: {ex}");
+            }
+
             await Application.Current?.MainPage?.DisplayAlert(
                 "Éxito",
                 "Inicio de sesión exitoso",

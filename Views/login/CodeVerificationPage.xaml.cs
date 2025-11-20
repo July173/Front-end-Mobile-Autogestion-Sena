@@ -186,6 +186,15 @@ namespace AutogestionSena.MAUI.Views
                             };
                             var userJson = System.Text.Json.JsonSerializer.Serialize(userToSave);
                             Preferences.Set("user_data", userJson);
+                            // Guardar también en SecureStorage para que el DynamicSideMenu lo lea
+                            try
+                            {
+                                await SecureStorage.SetAsync("user_data", userJson);
+                            }
+                            catch (Exception ex)
+                            {
+                                System.Diagnostics.Debug.WriteLine($"[NAV] SecureStorage.SetAsync user_data failed: {ex}");
+                            }
                             // Guardar rol explícito
                             try
                             {

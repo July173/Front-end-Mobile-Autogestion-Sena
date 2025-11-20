@@ -153,6 +153,68 @@ public partial class DashboardLayout : ContentView
 
             if (!string.IsNullOrEmpty(route))
             {
+                var shellLocation = string.Empty;
+                try
+                {
+                    shellLocation = Shell.Current?.CurrentState?.Location?.ToString() ?? string.Empty;
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"[DashboardLayout] Error leyendo ruta actual del Shell: {ex}");
+                }
+
+                // Si ya estamos en una dashboard por rol, no sobrescribimos la navegación
+                var dashboardsToSkip = new string[] { "ApprenticeDashboard", "InstructorDashboard", "CoordinatorDashboard", "SofiaOperatorDashboard", "MainDashboard", "SecurityMainPage", "HomePage" };
+                if (!string.IsNullOrEmpty(shellLocation) && dashboardsToSkip.Any(d => shellLocation.IndexOf(d, StringComparison.OrdinalIgnoreCase) >= 0))
+                {
+                    System.Diagnostics.Debug.WriteLine($"[DashboardLayout] Skip auto navigation because current route: {shellLocation}");
+                    return;
+                }
+                
+                // Si no estamos en un dashboard, priorizar la ruta del rol
+                try
+                {
+                    var roleId = vm.RoleId;
+                    if (roleId > 0)
+                    {
+                        string? roleRoute = roleId switch
+                        {
+                            1 => "SecurityMainPage",
+                            2 => "ApprenticeDashboard",
+                            3 => "InstructorDashboard",
+                            4 => "CoordinatorDashboard",
+                            5 => "SofiaOperatorDashboard",
+                            _ => null
+                        };
+
+                        if (!string.IsNullOrEmpty(roleRoute))
+                        {
+                            // Si la ubicación actual no es la ruta del rol, setear la ruta a la del rol (prioritaria)
+                            if (string.IsNullOrEmpty(shellLocation) || shellLocation.IndexOf(roleRoute, StringComparison.OrdinalIgnoreCase) < 0)
+                            {
+                                System.Diagnostics.Debug.WriteLine($"[DashboardLayout] Prioritizing role route: {roleRoute} for roleId {roleId}");
+                                route = roleRoute;
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"[DashboardLayout] Error determining role route: {ex}");
+                }
+                // Evitar que la navegación por defecto sobrescriba la navegación explícita (por ejemplo, la ruta definida por el Login)
+                try
+                {
+                    if (!string.IsNullOrEmpty(shellLocation) && shellLocation.IndexOf(route, StringComparison.OrdinalIgnoreCase) >= 0)
+                    {
+                        // Ya estamos en la ruta correcta
+                        return;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"[DashboardLayout] Error leyendo ruta actual del Shell: {ex}");
+                }
                 // Ejecutar la navegación usando el comando del viewmodel si está disponible
                 if (vm.NavigateCommand?.CanExecute(route) == true)
                     vm.NavigateCommand.Execute(route);
