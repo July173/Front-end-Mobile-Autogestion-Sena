@@ -34,6 +34,13 @@ namespace AutogestionSena.MAUI.Views
                 return;
             }
 
+            // Validación adicional: solo correos institucionales
+            if (!AutogestionSena.MAUI.Validators.LoginValidator.IsSenaEmail(username))
+            {
+                await DisplayAlert("Error", "Utiliza un correo institucional: @soy.sena.edu.co o @sena.edu.co.", "Aceptar");
+                return;
+            }
+
             try
             {
                 LoadingIndicator.IsVisible = true;

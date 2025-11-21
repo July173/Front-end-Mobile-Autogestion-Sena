@@ -48,21 +48,7 @@ namespace AutogestionSena.MAUI.Validators
             return "Ingresa tu contraseña";
         }
 
-        /// <summary>
-        /// Determina la ruta de navegación según el rol del usuario
-        /// </summary>
-        public static string GetRouteForRole(int roleId)
-        {
-            return roleId switch
-            {
-                1 => "SecurityMainPage",
-                2 => "ApprenticeDashboard",
-                3 => "InstructorDashboard",
-                4 => "CoordinatorDashboard",
-                5 => "SofiaOperatorDashboard",
-                _ => "HomePage"
-            };
-        }
+        
 
         /// <summary>
         /// Valida si el código 2FA tiene el formato correcto (6 dígitos)
@@ -70,6 +56,32 @@ namespace AutogestionSena.MAUI.Validators
         public static bool Is2FACodeValid(string? code)
         {
             return !string.IsNullOrWhiteSpace(code) && code.Length == 6 && code.All(char.IsDigit);
+        }
+
+        /// <summary>
+        /// Valida que el correo sea institucional:
+        /// - @soy.sena.edu.co
+        /// - @sena.edu.co
+        /// </summary>
+        /// <param name="email">Email a validar</param>
+        /// <returns>True si el email es institucional, false en otro caso</returns>
+        public static bool IsSenaEmail(string? email)
+        {
+            if (string.IsNullOrWhiteSpace(email)) return false;
+
+            try
+            {
+                // Normaliza, valida formato de email y revisa dominios
+                var normalized = email.Trim().ToLowerInvariant();
+                var addr = new System.Net.Mail.MailAddress(normalized);
+                normalized = addr.Address;
+                return normalized.EndsWith("@soy.sena.edu.co") || normalized.EndsWith("@sena.edu.co");
+            }
+            catch
+            {
+                // Si no es un email válido, devolvemos false
+                return false;
+            }
         }
     }
 }

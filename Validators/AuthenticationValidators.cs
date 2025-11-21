@@ -12,6 +12,8 @@ namespace AutogestionSena.MAUI.Validators
         /// <summary>
         /// Valida que el código no esté vacío
         /// </summary>
+        /// <param name="code">El código de verificación a validar</param>
+        /// <returns>true si el código no está vacío ni null, false en caso contrario</returns>
         public static bool IsCodeValid(string? code)
         {
             return !string.IsNullOrWhiteSpace(code);
@@ -20,6 +22,8 @@ namespace AutogestionSena.MAUI.Validators
         /// <summary>
         /// Valida que el código tenga exactamente 6 dígitos numéricos
         /// </summary>
+        /// <param name="code">El código de verificación a validar</param>
+        /// <returns>true si el código tiene exactamente 6 dígitos numéricos, false en caso contrario</returns>
         public static bool IsCode6DigitsValid(string? code)
         {
             if (string.IsNullOrWhiteSpace(code))
@@ -31,6 +35,7 @@ namespace AutogestionSena.MAUI.Validators
         /// <summary>
         /// Obtiene el mensaje de error para código vacío
         /// </summary>
+        /// <returns>Cadena con el mensaje de error para código vacío</returns>
         public static string GetCodeEmptyErrorMessage()
         {
             return "Por favor ingresa el código de verificación.";
@@ -39,6 +44,7 @@ namespace AutogestionSena.MAUI.Validators
         /// <summary>
         /// Obtiene el mensaje de error para código inválido
         /// </summary>
+        /// <returns>Cadena con el mensaje de error para código inválido</returns>
         public static string GetCodeInvalidErrorMessage()
         {
             return "El código debe tener 6 dígitos.";
@@ -53,6 +59,8 @@ namespace AutogestionSena.MAUI.Validators
         /// <summary>
         /// Valida que el email no esté vacío
         /// </summary>
+        /// <param name="email">El email a validar</param>
+        /// <returns>true si el email no está vacío ni null, false en caso contrario</returns>
         public static bool IsEmailValid(string? email)
         {
             return !string.IsNullOrWhiteSpace(email);
@@ -61,6 +69,8 @@ namespace AutogestionSena.MAUI.Validators
         /// <summary>
         /// Valida el formato básico de email
         /// </summary>
+        /// <param name="email">El email a validar</param>
+        /// <returns>true si el email tiene formato básico válido (@ y .), false en caso contrario</returns>
         public static bool IsEmailFormatValid(string? email)
         {
             if (string.IsNullOrWhiteSpace(email))
@@ -72,6 +82,8 @@ namespace AutogestionSena.MAUI.Validators
         /// <summary>
         /// Valida que sea un email institucional del SENA
         /// </summary>
+        /// <param name="email">El email a validar</param>
+        /// <returns>true si el email termina en @soy.sena.edu.co, false en caso contrario</returns>
         public static bool IsInstitutionalEmail(string? email)
         {
             if (string.IsNullOrWhiteSpace(email))
@@ -83,6 +95,7 @@ namespace AutogestionSena.MAUI.Validators
         /// <summary>
         /// Obtiene el mensaje de error para email vacío
         /// </summary>
+        /// <returns>Cadena con el mensaje de error para email vacío</returns>
         public static string GetEmailEmptyErrorMessage()
         {
             return "Por favor ingresa tu correo electrónico.";
@@ -91,6 +104,7 @@ namespace AutogestionSena.MAUI.Validators
         /// <summary>
         /// Obtiene el mensaje de error para email inválido
         /// </summary>
+        /// <returns>Cadena con el mensaje de error para email inválido</returns>
         public static string GetEmailInvalidErrorMessage()
         {
             return "Por favor ingresa un correo electrónico válido.";
@@ -110,6 +124,8 @@ namespace AutogestionSena.MAUI.Validators
         /// <summary>
         /// Valida que la contraseña no esté vacía
         /// </summary>
+        /// <param name="password">La contraseña a validar</param>
+        /// <returns>true si la contraseña no está vacía ni null, false en caso contrario</returns>
         public static bool IsPasswordValid(string? password)
         {
             return !string.IsNullOrWhiteSpace(password);
@@ -118,6 +134,8 @@ namespace AutogestionSena.MAUI.Validators
         /// <summary>
         /// Valida que la contraseña tenga la longitud mínima
         /// </summary>
+        /// <param name="password">La contraseña a validar</param>
+        /// <returns>true si la contraseña tiene al menos 8 caracteres, false en caso contrario</returns>
         public static bool IsPasswordLengthValid(string? password)
         {
             if (string.IsNullOrWhiteSpace(password))
@@ -129,6 +147,9 @@ namespace AutogestionSena.MAUI.Validators
         /// <summary>
         /// Valida que ambas contraseñas coincidan
         /// </summary>
+        /// <param name="password">La primera contraseña</param>
+        /// <param name="confirmPassword">La contraseña de confirmación</param>
+        /// <returns>true si ambas contraseñas coinciden y no están vacías, false en caso contrario</returns>
         public static bool DoPasswordsMatch(string? password, string? confirmPassword)
         {
             if (string.IsNullOrWhiteSpace(password) || string.IsNullOrWhiteSpace(confirmPassword))
@@ -140,6 +161,8 @@ namespace AutogestionSena.MAUI.Validators
         /// <summary>
         /// Valida la fortaleza básica de la contraseña (al menos una letra y un número)
         /// </summary>
+        /// <param name="password">La contraseña a validar</param>
+        /// <returns>true si la contraseña contiene al menos una letra y un dígito, false en caso contrario</returns>
         public static bool IsPasswordStrong(string? password)
         {
             if (string.IsNullOrWhiteSpace(password))
@@ -154,6 +177,7 @@ namespace AutogestionSena.MAUI.Validators
         /// <summary>
         /// Obtiene el mensaje de error para contraseña vacía
         /// </summary>
+        /// <returns>Cadena con el mensaje de error para contraseña vacía</returns>
         public static string GetPasswordEmptyErrorMessage()
         {
             return "Por favor ingresa la nueva contraseña.";
@@ -162,6 +186,7 @@ namespace AutogestionSena.MAUI.Validators
         /// <summary>
         /// Obtiene el mensaje de error para contraseña corta
         /// </summary>
+        /// <returns>Cadena con el mensaje de error para contraseña demasiado corta</returns>
         public static string GetPasswordLengthErrorMessage()
         {
             return $"La contraseña debe tener al menos {MinPasswordLength} caracteres.";
@@ -170,6 +195,7 @@ namespace AutogestionSena.MAUI.Validators
         /// <summary>
         /// Obtiene el mensaje de error cuando las contraseñas no coinciden
         /// </summary>
+        /// <returns>Cadena con el mensaje de error para contraseñas que no coinciden</returns>
         public static string GetPasswordMismatchErrorMessage()
         {
             return "Las contraseñas no coinciden.";
@@ -184,6 +210,8 @@ namespace AutogestionSena.MAUI.Validators
         /// <summary>
         /// Valida que el email no esté vacío
         /// </summary>
+        /// <param name="email">El email a validar</param>
+        /// <returns>true si el email no está vacío ni null, false en caso contrario</returns>
         public static bool IsEmailValid(string? email)
         {
             return !string.IsNullOrWhiteSpace(email);
@@ -192,6 +220,8 @@ namespace AutogestionSena.MAUI.Validators
         /// <summary>
         /// Valida que el nombre no esté vacío
         /// </summary>
+        /// <param name="name">El nombre a validar</param>
+        /// <returns>true si el nombre no está vacío ni null, false en caso contrario</returns>
         public static bool IsNameValid(string? name)
         {
             return !string.IsNullOrWhiteSpace(name);
@@ -200,6 +230,8 @@ namespace AutogestionSena.MAUI.Validators
         /// <summary>
         /// Valida que el apellido no esté vacío
         /// </summary>
+        /// <param name="lastName">El apellido a validar</param>
+        /// <returns>true si el apellido no está vacío ni null, false en caso contrario</returns>
         public static bool IsLastNameValid(string? lastName)
         {
             return !string.IsNullOrWhiteSpace(lastName);
@@ -208,6 +240,8 @@ namespace AutogestionSena.MAUI.Validators
         /// <summary>
         /// Valida que el número de documento no esté vacío
         /// </summary>
+        /// <param name="documentNumber">El número de documento a validar</param>
+        /// <returns>true si el número de documento no está vacío ni null, false en caso contrario</returns>
         public static bool IsDocumentNumberValid(string? documentNumber)
         {
             return !string.IsNullOrWhiteSpace(documentNumber);
@@ -216,6 +250,8 @@ namespace AutogestionSena.MAUI.Validators
         /// <summary>
         /// Valida que el número de documento sea numérico
         /// </summary>
+        /// <param name="documentNumber">El número de documento a validar</param>
+        /// <returns>true si el número de documento contiene solo dígitos, false en caso contrario</returns>
         public static bool IsDocumentNumberNumeric(string? documentNumber)
         {
             if (string.IsNullOrWhiteSpace(documentNumber))
@@ -227,6 +263,8 @@ namespace AutogestionSena.MAUI.Validators
         /// <summary>
         /// Valida que el teléfono no esté vacío
         /// </summary>
+        /// <param name="phone">El número de teléfono a validar</param>
+        /// <returns>true si el teléfono no está vacío ni null, false en caso contrario</returns>
         public static bool IsPhoneValid(string? phone)
         {
             return !string.IsNullOrWhiteSpace(phone);
@@ -235,6 +273,8 @@ namespace AutogestionSena.MAUI.Validators
         /// <summary>
         /// Valida que el teléfono sea numérico
         /// </summary>
+        /// <param name="phone">El número de teléfono a validar</param>
+        /// <returns>true si el teléfono contiene solo dígitos, false en caso contrario</returns>
         public static bool IsPhoneNumeric(string? phone)
         {
             if (string.IsNullOrWhiteSpace(phone))
@@ -246,6 +286,8 @@ namespace AutogestionSena.MAUI.Validators
         /// <summary>
         /// Valida que el teléfono tenga una longitud válida (7-10 dígitos)
         /// </summary>
+        /// <param name="phone">El número de teléfono a validar</param>
+        /// <returns>true si el teléfono tiene entre 7 y 10 dígitos, false en caso contrario</returns>
         public static bool IsPhoneLengthValid(string? phone)
         {
             if (string.IsNullOrWhiteSpace(phone))
@@ -257,6 +299,13 @@ namespace AutogestionSena.MAUI.Validators
         /// <summary>
         /// Valida que todos los campos requeridos estén completos
         /// </summary>
+        /// <param name="email">El email del usuario</param>
+        /// <param name="firstName">El nombre del usuario</param>
+        /// <param name="lastName">El apellido del usuario</param>
+        /// <param name="documentNumber">El número de documento del usuario</param>
+        /// <param name="phone">El número de teléfono del usuario</param>
+        /// <param name="hasDocumentType">Indica si se ha seleccionado un tipo de documento</param>
+        /// <returns>true si todos los campos requeridos están completos y válidos, false en caso contrario</returns>
         public static bool AreAllFieldsValid(string? email, string? firstName, string? lastName, 
             string? documentNumber, string? phone, bool hasDocumentType)
         {
@@ -271,6 +320,7 @@ namespace AutogestionSena.MAUI.Validators
         /// <summary>
         /// Obtiene el mensaje de error para email obligatorio
         /// </summary>
+        /// <returns>Cadena con el mensaje de error para email obligatorio</returns>
         public static string GetEmailRequiredErrorMessage()
         {
             return "El correo institucional es obligatorio.";
@@ -279,6 +329,7 @@ namespace AutogestionSena.MAUI.Validators
         /// <summary>
         /// Obtiene el mensaje de error para nombres obligatorios
         /// </summary>
+        /// <returns>Cadena con el mensaje de error para nombres obligatorios</returns>
         public static string GetNamesRequiredErrorMessage()
         {
             return "Los nombres y apellidos son obligatorios.";
@@ -287,6 +338,7 @@ namespace AutogestionSena.MAUI.Validators
         /// <summary>
         /// Obtiene el mensaje de error para tipo de documento obligatorio
         /// </summary>
+        /// <returns>Cadena con el mensaje de error para tipo de documento obligatorio</returns>
         public static string GetDocumentTypeRequiredErrorMessage()
         {
             return "Debes seleccionar un tipo de documento.";
@@ -295,6 +347,7 @@ namespace AutogestionSena.MAUI.Validators
         /// <summary>
         /// Obtiene el mensaje de error para número de documento obligatorio
         /// </summary>
+        /// <returns>Cadena con el mensaje de error para número de documento obligatorio</returns>
         public static string GetDocumentNumberRequiredErrorMessage()
         {
             return "El número de documento es obligatorio.";
@@ -303,6 +356,7 @@ namespace AutogestionSena.MAUI.Validators
         /// <summary>
         /// Obtiene el mensaje de error para teléfono obligatorio
         /// </summary>
+        /// <returns>Cadena con el mensaje de error para teléfono obligatorio</returns>
         public static string GetPhoneRequiredErrorMessage()
         {
             return "El teléfono es obligatorio.";
@@ -311,6 +365,7 @@ namespace AutogestionSena.MAUI.Validators
         /// <summary>
         /// Obtiene el mensaje de error para documento con formato inválido
         /// </summary>
+        /// <returns>Cadena con el mensaje de error para documento con formato inválido</returns>
         public static string GetDocumentFormatErrorMessage()
         {
             return "El número de documento debe contener solo dígitos.";
@@ -319,6 +374,7 @@ namespace AutogestionSena.MAUI.Validators
         /// <summary>
         /// Obtiene el mensaje de error para teléfono con formato inválido
         /// </summary>
+        /// <returns>Cadena con el mensaje de error para teléfono con formato inválido</returns>
         public static string GetPhoneFormatErrorMessage()
         {
             return "El teléfono debe contener solo dígitos y tener entre 7 y 10 caracteres.";
@@ -333,6 +389,13 @@ namespace AutogestionSena.MAUI.Validators
         /// <summary>
         /// Valida que el código completo tenga exactamente 6 dígitos
         /// </summary>
+        /// <param name="code1">Primer dígito del código</param>
+        /// <param name="code2">Segundo dígito del código</param>
+        /// <param name="code3">Tercer dígito del código</param>
+        /// <param name="code4">Cuarto dígito del código</param>
+        /// <param name="code5">Quinto dígito del código</param>
+        /// <param name="code6">Sexto dígito del código</param>
+        /// <returns>true si todos los dígitos están completos, false en caso contrario</returns>
         public static bool IsCodeComplete(string code1, string code2, string code3, 
             string code4, string code5, string code6)
         {
@@ -347,6 +410,13 @@ namespace AutogestionSena.MAUI.Validators
         /// <summary>
         /// Combina los 6 dígitos en un código completo
         /// </summary>
+        /// <param name="code1">Primer dígito del código</param>
+        /// <param name="code2">Segundo dígito del código</param>
+        /// <param name="code3">Tercer dígito del código</param>
+        /// <param name="code4">Cuarto dígito del código</param>
+        /// <param name="code5">Quinto dígito del código</param>
+        /// <param name="code6">Sexto dígito del código</param>
+        /// <returns>Cadena con los 6 dígitos combinados</returns>
         public static string CombineCode(string code1, string code2, string code3, 
             string code4, string code5, string code6)
         {
@@ -356,6 +426,13 @@ namespace AutogestionSena.MAUI.Validators
         /// <summary>
         /// Valida que cada dígito sea numérico
         /// </summary>
+        /// <param name="code1">Primer dígito del código</param>
+        /// <param name="code2">Segundo dígito del código</param>
+        /// <param name="code3">Tercer dígito del código</param>
+        /// <param name="code4">Cuarto dígito del código</param>
+        /// <param name="code5">Quinto dígito del código</param>
+        /// <param name="code6">Sexto dígito del código</param>
+        /// <returns>true si todos los dígitos son numéricos, false en caso contrario</returns>
         public static bool IsCodeNumeric(string code1, string code2, string code3, 
             string code4, string code5, string code6)
         {
@@ -366,6 +443,8 @@ namespace AutogestionSena.MAUI.Validators
         /// <summary>
         /// Valida que un string sea un solo dígito
         /// </summary>
+        /// <param name="digit">El string a validar como dígito</param>
+        /// <returns>true si el string es un solo dígito numérico, false en caso contrario</returns>
         public static bool IsDigit(string? digit)
         {
             return !string.IsNullOrWhiteSpace(digit) && 
@@ -376,6 +455,7 @@ namespace AutogestionSena.MAUI.Validators
         /// <summary>
         /// Obtiene el mensaje de error para código incompleto
         /// </summary>
+        /// <returns>Cadena con el mensaje de error para código incompleto</returns>
         public static string GetCodeIncompleteErrorMessage()
         {
             return "Por favor ingresa los 6 dígitos del código";
