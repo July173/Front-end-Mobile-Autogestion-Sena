@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using AutogestionSena.MAUI.Api;
 
 namespace AutogestionSena.MAUI.Api.Services
 {
@@ -19,8 +20,11 @@ namespace AutogestionSena.MAUI.Api.Services
             
             _httpClient = new HttpClient(handler)
             {
+                BaseAddress = new Uri(Endpoints.API_BASE_URL),
                 Timeout = TimeSpan.FromSeconds(30)
             };
+            
+            System.Diagnostics.Debug.WriteLine($"[ApiService] BaseAddress configurada: {Endpoints.API_BASE_URL}");
         }
 
         public ApiService(HttpClient httpClient)

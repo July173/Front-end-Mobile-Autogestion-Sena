@@ -11,6 +11,51 @@
                 <VerticalStackLayout Spacing="12" Padding="20">
                     <Label Text="Administración" FontSize="26" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
 
+                    <!-- DEBUG: Información de Usuario y Menú -->
+                    <Frame BackgroundColor="#FFF3CD" BorderColor="#FFC107" CornerRadius="8" Padding="16" Margin="0,0,0,12">
+                        <VerticalStackLayout Spacing="12">
+                            <Label Text="🔍 DEBUG: Datos del Usuario y Menú" 
+                                   FontSize="18" 
+                                   FontAttributes="Bold" 
+                                   TextColor="#856404"/>
+                            
+                            <!-- Datos del Usuario -->
+                            <Frame BackgroundColor="White" CornerRadius="6" Padding="12" HasShadow="False">
+                                <VerticalStackLayout Spacing="8">
+                                    <Label Text="📋 Datos Guardados en Preferences:" 
+                                           FontAttributes="Bold" 
+                                           TextColor="#333"/>
+                                    <Label x:Name="UserIdLabel" TextColor="#555" FontSize="14"/>
+                                    <Label x:Name="UserRoleLabel" TextColor="#555" FontSize="14"/>
+                                    <Label x:Name="UserEmailLabel" TextColor="#555" FontSize="14"/>
+                                    <Label x:Name="UserNameLabel" TextColor="#555" FontSize="14"/>
+                                    <Label x:Name="AuthTokenLabel" TextColor="#555" FontSize="14"/>
+                                </VerticalStackLayout>
+                            </Frame>
+
+                            <!-- Menú Cargado -->
+                            <Frame BackgroundColor="White" CornerRadius="6" Padding="12" HasShadow="False">
+                                <VerticalStackLayout Spacing="8">
+                                    <Label Text="🍔 Menú Dinámico Cargado:" 
+                                           FontAttributes="Bold" 
+                                           TextColor="#333"/>
+                                    <Label x:Name="MenuStatusLabel" TextColor="#555" FontSize="14"/>
+                                    <ScrollView MaximumHeightRequest="300">
+                                        <VerticalStackLayout x:Name="MenuItemsContainer" Spacing="4"/>
+                                    </ScrollView>
+                                </VerticalStackLayout>
+                            </Frame>
+
+                            <!-- Botón para recargar -->
+                            <Button Text="🔄 Recargar Datos de Debug" 
+                                    Clicked="OnReloadDebugData"
+                                    BackgroundColor="#0D6EFD"
+                                    TextColor="White"
+                                    CornerRadius="6"
+                                    Padding="12"/>
+                        </VerticalStackLayout>
+                    </Frame>
+
                     <contentViews:DashboardCards BindingContext="{Binding}"/>
 
                     <!-- Admin specific summary -->

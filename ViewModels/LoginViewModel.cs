@@ -142,7 +142,18 @@ namespace AutogestionSena.MAUI.ViewModels
 
                 if (response != null && !string.IsNullOrEmpty(response.Access))
                 {
-                    System.Diagnostics.Debug.WriteLine($"[2FA] Código verificado exitosamente");
+                    System.Diagnostics.Debug.WriteLine("===========================================");
+                    System.Diagnostics.Debug.WriteLine($"[2FA] ✅ Código verificado exitosamente");
+                    System.Diagnostics.Debug.WriteLine($"[2FA] 📦 RESPUESTA DEL API:");
+                    System.Diagnostics.Debug.WriteLine($"[2FA]   response.User == null? {response.User == null}");
+                    if (response.User != null)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"[2FA]   response.User.Id = {response.User.Id}");
+                        System.Diagnostics.Debug.WriteLine($"[2FA]   response.User.Email = {response.User.Email}");
+                        System.Diagnostics.Debug.WriteLine($"[2FA]   response.User.Role = {response.User.Role}");
+                        System.Diagnostics.Debug.WriteLine($"[2FA]   response.User.Person = {response.User.Person}");
+                    }
+                    System.Diagnostics.Debug.WriteLine("===========================================");
                     SaveUserDataAndNavigate(response);
                 }
                 else
@@ -178,13 +189,28 @@ namespace AutogestionSena.MAUI.ViewModels
             // Guardar datos del usuario
             if (response.User != null)
             {
+                System.Diagnostics.Debug.WriteLine("===========================================");
+                System.Diagnostics.Debug.WriteLine("[LOGIN] 💾 GUARDANDO DATOS DEL USUARIO:");
+                System.Diagnostics.Debug.WriteLine($"[LOGIN]   Email: {response.User.Email}");
+                System.Diagnostics.Debug.WriteLine($"[LOGIN]   UserId: {response.User.Id}");
+                System.Diagnostics.Debug.WriteLine($"[LOGIN]   UserRole: {response.User.Role}");
+                System.Diagnostics.Debug.WriteLine($"[LOGIN]   UserPerson: {response.User.Person}");
+                System.Diagnostics.Debug.WriteLine($"[LOGIN]   UserRegistered: {response.User.Registered}");
+                
                 Preferences.Set("UserEmail", response.User.Email ?? "");
                 Preferences.Set("UserId", response.User.Id);
                 Preferences.Set("UserRole", response.User.Role);
                 Preferences.Set("UserPerson", response.User.Person);
                 Preferences.Set("UserRegistered", response.User.Registered);
                 
-                System.Diagnostics.Debug.WriteLine($"[LOGIN] Usuario guardado: {response.User.Email}, ID: {response.User.Id}, Role: {response.User.Role}");
+                // Verificar que se guardó correctamente
+                var savedUserId = Preferences.Get("UserId", 0);
+                System.Diagnostics.Debug.WriteLine($"[LOGIN] ✅ Verificación: UserId guardado = {savedUserId}");
+                System.Diagnostics.Debug.WriteLine("===========================================");
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine("[LOGIN] ⚠️ WARNING: response.User es NULL!");
             }
 
             System.Diagnostics.Debug.WriteLine($"[LOGIN] Access Token: {response.Access?.Substring(0, 20)}...");

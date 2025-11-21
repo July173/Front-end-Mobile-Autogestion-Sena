@@ -50,6 +50,7 @@ namespace AutogestionSena.MAUI.Api.Services
 
         /// <summary>
         /// Obtiene los elementos del menú para un usuario específico y los procesa.
+        /// Endpoint: GET /api/security/rol-form-permissions/{userId}/get-menu/
         /// </summary>
         /// <param name="userId">ID del usuario</param>
         /// <param name="userName">Nombre del usuario (opcional)</param>
@@ -58,24 +59,29 @@ namespace AutogestionSena.MAUI.Api.Services
         {
             try
             {
-                System.Diagnostics.Debug.WriteLine($"[MenuService] Fetching menu for userId={userId}");
+                System.Diagnostics.Debug.WriteLine($"[MenuService] 📡 Fetching menu for userId={userId}");
+                System.Diagnostics.Debug.WriteLine($"[MenuService] 🌐 Endpoint: security/rol-form-permissions/{userId}/get-menu/");
                 
-                // Intentar obtener menú en formato RoleModuleFormDto (formato del backend)
+                // Obtener menú desde el backend
+                // Formato esperado: Array con objeto { rol: string, moduleForm: [...] }
                 var apiData = await _apiService.GetAsync<List<RoleModuleFormDto>>(
-                    $"security/rol-form-permissions/{userId}/get-menu");
+                    $"security/rol-form-permissions/{userId}/get-menu/");
 
                 if (apiData == null || !apiData.Any())
                 {
-                    System.Diagnostics.Debug.WriteLine("[MenuService] No menu data received");
+                    System.Diagnostics.Debug.WriteLine("[MenuService] ⚠️ No menu data received from API");
                     return CreateEmptyMenuData(userName);
                 }
 
+                System.Diagnostics.Debug.WriteLine($"[MenuService] ✅ Menu data received, processing...");
+                
                 // Procesar la respuesta de la API
                 return ProcessApiResponse(apiData, userName);
             }
             catch (System.Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"[MenuService] Error fetching menu: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"[MenuService] ❌ Error fetching menu: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"[MenuService] Stack trace: {ex.StackTrace}");
                 throw;
             }
         }

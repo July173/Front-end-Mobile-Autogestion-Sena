@@ -263,21 +263,22 @@ public class DynamicSideMenuViewModel : INotifyPropertyChanged
     {
         try
         {
-            // Determinar ID para cargar el menú (usar userId preferentemente)
+            // IMPORTANTE: Siempre usar UserId para cargar el menú del usuario
+            // El endpoint es: /api/security/rol-form-permissions/{userId}/get-menu/
             var userId = Preferences.Get("UserId", 0);
-            var idToUse = userId > 0 ? userId.ToString() : RoleId.ToString();
 
-            if (string.IsNullOrEmpty(idToUse) || idToUse == "0")
+            if (userId <= 0)
             {
-                System.Diagnostics.Debug.WriteLine("[SIDE-MENU] No valid user/role ID found");
+                System.Diagnostics.Debug.WriteLine("[SIDE-MENU] ❌ UserId no encontrado o inválido. No se puede cargar el menú.");
                 LoadDefaultMenu();
                 return;
             }
 
-            System.Diagnostics.Debug.WriteLine($"[SIDE-MENU] Loading menu for id={idToUse} (userId={userId}, roleId={RoleId})");
+            System.Diagnostics.Debug.WriteLine($"[SIDE-MENU] 📡 Cargando menú para UserId={userId}");
 
-            // Usar el MenuService para obtener y procesar el menú
-            var processedData = await _menuService.GetMenuItemsAsync(idToUse, UserName);
+            // Usar el MenuService para obtener y procesar el menú desde la API
+            // Endpoint: GET /api/security/rol-form-permissions/{userId}/get-menu/
+            var processedData = await _menuService.GetMenuItemsAsync(userId.ToString(), UserName);
 
             if (processedData != null && processedData.MenuItems != null)
             {
