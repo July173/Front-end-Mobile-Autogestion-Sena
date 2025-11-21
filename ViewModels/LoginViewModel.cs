@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Microsoft.Maui.Controls;
 using AutogestionSena.MAUI.Api.Services;
+using AutogestionSenaMaui.Helpers;
 using AutogestionSena.MAUI.Api.Dtos;
 
 namespace AutogestionSena.MAUI.ViewModels
@@ -72,7 +73,7 @@ namespace AutogestionSena.MAUI.ViewModels
 
             IsBusy = true;
 
-            try
+                    try
             {
                 System.Diagnostics.Debug.WriteLine($"[LOGIN] Intentando login para: {Username}");
                 
@@ -249,6 +250,16 @@ namespace AutogestionSena.MAUI.ViewModels
             }
 
             System.Diagnostics.Debug.WriteLine($"[LOGIN] Navegando a {route} por role {navigateRoleId}");
+
+            // Notificar a subscriptores que el usuario ha iniciado sesión
+            try
+            {
+                AuthEvents.NotifyUserLoggedIn(navigateRoleId, response.User?.Email ?? string.Empty, response.Access ?? string.Empty);
+            }
+            catch (Exception exEvent)
+            {
+                System.Diagnostics.Debug.WriteLine($"[LOGIN] AuthEvents.NotifyUserLoggedIn failed: {exEvent}");
+            }
             try
             {
                 await Shell.Current?.GoToAsync($"///{route}")!;

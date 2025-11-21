@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Maui.Controls;
 using AutogestionSena.MAUI.Api.Dtos;
+using AutogestionSenaMaui.Helpers;
 using AutogestionSena.MAUI.Api.Services;
 using AutogestionSena.MAUI.Views;
 
@@ -159,33 +160,26 @@ namespace AutogestionSena.MAUI.Views
                         System.Diagnostics.Debug.WriteLine($"[LOGIN] No se pudo guardar UserRole en Preferences: {ex}");
                     }
 
-                    string route = "MainDashboard";
-                    switch (navigateRoleId)
-                    {
-                        case 1:
-                            route = "SecurityMainPage";
-                            break;
-                        case 2:
-                            route = "ApprenticeDashboard";
-                            break;
-                        case 3:
-                            route = "InstructorDashboard";
-                            break;
-                        case 4:
-                            route = "CoordinatorDashboard";
-                            break;
-                        case 5:
-                            route = "SofiaOperatorDashboard";
-                            break;
-                        default:
-                            route = "MainDashboard";
-                            break;
-                    }
+                    // Navegar a HomePage que cargará el dashboard apropiado según el rol
+                    // Similar a React que redirige a "/home" y Home.tsx decide qué mostrar
+                    string route = "HomePage";
+                    
+                    System.Diagnostics.Debug.WriteLine($"[LOGIN] Usuario con rol {navigateRoleId} ({NavigationHelper.GetRoleName(navigateRoleId)}) será redirigido a: {route}");
 
                     // Limpiar credenciales
-                    _currentEmail = string.Empty;
-                    _currentPassword = string.Empty;
+                    // _currentEmail = string.Empty;
+                    // _currentPassword = string.Empty;
                     
+                    // Notificar a subscriptores (DynamicSideMenuViewModel) que el usuario ha iniciado sesión
+                    try
+                    {
+                        AuthEvents.NotifyUserLoggedIn(navigateRoleId, (response.User?.Email ?? _currentEmail), response.Access ?? string.Empty);
+                    }
+                    catch (Exception exEvent)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"[LOGIN] AuthEvents.NotifyUserLoggedIn failed: {exEvent}");
+                    }
+
                     try
                     {
                         if (Shell.Current != null)

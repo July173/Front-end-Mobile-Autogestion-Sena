@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:AutogestionSenaMaui.Converters"
+             x:Class="AutogestionSenaMaui.ContentViews.TopBar">
+    
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <converters:StringNotEmptyConverter x:Key="StringNotEmptyConverter"/>
+        </ResourceDictionary>
+    </ContentView.Resources>
+    
+    <!-- Frame 425: TopBar con breadcrumb navigation y notificaciones -->
+    <Border BackgroundColor="White"
+            Stroke="Transparent"
+            StrokeThickness="0"
+            Padding="16,12">
+        
+        <Border.Shadow>
+            <Shadow Brush="Black"
+                    Opacity="0.1"
+                    Offset="0,2"
+                    Radius="4"/>
+        </Border.Shadow>
+        
+        <Grid ColumnDefinitions="Auto,*,Auto"
+              ColumnSpacing="16">
+            
+            <!-- Breadcrumb Navigation -->
+            <HorizontalStackLayout Grid.Column="0"
+                                   Spacing="8"
+                                   VerticalOptions="Center">
+                
+                <Label Text="Dashboard"
+                       FontSize="14"
+                       TextColor="#39A900"
+                       FontAttributes="Bold"
+                       VerticalOptions="Center"/>
+                
+                <Label Text=">"
+                       FontSize="14"
+                       TextColor="#666666"
+                       VerticalOptions="Center"
+                       IsVisible="{Binding ActiveModule, Converter={StaticResource StringNotEmptyConverter}}"/>
+                
+                <Label Text="{Binding ActiveModule}"
+                       FontSize="14"
+                       TextColor="#333333"
+                       VerticalOptions="Center"
+                       IsVisible="{Binding ActiveModule, Converter={StaticResource StringNotEmptyConverter}}"/>
+                
+                <Label Text=">"
+                       FontSize="14"
+                       TextColor="#666666"
+                       VerticalOptions="Center"
+                       IsVisible="{Binding ActiveFormName, Converter={StaticResource StringNotEmptyConverter}}"/>
+                
+                <Label Text="{Binding ActiveFormName}"
+                       FontSize="14"
+                       TextColor="#333333"
+                       FontAttributes="Bold"
+                       VerticalOptions="Center"
+                       IsVisible="{Binding ActiveFormName, Converter={StaticResource StringNotEmptyConverter}}"/>
+                
+            </HorizontalStackLayout>
+            
+            <!-- Spacer -->
+            <BoxView Grid.Column="1"
+                     Color="Transparent"/>
+            
+            <!-- Notifications Icon -->
+            <Border Grid.Column="2"
+                    BackgroundColor="#F5F5F5"
+                    StrokeThickness="1"
+                    Stroke="#E0E0E0"
+                    Padding="12,8"
+                    HeightRequest="40"
+                    WidthRequest="40"
+                    HorizontalOptions="End"
+                    VerticalOptions="Center">
+                
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="8"/>
+                </Border.StrokeShape>
+                
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding NotificationsCommand}"/>
+                </Border.GestureRecognizers>
+                
+                <Grid>
+                    <!-- Bell Icon (Unicode) -->
+                    <Label Text="&#xf599;"
+                           FontFamily="BootstrapIcons"
+                           FontSize="20"
+                           TextColor="#39A900"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"/>
+                    
+                    <!-- Badge de notificaciones pendientes -->
+                    <Border BackgroundColor="#DC395F"
+                            StrokeThickness="0"
+                            WidthRequest="18"
+                            HeightRequest="18"
+                            HorizontalOptions="End"
+                            VerticalOptions="Start"
+                            Margin="-4,-4,0,0"
+                            IsVisible="{Binding HasUnreadNotifications}">
+                        
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="9"/>
+                        </Border.StrokeShape>
+                        
+                        <Label Text="{Binding UnreadNotificationsCount}"
+                               FontSize="10"
+                               TextColor="White"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                    </Border>
+                </Grid>
+            </Border>
+            
+        </Grid>
+        
+    </Border>
+    
+</ContentView>

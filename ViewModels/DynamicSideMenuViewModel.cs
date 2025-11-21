@@ -1,9 +1,12 @@
 using AutogestionSenaMaui.Api.Dtos;
+using Microsoft.Maui.Storage;
+using AutogestionSenaMaui.Helpers;
 using AutogestionSena.MAUI.Api.Services;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using System.Linq;
 
 namespace AutogestionSenaMaui.ViewModels;
 
@@ -62,22 +65,50 @@ public class MenuItemViewModel : INotifyPropertyChanged
 public class DynamicSideMenuViewModel : INotifyPropertyChanged
 {
     private readonly ApiService _apiService;
+    private readonly MenuService _menuService;
     private string _userName = string.Empty;
     private string _userInitials = string.Empty;
     private string _roleName = string.Empty;
     private int _roleId;
     private bool _isLoading;
+    private string _userEmail = string.Empty;
 
     public DynamicSideMenuViewModel()
     {
         _apiService = new ApiService();
+        _menuService = new MenuService(_apiService);
         MenuItems = new ObservableCollection<MenuItemViewModel>();
         
         NavigateCommand = new Command<string>(OnNavigate);
         OpenProfileCommand = new Command(OnOpenProfile);
+        LogoutCommand = new Command(async () => await OnLogoutAsync());
         
         // Cargar datos del usuario y menú
         Task.Run(async () => await InitializeAsync());
+
+        // Suscribirse a eventos de login para recargar menú cuando se inicie sesión
+        AuthEvents.UserLoggedIn += async (s, e) =>
+        {
+            try
+            {
+                // Configurar token para futuras peticiones
+                if (!string.IsNullOrEmpty(e.AccessToken))
+                {
+                    _apiService.SetAuthToken(e.AccessToken);
+                }
+
+                // Actualizar propiedades
+                RoleId = e.RoleId;
+                UserName = e.FirstName;
+
+                // Recargar menú con rol actualizado
+                await LoadMenuAsync();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[SIDE-MENU] Error reloading menu after login event: {ex}");
+            }
+        };
     }
 
     #region Properties
@@ -135,12 +166,23 @@ public class DynamicSideMenuViewModel : INotifyPropertyChanged
         }
     }
 
+    public string UserEmail
+    {
+        get => _userEmail;
+        set
+        {
+            _userEmail = value;
+            OnPropertyChanged();
+        }
+    }
+
     #endregion
 
     #region Commands
 
     public ICommand NavigateCommand { get; }
     public ICommand OpenProfileCommand { get; }
+    public ICommand LogoutCommand { get; }
 
     #endregion
 
@@ -148,20 +190,61 @@ public class DynamicSideMenuViewModel : INotifyPropertyChanged
 
     private async Task InitializeAsync()
     {
-            try
+        try
         {
             IsLoading = true;
 
-            // Obtener datos del usuario desde SecureStorage
-            var userJson = await SecureStorage.GetAsync("user_data");
-            if (!string.IsNullOrEmpty(userJson))
+            // Obtener datos del usuario desde Preferences (más robusto)
+            var userJson = Preferences.Get("user_data", string.Empty);
+            
+            if (string.IsNullOrEmpty(userJson))
             {
-                var user = System.Text.Json.JsonSerializer.Deserialize<System.Text.Json.JsonElement>(userJson);
-                UserName = user.GetProperty("firstName").GetString() ?? "Usuario";
-                RoleId = user.GetProperty("roleId").GetInt32();
+                // Fallback a SecureStorage
+                userJson = await SecureStorage.GetAsync("user_data") ?? string.Empty;
             }
 
-            // Cargar menú según el rol
+            if (!string.IsNullOrEmpty(userJson))
+            {
+                try
+                {
+                    var user = System.Text.Json.JsonSerializer.Deserialize<System.Text.Json.JsonElement>(userJson);
+                    
+                    // Extraer firstName
+                    if (user.TryGetProperty("firstName", out var firstNameProp))
+                        UserName = firstNameProp.GetString() ?? "Usuario";
+                    
+                    // Extraer lastName y combinar
+                    if (user.TryGetProperty("lastName", out var lastNameProp))
+                    {
+                        var lastName = lastNameProp.GetString();
+                        if (!string.IsNullOrEmpty(lastName))
+                            UserName = $"{UserName} {lastName}".Trim();
+                    }
+                    
+                    // Extraer roleId
+                    if (user.TryGetProperty("roleId", out var roleIdProp))
+                        RoleId = roleIdProp.GetInt32();
+                    
+                    // Extraer email
+                    if (user.TryGetProperty("email", out var emailProp))
+                        UserEmail = emailProp.GetString() ?? string.Empty;
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"[SIDE-MENU] Error parsing user_data: {ex.Message}");
+                }
+            }
+
+            // Configurar token si existe (para que las peticiones al backend incluyan la cabecera)
+            try
+            {
+                var token = Preferences.Get("AuthToken", string.Empty);
+                if (!string.IsNullOrEmpty(token))
+                    _apiService.SetAuthToken(token);
+            }
+            catch { /* ignore */ }
+
+            // Cargar menú según el usuario
             await LoadMenuAsync();
         }
         catch (Exception ex)
@@ -180,89 +263,52 @@ public class DynamicSideMenuViewModel : INotifyPropertyChanged
     {
         try
         {
-            // Llamar al endpoint del backend
-            var menuResponse = await _apiService.GetAsync<MenuResponseDto>(
-                $"security/rol-form-permissions/{RoleId}/get-menu");
+            // Determinar ID para cargar el menú (usar userId preferentemente)
+            var userId = Preferences.Get("UserId", 0);
+            var idToUse = userId > 0 ? userId.ToString() : RoleId.ToString();
 
-            // If the MenuResponseDto is empty or null, try to parse alternative format (RoleModuleFormDto)
-            if (menuResponse == null || menuResponse.MenuItems == null || !menuResponse.MenuItems.Any())
+            if (string.IsNullOrEmpty(idToUse) || idToUse == "0")
             {
-                try
-                {
-                    var roleModuleForms = await _apiService.GetAsync<List<RoleModuleFormDto>>(
-                        $"security/rol-form-permissions/{RoleId}/get-menu");
-
-                    if (roleModuleForms != null && roleModuleForms.Any())
-                    {
-                        // Convert to MenuResponseDto
-                        menuResponse = new MenuResponseDto
-                        {
-                            RoleId = this.RoleId,
-                            RoleName = roleModuleForms.First().Rol ?? this.RoleName,
-                            MenuItems = new List<MenuDto>()
-                        };
-
-                        int idCounter = 1000; // start id for generated items
-                        foreach (var rm in roleModuleForms)
-                        {
-                            if (rm.ModuleForm == null) continue;
-                            foreach (var mod in rm.ModuleForm)
-                            {
-                                var parent = new MenuDto
-                                {
-                                    Id = idCounter++,
-                                    Name = mod.Name ?? "Module",
-                                    Icon = "",
-                                    Route = mod.Form != null && mod.Form.Count > 0 ? mod.Form[0].Path ?? string.Empty : string.Empty,
-                                    Order = 0,
-                                    SubMenus = new List<MenuDto>()
-                                };
-
-                                if (mod.Form != null)
-                                {
-                                    int subId = 1;
-                                    foreach (var f in mod.Form)
-                                    {
-                                        parent.SubMenus.Add(new MenuDto
-                                        {
-                                            Id = idCounter++,
-                                            Name = f.Name ?? "Form",
-                                            Icon = "",
-                                            Route = f.Path ?? string.Empty,
-                                            ParentId = parent.Id,
-                                            Order = subId++
-                                        });
-                                    }
-                                }
-
-                                menuResponse.MenuItems.Add(parent);
-                            }
-                        }
-                    }
-                }
-                catch (Exception ex2)
-                {
-                    System.Diagnostics.Debug.WriteLine($"Error parsing RoleModuleForm: {ex2}");
-                }
+                System.Diagnostics.Debug.WriteLine("[SIDE-MENU] No valid user/role ID found");
+                LoadDefaultMenu();
+                return;
             }
 
-            if (menuResponse != null)
+            System.Diagnostics.Debug.WriteLine($"[SIDE-MENU] Loading menu for id={idToUse} (userId={userId}, roleId={RoleId})");
+
+            // Usar el MenuService para obtener y procesar el menú
+            var processedData = await _menuService.GetMenuItemsAsync(idToUse, UserName);
+
+            if (processedData != null && processedData.MenuItems != null)
             {
-                RoleName = menuResponse.RoleName;
-                
+                // Actualizar información del usuario
+                if (!string.IsNullOrEmpty(processedData.UserInfo.Role))
+                    RoleName = processedData.UserInfo.Role;
+
+                if (string.IsNullOrEmpty(UserName) && !string.IsNullOrEmpty(processedData.UserInfo.Name))
+                    UserName = processedData.UserInfo.Name;
+
                 // Limpiar y cargar nuevo menú
                 MenuItems.Clear();
-                
-                foreach (var menuItem in (menuResponse.MenuItems ?? Enumerable.Empty<MenuDto>()).OrderBy(m => m.Order))
+
+                foreach (var menuItem in processedData.MenuItems.OrderBy(m => m.Order))
                 {
                     var menuItemVm = CreateMenuItemViewModel(menuItem);
                     MenuItems.Add(menuItemVm);
                 }
+
+                System.Diagnostics.Debug.WriteLine($"[SIDE-MENU] Successfully loaded {MenuItems.Count} menu modules");
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine("[SIDE-MENU] No menu data received");
+                LoadDefaultMenu();
             }
         }
         catch (Exception ex)
         {
             Console.WriteLine($"Error al cargar menú: {ex.Message}");
+            System.Diagnostics.Debug.WriteLine($"[SIDE-MENU] Exception: {ex}");
             // Fallback: cargar menú por defecto
             LoadDefaultMenu();
         }
@@ -271,26 +317,31 @@ public class DynamicSideMenuViewModel : INotifyPropertyChanged
     private MenuItemViewModel CreateMenuItemViewModel(MenuDto dto)
     {
         MenuItemViewModel menuItem = null!;
-            menuItem = new MenuItemViewModel
+        menuItem = new MenuItemViewModel
         {
             Id = dto.Id,
             Name = dto.Name,
-            Icon = dto.Icon,
-                // Map backend route/path to Shell route name using RouteMap
-                Route = AutogestionSenaMaui.Helpers.RouteMap.Map(dto.Route) ?? dto.Route,
+            Icon = !string.IsNullOrEmpty(dto.Icon) ? dto.Icon : MenuService.GetModuleIcon(dto.ModuleName),
+            // Con la arquitectura simplificada, todo navega a HomePage
+            // HomePage se encarga de mostrar el contenido apropiado
+            Route = "HomePage",
             ParentId = dto.ParentId,
             Order = dto.Order,
             IsExpanded = dto.IsExpanded,
+            IsSelected = dto.IsActive,
             ToggleCommand = new Command(() => ToggleMenuItem(menuItem)),
-                // Store backend route to pass through if needed
-                BackendRoute = dto.Route,
-                NavigateCommand = new Command(() => NavigateToRoute(menuItem.Route ?? dto.Route, dto.Route))
+            // Store backend route/path para referencia futura
+            BackendRoute = dto.BackendPath ?? dto.Route,
+            NavigateCommand = new Command(() => NavigateToRoute(
+                "HomePage", 
+                dto.BackendPath ?? dto.Route))
         };
 
-        // Cargar submenús recursivamente
-        if (dto.SubMenus != null && dto.SubMenus.Any())
+        // Cargar submenús recursivamente (soportar tanto SubMenus como Children)
+        var subMenus = dto.SubMenus ?? dto.Children ?? new List<MenuDto>();
+        if (subMenus.Any())
         {
-            foreach (var subMenu in dto.SubMenus.OrderBy(s => s.Order))
+            foreach (var subMenu in subMenus.OrderBy(s => s.Order))
             {
                 var subMenuItem = CreateMenuItemViewModel(subMenu);
                 menuItem.SubMenus.Add(subMenuItem);
@@ -329,23 +380,17 @@ public class DynamicSideMenuViewModel : INotifyPropertyChanged
                 selectedItem.IsSelected = true;
             }
 
-            // Si la ruta pasada es un backend path, mapearla a Shell route
-            var shellRoute = AutogestionSenaMaui.Helpers.RouteMap.Map(route) ?? route;
+            // Con la arquitectura simplificada, siempre navegamos a HomePage
+            // HomePage detecta el rol y carga el dashboard apropiado
+            var shellRoute = "HomePage";
 
-            // Navegar a la ruta — usar Shell si está disponible
+            // Navegar usando NavigationHelper para validar permisos
             if (Shell.Current != null)
             {
-                // If this route is the NotImplemented route (placeholder), send the original backend route as a parameter
-                if (string.Equals(shellRoute, "NotImplemented", StringComparison.OrdinalIgnoreCase) && !string.IsNullOrEmpty(backendRoute))
-                {
-                    System.Diagnostics.Debug.WriteLine($"[SIDE-MENU] Navigating to {shellRoute} (backend={backendRoute})");
-                    await Shell.Current.GoToAsync($"//{shellRoute}?backendPath={Uri.EscapeDataString(backendRoute)}");
-                }
-                else
-                {
-                    System.Diagnostics.Debug.WriteLine($"[SIDE-MENU] Navigating to {shellRoute}");
-                    await Shell.Current.GoToAsync($"//{shellRoute}");
-                }
+                System.Diagnostics.Debug.WriteLine($"[SIDE-MENU] Navigating to {shellRoute} (backend={backendRoute})");
+                
+                // Usar NavigationHelper para navegación protegida
+                await NavigationHelper.NavigateToAsync(shellRoute);
             }
             else if (Application.Current?.MainPage?.Navigation != null)
             {
@@ -389,6 +434,34 @@ public class DynamicSideMenuViewModel : INotifyPropertyChanged
         else
         {
             System.Diagnostics.Debug.WriteLine("[NAV] Shell.Current es null, no se pudo navegar a profile");
+        }
+    }
+
+    private async Task OnLogoutAsync()
+    {
+        try
+        {
+            bool confirm = false;
+            
+            // Mostrar confirmación
+            if (Application.Current?.MainPage != null)
+            {
+                confirm = await Application.Current.MainPage.DisplayAlert(
+                    "Cerrar Sesión",
+                    "¿Estás seguro que deseas cerrar sesión?",
+                    "Sí",
+                    "No"
+                );
+            }
+
+            if (confirm)
+            {
+                await NavigationHelper.LogoutAsync();
+            }
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"[SIDE-MENU] Error en logout: {ex}");
         }
     }
 

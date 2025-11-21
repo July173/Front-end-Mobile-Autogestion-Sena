@@ -4,6 +4,7 @@ using AutogestionSena.MAUI.Api.Services;
 using AutogestionSena.MAUI.Api.Dtos;
 using AutogestionSenaMaui.Views;
 using AutogestionSenaMaui.Views.Security;
+using AutogestionSenaMaui.Helpers;
 using Microsoft.Maui.Storage;
 
 namespace AutogestionSena.MAUI.Views
@@ -165,10 +166,10 @@ namespace AutogestionSena.MAUI.Views
                         
 
                         // Guardar datos del usuario (asegurar que el json tenga firstName y roleId para el menú dinámico)
+                        int roleId = 0;
+                        string firstName = string.Empty;
                         try
                         {
-                            int roleId = 0;
-                            string firstName = string.Empty;
                             if (result.User != null)
                             {
                                 roleId = result.User.Role;
@@ -210,55 +211,47 @@ namespace AutogestionSena.MAUI.Views
                             System.Diagnostics.Debug.WriteLine($"[NAV] Error saving user_data: {ex}");
                         }
 
+                        // Configurar token para el servicio para llamadas subsecuentes (ej: cargar menú)
+                        try
+                        {
+                            _apiService.SetAuthToken(result.Access ?? string.Empty);
+                        }
+                        catch (Exception ex)
+                        {
+                            System.Diagnostics.Debug.WriteLine($"[NAV] Error setting token in UserService: {ex}");
+                        }
+
+                        // Notificar a subscriptores (DynamicSideMenuViewModel) que el usuario ha iniciado sesión
+
                         // Navegar a la página correspondiente según el roleId. Default: MainDashboard
                         int navigateRoleId = 0;
                         if (result.User != null) navigateRoleId = result.User.Role;
                         else if (result.Role != null) navigateRoleId = result.Role.Value;
 
-                        string route = "MainDashboard";
-                        // Mapear roles a rutas según roleId (ajusta IDs según el backend)
-                        // 1 -> Seguridad, 2 -> Aprendiz, 3 -> Instructor, 4 -> Coordinador, 5 -> Operador SofiaPlus
-                        switch (navigateRoleId)
-                        {
-                            case 1:
-                                route = "SecurityMainPage";
-                                break;
-                            case 2:
-                                route = "ApprenticeDashboard";
-                                break;
-                            case 3:
-                                route = "InstructorDashboard";
-                                break;
-                            case 4:
-                                route = "CoordinatorDashboard";
-                                break;
-                            case 5:
-                                route = "SofiaOperatorDashboard";
-                                break;
-                            default:
-                                route = "MainDashboard";
-                                break;
-                        }
+                        // Navegar a HomePage que cargará el dashboard apropiado según el rol
+                        string route = "HomePage";
+                        
+                        System.Diagnostics.Debug.WriteLine($"[CODE-VERIFY] Usuario con rol {navigateRoleId} ({NavigationHelper.GetRoleName(navigateRoleId)}) será redirigido a: {route}");
+
+                            // Notificar a subscriptores (DynamicSideMenuViewModel) que el usuario ha iniciado sesión
+                            try
+                            {
+                                AuthEvents.NotifyUserLoggedIn(navigateRoleId, firstName, result.Access ?? string.Empty);
+                            }
+                            catch (Exception exEvent)
+                            {
+                                System.Diagnostics.Debug.WriteLine($"[NAV] AuthEvents.NotifyUserLoggedIn failed: {exEvent}");
+                            }
 
                         try
                         {
-                            if (Shell.Current != null)
-                            {
-                                // Navegar usando Shell con reset de stack para ir al "inicio"
-                                await Shell.Current.GoToAsync($"///{route}");
-                            }
-                            else if (Navigation != null)
-                            {
-                                // Fallback: usar Navigation.PushAsync
-                                if (route == "SecurityMainPage")
-                                    await Navigation.PushAsync(new SecurityMainPage());
-                                else
-                                    await Navigation.PushAsync(new MainDashboardPage());
-                            }
+                            // Usar NavigationHelper para navegación segura
+                            await NavigationHelper.NavigateToAsync(route);
                         }
                         catch (Exception navEx)
                         {
-                            System.Diagnostics.Debug.WriteLine($"[NAV] Error navegando a {route}: {navEx}");
+                            System.Diagnostics.Debug.WriteLine($"[CODE-VERIFY] Error navegando a {route}: {navEx}");
+                            await DisplayAlert("Error", "No se pudo navegar al dashboard.", "Aceptar");
                         }
                     }
                     else

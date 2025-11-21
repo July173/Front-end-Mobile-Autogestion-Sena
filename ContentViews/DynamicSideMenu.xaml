@@ -181,18 +181,28 @@
                     <!-- Información del usuario -->
                     <VerticalStackLayout Grid.Column="1" 
                                         VerticalOptions="Center"
-                                        Spacing="4">
+                                        Spacing="2">
                         <Label Text="{Binding UserName}"
-                               FontSize="22.9"
+                               FontSize="16"
                                FontFamily="Roboto-Bold"
-                               TextColor="White"/>
+                               TextColor="White"
+                               LineBreakMode="TailTruncation"
+                               MaxLines="1"/>
+                        <Label Text="{Binding UserEmail}"
+                               FontSize="11"
+                               FontFamily="Roboto-Regular"
+                               TextColor="#AFDEBF"
+                               LineBreakMode="TailTruncation"
+                               MaxLines="1"
+                               IsVisible="{Binding UserEmail, Converter={StaticResource StringNotEmptyConverter}}"/>
                         <Border BackgroundColor="#0F172A"
-                                Padding="8,2">
+                                Padding="6,2"
+                                Margin="0,2,0,0">
                             <Border.StrokeShape>
-                                <RoundRectangle CornerRadius="10"/>
+                                <RoundRectangle CornerRadius="8"/>
                             </Border.StrokeShape>
                             <Label Text="{Binding RoleName}"
-                                   FontSize="18.9"
+                                   FontSize="13"
                                    FontFamily="Roboto-Bold"
                                    TextColor="#61F659"
                                    LineBreakMode="NoWrap"/>

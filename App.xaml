@@ -17,6 +17,7 @@
             <converters:BoolToSubmenuBackgroundConverter x:Key="BoolToSubmenuBackgroundConverter"/>
             <converters:InvertBoolConverter x:Key="InvertBoolConverter"/>
             <converters:NotNullToBoolConverter x:Key="NotNullToBoolConverter"/>
+            <converters:StringNotEmptyConverter x:Key="StringNotEmptyConverter"/>
             
             <!-- Colors -->
             <Color x:Key="PrimaryColor">#233D91</Color>
