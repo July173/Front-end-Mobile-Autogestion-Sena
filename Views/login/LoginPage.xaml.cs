@@ -113,16 +113,22 @@ namespace AutogestionSena.MAUI.Views
                     
                     _userService.SetAuthToken(response.Access);
                     
-                    // Guardar datos del usuario para el menú dinámico
+                    // Guardar datos del usuario para el menú dinámico y para toda la app
                     try
                     {
-                        int roleId = 0;
+                        int roleId =0;
                         string firstName = string.Empty;
                         
                         if (response.User != null)
                         {
                             roleId = response.User.Role;
                             firstName = response.User.Email ?? _currentEmail;
+                            // Guardar datos completos del usuario
+                            Preferences.Set("UserEmail", response.User.Email ?? "");
+                            Preferences.Set("UserId", response.User.Id);
+                            Preferences.Set("UserRole", response.User.Role);
+                            Preferences.Set("UserPerson", response.User.Person);
+                            Preferences.Set("UserRegistered", response.User.Registered);
                         }
                         else if (response.Role != null)
                         {
@@ -153,7 +159,7 @@ namespace AutogestionSena.MAUI.Views
                     TwoFactorModal.ShowSuccess();
                     
                     // Navegar según el roleId
-                    int navigateRoleId = 0;
+                    int navigateRoleId =0;
                     if (response.User != null) navigateRoleId = response.User.Role;
                     else if (response.Role != null) navigateRoleId = response.Role.Value;
 

@@ -292,13 +292,14 @@ public class DynamicSideMenuViewModel : INotifyPropertyChanged
                 // Limpiar y cargar nuevo menú
                 MenuItems.Clear();
 
+                // Mostrar el menú exactamente como lo entrega el backend, sin filtrar ni modificar
                 foreach (var menuItem in processedData.MenuItems.OrderBy(m => m.Order))
                 {
                     var menuItemVm = CreateMenuItemViewModel(menuItem);
                     MenuItems.Add(menuItemVm);
                 }
 
-                System.Diagnostics.Debug.WriteLine($"[SIDE-MENU] Successfully loaded {MenuItems.Count} menu modules");
+                System.Diagnostics.Debug.WriteLine($"[SIDE-MENU] Successfully loaded {MenuItems.Count} menu modules (sin filtrado)");
             }
             else
             {

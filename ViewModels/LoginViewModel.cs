@@ -189,14 +189,7 @@ namespace AutogestionSena.MAUI.ViewModels
             // Guardar datos del usuario
             if (response.User != null)
             {
-                System.Diagnostics.Debug.WriteLine("===========================================");
-                System.Diagnostics.Debug.WriteLine("[LOGIN] 💾 GUARDANDO DATOS DEL USUARIO:");
-                System.Diagnostics.Debug.WriteLine($"[LOGIN]   Email: {response.User.Email}");
-                System.Diagnostics.Debug.WriteLine($"[LOGIN]   UserId: {response.User.Id}");
-                System.Diagnostics.Debug.WriteLine($"[LOGIN]   UserRole: {response.User.Role}");
-                System.Diagnostics.Debug.WriteLine($"[LOGIN]   UserPerson: {response.User.Person}");
-                System.Diagnostics.Debug.WriteLine($"[LOGIN]   UserRegistered: {response.User.Registered}");
-                
+                  
                 Preferences.Set("UserEmail", response.User.Email ?? "");
                 Preferences.Set("UserId", response.User.Id);
                 Preferences.Set("UserRole", response.User.Role);
@@ -205,8 +198,6 @@ namespace AutogestionSena.MAUI.ViewModels
                 
                 // Verificar que se guardó correctamente
                 var savedUserId = Preferences.Get("UserId", 0);
-                System.Diagnostics.Debug.WriteLine($"[LOGIN] ✅ Verificación: UserId guardado = {savedUserId}");
-                System.Diagnostics.Debug.WriteLine("===========================================");
             }
             else
             {

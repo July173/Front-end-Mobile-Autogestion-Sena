@@ -11,6 +11,9 @@ namespace AutogestionSena.MAUI
         {
             InitializeComponent();
 
+            // Deshabilitar el comportamiento del flyout (menú lateral)
+            Shell.SetFlyoutBehavior(this, FlyoutBehavior.Disabled);
+
             // Registro de rutas de navegación
             Routing.RegisterRoute(nameof(RegisterPage), typeof(RegisterPage));
             Routing.RegisterRoute(nameof(CodeVerificationPage), typeof(CodeVerificationPage));

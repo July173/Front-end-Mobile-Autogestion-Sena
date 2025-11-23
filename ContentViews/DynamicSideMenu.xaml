@@ -1,227 +1,218 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:vm="clr-namespace:AutogestionSenaMaui.ViewModels"
-             x:Class="AutogestionSenaMaui.ContentViews.DynamicSideMenu"
-             x:DataType="vm:DynamicSideMenuViewModel">
+ xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+ xmlns:vm="clr-namespace:AutogestionSenaMaui.ViewModels"
+ x:Class="AutogestionSenaMaui.ContentViews.DynamicSideMenu"
+ x:DataType="vm:DynamicSideMenuViewModel">
 
-    <Border BackgroundColor="#388E3C"
-            WidthRequest="306"
-            Padding="2,12">
-        <Border.StrokeShape>
-            <RoundRectangle CornerRadius="20"/>
-        </Border.StrokeShape>
+ <Border BackgroundColor="#388E3C"
+ WidthRequest="306"
+ Padding="2,12">
+ <Border.StrokeShape>
+ <RoundRectangle CornerRadius="20"/>
+ </Border.StrokeShape>
 
-        <Grid RowDefinitions="Auto,*,Auto">
-            
-            <!-- Header del Menú -->
-            <Grid Grid.Row="0" 
-                  Padding="15,35,15,13"
-                  ColumnDefinitions="50,*"
-                  ColumnSpacing="26">
-                
-                <!-- Logo -->
-                <Image Grid.Column="0"
-                       Source="logo_sena.png"
-                       WidthRequest="50"
-                       HeightRequest="50"
-                       Aspect="AspectFill"/>
-                
-                <!-- Título -->
-                <Label Grid.Column="1"
-                       Text="Autogestión CIES"
-                       FontSize="16.5"
-                       FontFamily="Inter-Medium"
-                       TextColor="#C4E7CF"
-                       VerticalOptions="Center"/>
-            </Grid>
+ <Grid RowDefinitions="Auto,*,Auto">
+ 
+ <!-- Header del Menú -->
+ <Grid Grid.Row="0" 
+ Padding="15,35,15,13"
+ ColumnDefinitions="50,*"
+ ColumnSpacing="26">
+ 
+ <!-- Logo -->
+ <Image Grid.Column="0"
+ Source="logo_sena.png"
+ WidthRequest="50"
+ HeightRequest="50"
+ Aspect="AspectFill"/>
+ 
+ <!-- Título -->
+ <Label Grid.Column="1"
+ Text="Autogestión CIES"
+ FontSize="16.5"
+ FontFamily="Inter-Medium"
+ TextColor="#C4E7CF"
+ VerticalOptions="Center"/>
+ </Grid>
 
-            <!-- Contenido del Menú (Dinámico) -->
-            <ScrollView Grid.Row="1">
-                <VerticalStackLayout Spacing="20" Padding="0,83,0,0">
-                    
-                    <!-- Menú Inicio (siempre visible) -->
-                    <Border BackgroundColor="Transparent"
-                            Padding="20,12"
-                            HeightRequest="40">
-                        <Border.StrokeShape>
-                            <RoundRectangle CornerRadius="10"/>
-                        </Border.StrokeShape>
-                        <Border.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding NavigateCommand}" CommandParameter="home"/>
-                        </Border.GestureRecognizers>
-                        
-                        <HorizontalStackLayout Spacing="23">
-                            <Label Text="&#xf425;"
-                                   FontFamily="BootstrapIcons"
-                                   FontSize="24"
-                                   TextColor="White"
-                                   VerticalOptions="Center"/>
-                            <Label Text="Inicio"
-                                   FontSize="22.2"
-                                   FontFamily="Inter-Regular"
-                                   TextColor="White"
-                                   VerticalOptions="Center"/>
-                        </HorizontalStackLayout>
-                    </Border>
+ <!-- Contenido del Menú (Dinámico) -->
+ <ScrollView Grid.Row="1">
+ <VerticalStackLayout Spacing="20" Padding="0,83,0,0">
+ 
+ <!-- Menú Inicio (siempre visible) -->
+ <Border BackgroundColor="Transparent"
+ Padding="20,12"
+ HeightRequest="40">
+ <Border.StrokeShape>
+ <RoundRectangle CornerRadius="10"/>
+ </Border.StrokeShape>
+ <!-- Quitar navegación del menú lateral -->
+ <HorizontalStackLayout Spacing="23">
+ <Label Text="&#xf425;"
+ FontFamily="BootstrapIcons"
+ FontSize="24"
+ TextColor="White"
+ VerticalOptions="Center"/>
+ <Label Text="Inicio"
+ FontSize="22.2"
+ FontFamily="Inter-Regular"
+ TextColor="White"
+ VerticalOptions="Center"/>
+ </HorizontalStackLayout>
+ </Border>
 
-                    <!-- Menú Dinámico basado en permisos -->
-                    <CollectionView ItemsSource="{Binding MenuItems}"
-                                   SelectionMode="None">
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate x:DataType="vm:MenuItemViewModel">
-                                <VerticalStackLayout Spacing="1">
-                                    
-                                    <!-- Item Principal del Menú -->
-                                    <Border BackgroundColor="Transparent"
-                                            Padding="15,0"
-                                            HeightRequest="40">
-                                        <Border.StrokeShape>
-                                            <RoundRectangle CornerRadius="10"/>
-                                        </Border.StrokeShape>
-                                        <Border.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding ToggleCommand}"/>
-                                        </Border.GestureRecognizers>
-                                        
-                                        <HorizontalStackLayout Spacing="23" VerticalOptions="Center">
-                                            <!-- Icono del menú (Bootstrap Icons) -->
-                                            <Label Text="{Binding Icon}"
-                                                   FontFamily="BootstrapIcons"
-                                                   FontSize="24"
-                                                   TextColor="White"
-                                                   VerticalOptions="Center"/>
-                                            <!-- Nombre del menú -->
-                                            <Label Text="{Binding Name}"
-                                                   FontSize="22.2"
-                                                   FontFamily="Inter-Regular"
-                                                   TextColor="White"
-                                                   VerticalOptions="Center"/>
-                                        </HorizontalStackLayout>
-                                    </Border>
+ <!-- Menú Dinámico basado en permisos -->
+ <CollectionView ItemsSource="{Binding MenuItems}"
+ SelectionMode="None">
+ <CollectionView.ItemTemplate>
+ <DataTemplate x:DataType="vm:MenuItemViewModel">
+ <VerticalStackLayout Spacing="1">
+ 
+ <!-- Item Principal del Menú -->
+ <Border BackgroundColor="Transparent"
+ Padding="15,0"
+ HeightRequest="40">
+ <Border.StrokeShape>
+ <RoundRectangle CornerRadius="10"/>
+ </Border.StrokeShape>
+ <!-- Quitar navegación del menú lateral -->
+ <HorizontalStackLayout Spacing="23" VerticalOptions="Center">
+ <!-- Icono del menú (Bootstrap Icons) -->
+ <Label Text="{Binding Icon}"
+ FontFamily="BootstrapIcons"
+ FontSize="24"
+ TextColor="White"
+ VerticalOptions="Center"/>
+ <!-- Nombre del menú -->
+ <Label Text="{Binding Name}"
+ FontSize="22.2"
+ FontFamily="Inter-Regular"
+ TextColor="White"
+ VerticalOptions="Center"/>
+ </HorizontalStackLayout>
+ </Border>
 
-                                    <!-- Submenús (visible si está expandido) -->
-                                    <VerticalStackLayout IsVisible="{Binding IsExpanded}"
-                                                        Spacing="0">
-                                        
-                                        <CollectionView ItemsSource="{Binding SubMenus}"
-                                                       SelectionMode="None">
-                                            <CollectionView.ItemTemplate>
-                                                <DataTemplate x:DataType="vm:MenuItemViewModel">
-                                                    
-                                                    <Border BackgroundColor="{Binding IsSelected, Converter={StaticResource BoolToSubmenuBackgroundConverter}}"
-                                                            Padding="35,12"
-                                                            HeightRequest="40"
-                                                            Margin="0,0,37,0">
-                                                        <Border.StrokeShape>
-                                                            <RoundRectangle CornerRadius="10"/>
-                                                        </Border.StrokeShape>
-                                                        <Border.GestureRecognizers>
-                                                            <TapGestureRecognizer Command="{Binding NavigateCommand}"/>
-                                                        </Border.GestureRecognizers>
-                                                        
-                                                        <HorizontalStackLayout Spacing="10">
-                                                            <!-- Bullet point -->
-                                                            <Label Text="•"
-                                                                   FontSize="22.9"
-                                                                   TextColor="White"
-                                                                   VerticalOptions="Center"
-                                                                   WidthRequest="14"
-                                                                   HorizontalTextAlignment="Center"/>
-                                                            <!-- Nombre del submenú -->
-                                                            <Label Text="{Binding Name}"
-                                                                   FontSize="18.9"
-                                                                   FontFamily="Inter-Regular"
-                                                                   TextColor="#AFDEBF"
-                                                                   VerticalOptions="Center"/>
-                                                        </HorizontalStackLayout>
-                                                    </Border>
-                                                    
-                                                </DataTemplate>
-                                            </CollectionView.ItemTemplate>
-                                        </CollectionView>
-                                        
-                                    </VerticalStackLayout>
-                                    
-                                </VerticalStackLayout>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
+ <!-- Submenús (visible si está expandido) -->
+ <VerticalStackLayout IsVisible="{Binding IsExpanded}"
+ Spacing="0">
+ 
+ <CollectionView ItemsSource="{Binding SubMenus}"
+ SelectionMode="None">
+ <CollectionView.ItemTemplate>
+ <DataTemplate x:DataType="vm:MenuItemViewModel">
+ 
+ <Border BackgroundColor="{Binding IsSelected, Converter={StaticResource BoolToSubmenuBackgroundConverter}}"
+ Padding="35,12"
+ HeightRequest="40"
+ Margin="0,0,37,0">
+ <Border.StrokeShape>
+ <RoundRectangle CornerRadius="10"/>
+ </Border.StrokeShape>
+ <!-- Quitar navegación del menú lateral -->
+ <HorizontalStackLayout Spacing="10">
+ <!-- Bullet point -->
+ <Label Text="•"
+ FontSize="22.9"
+ TextColor="White"
+ VerticalOptions="Center"
+ WidthRequest="14"
+ HorizontalTextAlignment="Center"/>
+ <!-- Nombre del submenú -->
+ <Label Text="{Binding Name}"
+ FontSize="18.9"
+ FontFamily="Inter-Regular"
+ TextColor="#AFDEBF"
+ VerticalOptions="Center"/>
+ </HorizontalStackLayout>
+ </Border>
+ 
+ </DataTemplate>
+ </CollectionView.ItemTemplate>
+ </CollectionView>
+ 
+ </VerticalStackLayout>
+ 
+ </VerticalStackLayout>
+ </DataTemplate>
+ </CollectionView.ItemTemplate>
+ </CollectionView>
 
-                </VerticalStackLayout>
-            </ScrollView>
+ </VerticalStackLayout>
+ </ScrollView>
 
-            <!-- Footer con perfil del usuario -->
-            <Border Grid.Row="2"
-                    HeightRequest="67"
-                    WidthRequest="250"
-                    Padding="2,0">
-                <Border.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding OpenProfileCommand}"/>
-                </Border.GestureRecognizers>
-                
-                <Grid ColumnDefinitions="45,*,Auto" ColumnSpacing="13">
-                    
-                    <!-- Avatar del usuario -->
-                    <Border Grid.Column="0"
-                            WidthRequest="45"
-                            HeightRequest="45"
-                            BackgroundColor="#D9D9D9"
-                            VerticalOptions="Center">
-                        <Border.StrokeShape>
-                            <Ellipse/>
-                        </Border.StrokeShape>
-                        <Label Text="{Binding UserInitials}"
-                               FontSize="18.9"
-                               FontFamily="Roboto-Bold"
-                               TextColor="White"
-                               HorizontalOptions="Center"
-                               VerticalOptions="Center"/>
-                    </Border>
+ <!-- Footer con perfil del usuario -->
+ <Border Grid.Row="2"
+ HeightRequest="67"
+ WidthRequest="250"
+ Padding="2,0">
+ <Border.GestureRecognizers>
+ <TapGestureRecognizer Command="{Binding OpenProfileCommand}"/>
+ </Border.GestureRecognizers>
+ 
+ <Grid ColumnDefinitions="45,*,Auto" ColumnSpacing="13">
+ 
+ <!-- Avatar del usuario -->
+ <Border Grid.Column="0"
+ WidthRequest="45"
+ HeightRequest="45"
+ BackgroundColor="#D9D9D9"
+ VerticalOptions="Center">
+ <Border.StrokeShape>
+ <Ellipse/>
+ </Border.StrokeShape>
+ <Label Text="{Binding UserInitials}"
+ FontSize="18.9"
+ FontFamily="Roboto-Bold"
+ TextColor="White"
+ HorizontalOptions="Center"
+ VerticalOptions="Center"/>
+ </Border>
 
-                    <!-- Información del usuario -->
-                    <VerticalStackLayout Grid.Column="1" 
-                                        VerticalOptions="Center"
-                                        Spacing="2">
-                        <Label Text="{Binding UserName}"
-                               FontSize="16"
-                               FontFamily="Roboto-Bold"
-                               TextColor="White"
-                               LineBreakMode="TailTruncation"
-                               MaxLines="1"/>
-                        <Label Text="{Binding UserEmail}"
-                               FontSize="11"
-                               FontFamily="Roboto-Regular"
-                               TextColor="#AFDEBF"
-                               LineBreakMode="TailTruncation"
-                               MaxLines="1"
-                               IsVisible="{Binding UserEmail, Converter={StaticResource StringNotEmptyConverter}}"/>
-                        <Border BackgroundColor="#0F172A"
-                                Padding="6,2"
-                                Margin="0,2,0,0">
-                            <Border.StrokeShape>
-                                <RoundRectangle CornerRadius="8"/>
-                            </Border.StrokeShape>
-                            <Label Text="{Binding RoleName}"
-                                   FontSize="13"
-                                   FontFamily="Roboto-Bold"
-                                   TextColor="#61F659"
-                                   LineBreakMode="NoWrap"/>
-                        </Border>
-                    </VerticalStackLayout>
+ <!-- Información del usuario -->
+ <VerticalStackLayout Grid.Column="1" 
+ VerticalOptions="Center"
+ Spacing="2">
+ <Label Text="{Binding UserName}"
+ FontSize="16"
+ FontFamily="Roboto-Bold"
+ TextColor="White"
+ LineBreakMode="TailTruncation"
+ MaxLines="1"/>
+ <Label Text="{Binding UserEmail}"
+ FontSize="11"
+ FontFamily="Roboto-Regular"
+ TextColor="#AFDEBF"
+ LineBreakMode="TailTruncation"
+ MaxLines="1"
+ IsVisible="{Binding UserEmail, Converter={StaticResource StringNotEmptyConverter}}"/>
+ <Border BackgroundColor="#0F172A"
+ Padding="6,2"
+ Margin="0,2,0,0">
+ <Border.StrokeShape>
+ <RoundRectangle CornerRadius="8"/>
+ </Border.StrokeShape>
+ <Label Text="{Binding RoleName}"
+ FontSize="13"
+ FontFamily="Roboto-Bold"
+ TextColor="#61F659"
+ LineBreakMode="NoWrap"/>
+ </Border>
+ </VerticalStackLayout>
 
-                    <!-- Icono de menú (Bootstrap Icons) -->
-                    <Label Grid.Column="2"
-                           Text="&#xf602;"
-                           FontFamily="BootstrapIcons"
-                           FontSize="20"
-                           TextColor="White"
-                           VerticalOptions="Start"
-                           Margin="0,28,0,0"/>
-                    
-                </Grid>
-            </Border>
+ <!-- Icono de menú (Bootstrap Icons) -->
+ <Label Grid.Column="2"
+ Text="&#xf602;"
+ FontFamily="BootstrapIcons"
+ FontSize="20"
+ TextColor="White"
+ VerticalOptions="Start"
+ Margin="0,28,0,0"/>
+ 
+ </Grid>
+ </Border>
 
-        </Grid>
-    </Border>
+ </Grid>
+ </Border>
 
 </ContentView>
