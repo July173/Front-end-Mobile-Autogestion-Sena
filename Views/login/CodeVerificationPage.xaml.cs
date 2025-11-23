@@ -125,22 +125,7 @@ namespace AutogestionSena.MAUI.Views
                     var encodedEmail = Uri.EscapeDataString(_email);
                     var encodedCode = Uri.EscapeDataString(code ?? string.Empty);
                     System.Diagnostics.Debug.WriteLine($"[DEBUG] Navigating to PasswordResetPage with email={_email} code={code}");
-                    try
-                    {
-                        await Shell.Current.GoToAsync($"PasswordResetPage?email={encodedEmail}&code={encodedCode}");
-                    }
-                    catch (Exception navEx)
-                    {
-                        System.Diagnostics.Debug.WriteLine($"[NAV] Shell.GoToAsync failed: {navEx}");
-                        try
-                        {
-                            await Navigation.PushAsync(new PasswordResetPage(_email, code ?? string.Empty));
-                        }
-                        catch (Exception pushEx)
-                        {
-                            System.Diagnostics.Debug.WriteLine($"[NAV] Fallback PushAsync also failed: {pushEx}");
-                        }
-                    }
+                    await Shell.Current.GoToAsync($"///PasswordResetPage?email={encodedEmail}&code={encodedCode}");
                 }
                 else
                 {

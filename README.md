@@ -97,6 +97,8 @@ Proyecto MAUI que incluye vistas para autenticación, perfil y manejo de experie
 	3. **Ejecutar en el dispositivo/emulador:**
 	   ```powershell
 	   dotnet build -t:Run -f net8.0-android
+
+	   dotnet watch run -f net8.0-android
 	   ```
 	   O usando la tarea configurada:
 	   ```powershell

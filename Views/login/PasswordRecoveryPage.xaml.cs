@@ -19,19 +19,7 @@ namespace AutogestionSena.MAUI.Views
 
         private async void OnBackToLoginClicked(object sender, EventArgs e)
         {
-            if (Shell.Current != null)
-            {
-                await Shell.Current.GoToAsync("//LoginPage");
-            }
-            else if (Navigation != null)
-            {
-                // Si no se usa Shell, volver a la raíz del NavigationStack
-                await Navigation.PopToRootAsync();
-            }
-            else
-            {
-                System.Diagnostics.Debug.WriteLine("[NAV] No Shell.Current ni Navigation disponibles para volver al login.");
-            }
+            await Shell.Current.GoToAsync("///LoginPage");
         }
 
         private async void OnSendCodeClicked(object sender, EventArgs e)
@@ -63,23 +51,8 @@ namespace AutogestionSena.MAUI.Views
                     {
                         // Navegar inmediatamente a la pantalla de verificación de código usando Shell
                         var encodedEmail = Uri.EscapeDataString(email);
-                        try
-                        {
-                            System.Diagnostics.Debug.WriteLine("[NAV] Attempting Shell navigation to CodeVerificationPage");
-                            await Shell.Current.GoToAsync($"CodeVerificationPage?email={encodedEmail}&isPasswordReset=true");
-                        }
-                        catch (Exception navEx)
-                        {
-                            System.Diagnostics.Debug.WriteLine($"[NAV] Shell.GoToAsync failed: {navEx}");
-                            try
-                            {
-                                await Navigation.PushAsync(new CodeVerificationPage(email, isPasswordReset: true));
-                            }
-                            catch (Exception pushEx)
-                            {
-                                System.Diagnostics.Debug.WriteLine($"[NAV] Fallback PushAsync also failed: {pushEx}");
-                            }
-                        }
+                        System.Diagnostics.Debug.WriteLine("[NAV] Navigating to CodeVerificationPage");
+                        await Shell.Current.GoToAsync($"///CodeVerificationPage?email={encodedEmail}&isPasswordReset=true");
                     }
                     else
                     {
@@ -87,22 +60,7 @@ namespace AutogestionSena.MAUI.Views
                         // Navegar de todos modos porque el código fue enviado
                         System.Diagnostics.Debug.WriteLine($"[DEBUG] Result es null pero backend respondió OK");
                         var encodedEmail = Uri.EscapeDataString(email);
-                        try
-                        {
-                            await Shell.Current.GoToAsync($"CodeVerificationPage?email={encodedEmail}&isPasswordReset=true");
-                        }
-                        catch (Exception navEx)
-                        {
-                            System.Diagnostics.Debug.WriteLine($"[NAV] Shell.GoToAsync failed: {navEx}");
-                            try
-                            {
-                                await Navigation.PushAsync(new CodeVerificationPage(email, isPasswordReset: true));
-                            }
-                            catch (Exception pushEx)
-                            {
-                                System.Diagnostics.Debug.WriteLine($"[NAV] Fallback PushAsync also failed: {pushEx}");
-                            }
-                        }
+                        await Shell.Current.GoToAsync($"///CodeVerificationPage?email={encodedEmail}&isPasswordReset=true");
                     }
                 }
                 catch (Exception apiEx) when (apiEx.Message.Contains("Error al procesar la respuesta") || 
@@ -114,22 +72,7 @@ namespace AutogestionSena.MAUI.Views
                     // Navegar a la siguiente pantalla
                     System.Diagnostics.Debug.WriteLine($"[DEBUG] Error de deserialización/null pero el código fue enviado: {apiEx.Message}");
                     var encodedEmail = Uri.EscapeDataString(email);
-                    try
-                    {
-                        await Shell.Current.GoToAsync($"CodeVerificationPage?email={encodedEmail}&isPasswordReset=true");
-                    }
-                    catch (Exception navEx)
-                    {
-                        System.Diagnostics.Debug.WriteLine($"[NAV] Shell.GoToAsync failed: {navEx}");
-                        try
-                        {
-                            await Navigation.PushAsync(new CodeVerificationPage(email, isPasswordReset: true));
-                        }
-                        catch (Exception pushEx)
-                        {
-                            System.Diagnostics.Debug.WriteLine($"[NAV] Fallback PushAsync also failed: {pushEx}");
-                        }
-                    }
+                    await Shell.Current.GoToAsync($"///CodeVerificationPage?email={encodedEmail}&isPasswordReset=true");
                 }
             }
             catch (HttpRequestException httpEx)
@@ -142,22 +85,7 @@ namespace AutogestionSena.MAUI.Views
                 if (continuar)
                 {
                     var encodedEmail = Uri.EscapeDataString(email);
-                    try
-                    {
-                        await Shell.Current.GoToAsync($"CodeVerificationPage?email={encodedEmail}&isPasswordReset=true");
-                    }
-                    catch (Exception navEx)
-                    {
-                        System.Diagnostics.Debug.WriteLine($"[NAV] Shell.GoToAsync failed: {navEx}");
-                        try
-                        {
-                            await Navigation.PushAsync(new CodeVerificationPage(email, isPasswordReset: true));
-                        }
-                        catch (Exception pushEx)
-                        {
-                            System.Diagnostics.Debug.WriteLine($"[NAV] Fallback PushAsync also failed: {pushEx}");
-                        }
-                    }
+                    await Shell.Current.GoToAsync($"///CodeVerificationPage?email={encodedEmail}&isPasswordReset=true");
                 }
             }
             catch (Exception ex)
@@ -173,22 +101,7 @@ namespace AutogestionSena.MAUI.Views
                 if (continuar)
                 {
                     var encodedEmail2 = Uri.EscapeDataString(email);
-                    try
-                    {
-                        await Shell.Current.GoToAsync($"CodeVerificationPage?email={encodedEmail2}&isPasswordReset=true");
-                    }
-                    catch (Exception navEx)
-                    {
-                        System.Diagnostics.Debug.WriteLine($"[NAV] Shell.GoToAsync failed: {navEx}");
-                        try
-                        {
-                            await Navigation.PushAsync(new CodeVerificationPage(email, isPasswordReset: true));
-                        }
-                        catch (Exception pushEx)
-                        {
-                            System.Diagnostics.Debug.WriteLine($"[NAV] Fallback PushAsync also failed: {pushEx}");
-                        }
-                    }
+                    await Shell.Current.GoToAsync($"///CodeVerificationPage?email={encodedEmail2}&isPasswordReset=true");
                 }
             }
                 finally

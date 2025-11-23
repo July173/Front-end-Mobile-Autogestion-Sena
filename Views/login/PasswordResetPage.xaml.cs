@@ -110,14 +110,7 @@ namespace AutogestionSena.MAUI.Views
                     await DisplayAlert("Éxito", "Tu contraseña ha sido restablecida correctamente.", "Aceptar");
 
                     // Volver al login
-                    if (Shell.Current != null)
-                    {
-                        await Shell.Current.GoToAsync("//LoginPage");
-                    }
-                    else if (Navigation != null)
-                    {
-                        await Navigation.PopToRootAsync();
-                    }
+                    await Shell.Current.GoToAsync("///LoginPage");
                 }
                 else
                 {
@@ -136,14 +129,7 @@ namespace AutogestionSena.MAUI.Views
 
         private async void OnBackToLoginClicked(object sender, EventArgs e)
         {
-            if (Shell.Current != null)
-            {
-                await Shell.Current.GoToAsync("//LoginPage");
-            }
-            else if (Navigation != null)
-            {
-                await Navigation.PopToRootAsync();
-            }
+            await Shell.Current.GoToAsync("///LoginPage");
         }
     }
 }

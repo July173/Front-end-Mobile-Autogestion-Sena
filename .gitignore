@@ -100,3 +100,4 @@ Icon?
 
 # se ignora una carpeta de depuracion y lo que se hizo en reamedme y todo lo que hay dentro
 readmes/
+.onedriveignore

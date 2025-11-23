@@ -81,12 +81,12 @@ namespace AutogestionSena.MAUI.Views
 
         private async void OnRegisterLinkTapped(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new RegisterPage());
+            await Shell.Current.GoToAsync("///RegisterPage");
         }
 
         private async void OnForgotPasswordTapped(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new PasswordRecoveryPage());
+            await Shell.Current.GoToAsync("///PasswordRecoveryPage");
         }
 
         private async void OnCodeVerified(object? sender, string code)

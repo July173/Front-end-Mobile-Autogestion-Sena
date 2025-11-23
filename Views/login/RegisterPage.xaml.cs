@@ -118,7 +118,7 @@ namespace AutogestionSena.MAUI.Views
                 if (resultado != null && resultado.Success)
                 {
                     await DisplayAlert("Éxito", "Registro exitoso. Revisa tu correo para activar tu cuenta.", "Continuar");
-                    await Navigation.PopAsync();
+                    await Shell.Current.GoToAsync("///LoginPage");
                 }
                 else
                 {
@@ -138,7 +138,7 @@ namespace AutogestionSena.MAUI.Views
 
         private async void OnBackToLoginClicked(object sender, EventArgs e)
         {
-            await Navigation.PopAsync();
+            await Shell.Current.GoToAsync("///LoginPage");
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using AutogestionSena.MAUI;
+using AutogestionSena.MAUI.Services;
 using AutogestionSenaMaui.Helpers;
+using Microsoft.Extensions.Logging;
 
 namespace AutogestionSena.MAUI
 {
@@ -17,11 +19,54 @@ namespace AutogestionSena.MAUI
                     fonts.AddFont("bootstrap-icons.ttf", "BootstrapIcons");
                 });
 
+            // Configurar logging
+#if DEBUG
+            builder.Logging.AddDebug();
+            builder.Logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Debug);
+#else
+            builder.Logging.SetMinimumLevel(LogLevel.Warning);
+#endif
+
+            // Registrar servicio de logging como singleton
+            builder.Services.AddSingleton<LoggingService>(sp => LoggingService.Instance);
+
+            // Configurar manejo de excepciones no controladas
+            ConfigureExceptionHandling();
+
             // Nota: RouteMap ya no es necesario con la arquitectura simplificada
             // Ahora usamos solo LoginPage (pública) y HomePage (protegida)
             // HomePage carga dinámicamente el dashboard apropiado según el rol del usuario
 
-            return builder.Build();
+            var app = builder.Build();
+            
+            LoggingService.Instance.Info("Aplicación MAUI iniciada", "MauiProgram");
+            
+            return app;
+        }
+
+        private static void ConfigureExceptionHandling()
+        {
+            // Capturar excepciones no controladas en el hilo principal
+            AppDomain.CurrentDomain.UnhandledException += (sender, args) =>
+            {
+                var exception = args.ExceptionObject as Exception;
+                LoggingService.Instance.Critical(
+                    "Excepción no controlada en AppDomain",
+                    "AppDomain.UnhandledException",
+                    exception
+                );
+            };
+
+            // Capturar excepciones no controladas en tareas
+            TaskScheduler.UnobservedTaskException += (sender, args) =>
+            {
+                LoggingService.Instance.Critical(
+                    "Excepción no observada en Task",
+                    "TaskScheduler.UnobservedTaskException",
+                    args.Exception
+                );
+                args.SetObserved(); // Prevenir que la app se cierre
+            };
         }
     }
 }
