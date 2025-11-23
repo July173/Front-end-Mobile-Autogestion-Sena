@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
+    <PackageReference Include="FluentAssertions" Version="8.8.0" />
     <PackageReference Include="xunit" Version="2.6.6" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.5.6">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -22,9 +23,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <!-- Incluir solo las clases de validación sin depender del proyecto MAUI completo -->
+    <!-- Incluir solo las clases necesarias sin depender del proyecto MAUI completo -->
     <Compile Include="..\Validators\LoginValidator.cs" Link="Validators\LoginValidator.cs" />
     <Compile Include="..\Validators\AuthenticationValidators.cs" Link="Validators\AuthenticationValidators.cs" />
+    <Compile Include="..\Api\Dtos\AssignmentDto.cs" Link="Dtos\AssignmentDto.cs" />
   </ItemGroup>
 
 </Project>

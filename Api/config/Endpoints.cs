@@ -148,5 +148,15 @@ namespace AutogestionSena.MAUI.Api
         {
             public static string GetPermissions => $"{API_BASE_URL}security/permissions/";
         }
+
+        public static class Assignment
+        {
+            public static string GetFormRequestList => $"{API_BASE_URL}assign/request_asignation/form-request-list/";
+        }
+
+        public static class ApprenticeSimple
+        {
+            public static string GetAllApprenticesSimple => $"{API_BASE_URL}general/aprendices/";
+        }
     }
   }

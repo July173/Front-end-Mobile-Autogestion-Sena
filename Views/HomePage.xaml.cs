@@ -120,14 +120,23 @@ namespace AutogestionSenaMaui.Views
                         var personId = personElement.GetInt32();
                         
                         // Llamar al servicio para obtener apprentice_id
-                        var apprenticeService = new ApprenticeService();
+                        // TODO: Implementar ApprenticeService completo
+                        // var apprenticeService = new ApprenticeService();
+                        // var apprenticeData = await apprenticeService.GetApprenticeByPersonAsync(personId);
+                        
+                        // Temporal: usar personId como apprenticeId
+                        _apprenticeId = personId;
+                        Debug.WriteLine($"[HOME] Using Person ID as Apprentice ID: {_apprenticeId}");
+                        
+                        /* Código original comentado:
                         var apprenticeData = await apprenticeService.GetApprenticeByPersonAsync(personId);
                         
-                        if (apprenticeData != null && int.TryParse(apprenticeData.Id, out int apprenticeId))
-                        {
-                            _apprenticeId = apprenticeId;
-                            Debug.WriteLine($"[HOME] Apprentice ID loaded: {_apprenticeId}");
-                        }
+                        // if (apprenticeData != null && int.TryParse(apprenticeData.Id, out int apprenticeId))
+                        // {
+                        //     _apprenticeId = apprenticeId;
+                        //     Debug.WriteLine($"[HOME] Apprentice ID loaded: {_apprenticeId}");
+                        // }
+                        */
                     }
                 }
             }

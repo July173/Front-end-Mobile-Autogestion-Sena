@@ -61,6 +61,10 @@
 
 	<ItemGroup>
 		<PackageReference Include="FluentAssertions" Version="8.8.0" />
+		<PackageReference Include="Microcharts.Maui" Version="1.0.0" />
+		<PackageReference Include="SkiaSharp" Version="2.88.8" />
+		<PackageReference Include="SkiaSharp.Views.Maui.Core" Version="2.88.8" />
+		<PackageReference Include="SkiaSharp.Views.Maui.Controls" Version="2.88.8" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.1" />
@@ -70,8 +74,14 @@
 
 	<ItemGroup>
 		<!-- Exclude test files from the main project -->
+		<AndroidResource Remove="Resources\NewFolder\**" />
+		<Compile Remove="Resources\NewFolder\**" />
 		<Compile Remove="Tests\**\*.cs" />
+		<EmbeddedResource Remove="Resources\NewFolder\**" />
 		<EmbeddedResource Remove="Tests\**\*" />
+		<MauiCss Remove="Resources\NewFolder\**" />
+		<MauiXaml Remove="Resources\NewFolder\**" />
+		<None Remove="Resources\NewFolder\**" />
 		<None Remove="Tests\**\*" />
 	</ItemGroup>
 

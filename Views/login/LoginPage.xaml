@@ -3,6 +3,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:AutogestionSena.MAUI.Views"
+             xmlns:helpers="clr-namespace:AutogestionSenaMaui.Helpers"
              x:Class="AutogestionSena.MAUI.Views.LoginPage"
              BackgroundColor="White">
     <Grid>
@@ -57,12 +58,13 @@
                 </Frame>
             </VerticalStackLayout>
             <!-- ¿Olvidaste tu contraseña? -->
-            <Label Text="¿Olvidaste tu contraseña?" FontFamily="Roboto-Bold" FontSize="18" TextColor="#43A047" HorizontalOptions="Center">
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="OnForgotPasswordTapped"/>
-                </Label.GestureRecognizers>
-            </Label>
-            <!-- Indicador de carga -->
+                <Image Source="{x:Static helpers:IconPaths.House}" HeightRequest="32" WidthRequest="32"/>
+                <Label Text="¿Olvidaste tu contraseña?" FontFamily="Roboto-Bold" FontSize="18" TextColor="#43A047" HorizontalOptions="Center">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnForgotPasswordTapped"/>
+                    </Label.GestureRecognizers>
+                </Label>
+                <!-- Indicador de carga -->
             <ActivityIndicator x:Name="LoadingIndicator" IsRunning="False" IsVisible="False" Color="#43A047" />
             <!-- Botón Iniciar Sesión -->
             <Button Text="Iniciar Sesión"

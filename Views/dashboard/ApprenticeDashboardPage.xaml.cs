@@ -28,11 +28,14 @@ public partial class ApprenticeDashboardPage : ContentPage
             if (personId > 0)
             {
                 // Resolve apprenticeId via ApprenticeService
-                var svc = new AutogestionSena.MAUI.Api.Services.ApprenticeService();
-                var apprentice = await svc.GetApprenticeByPersonAsync(personId);
-                if (apprentice != null)
+                // TODO: Implementar ApprenticeService completo
+                // var svc = new AutogestionSena.MAUI.Api.Services.ApprenticeService();
+                // var apprentice = await svc.GetApprenticeByPersonAsync(personId);
+                
+                // Temporal: usar personId directamente
+                if (true) // apprentice != null
                 {
-                    await vm.LoadAsync(int.Parse(apprentice.Id ?? "0"));
+                    await vm.LoadAsync(personId); // int.Parse(apprentice.Id ?? "0");
                 }
             }
         }

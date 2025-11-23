@@ -2,6 +2,7 @@
 using AutogestionSena.MAUI.Services;
 using AutogestionSenaMaui.Helpers;
 using Microsoft.Extensions.Logging;
+using Microcharts.Maui;
 
 namespace AutogestionSena.MAUI
 {
@@ -16,8 +17,9 @@ namespace AutogestionSena.MAUI
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-                    fonts.AddFont("bootstrap-icons.ttf", "BootstrapIcons");
-                });
+                    fonts.AddFont("bootstrap-icons.woff", "BootstrapIcons");
+                })
+                .UseMicrocharts();
 
             // Configurar logging
 #if DEBUG
