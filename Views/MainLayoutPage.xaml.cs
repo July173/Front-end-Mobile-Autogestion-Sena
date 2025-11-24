@@ -118,43 +118,77 @@ namespace AutogestionSenaMaui.Views
 
         private async Task OpenSideMenuAsync()
         {
-            _isMenuOpen = true;
-            
-            // Calculate desired width (100% of screen or parent)
-            var desiredWidth = 0.0;
-            if (this.Width > 0)
+            try
             {
-                desiredWidth = this.Width;
+                _isMenuOpen = true;
+                
+                // Cancelar cualquier animación anterior
+                this.AbortAnimation("OpenMenu");
+                this.AbortAnimation("CloseMenu");
+                
+                // Resetear WidthRequest a 0 antes de abrir
+                SideMenu.WidthRequest = 0;
+                SideMenu.IsVisible = true;
+                
+                // Esperar un frame para que el layout se actualice
+                await Task.Delay(16);
+                
+                // Calculate desired width (100% of screen or parent)
+                var desiredWidth = 0.0;
+                if (this.Width > 0)
+                {
+                    desiredWidth = this.Width;
+                }
+                else
+                {
+                    var mainDisplay = Microsoft.Maui.Devices.DeviceDisplay.MainDisplayInfo;
+                    var screenDpWidth = mainDisplay.Width / mainDisplay.Density;
+                    desiredWidth = screenDpWidth;
+                }
+                
+                // Animate width from 0 to desiredWidth
+                var animation = new Animation(v => SideMenu.WidthRequest = v, 0, desiredWidth);
+                animation.Commit(this, "OpenMenu", 16, 250, Easing.CubicOut);
+                
+                await Task.Delay(250);
+                System.Diagnostics.Debug.WriteLine($"[MainLayoutPage] Menu opened to width: {desiredWidth}");
             }
-            else
+            catch (Exception ex)
             {
-                var mainDisplay = Microsoft.Maui.Devices.DeviceDisplay.MainDisplayInfo;
-                var screenDpWidth = mainDisplay.Width / mainDisplay.Density;
-                desiredWidth = screenDpWidth;
+                System.Diagnostics.Debug.WriteLine($"[MainLayoutPage] Error opening menu: {ex}");
             }
-            
-            SideMenu.IsVisible = true;
-            
-            // Animate width from 0 to desiredWidth
-            var animation = new Animation(v => SideMenu.WidthRequest = v, 0, desiredWidth);
-            animation.Commit(this, "OpenMenu", 16, 250, Easing.CubicOut);
-            
-            await Task.Delay(250);
-            System.Diagnostics.Debug.WriteLine($"[MainLayoutPage] Menu opened to width: {desiredWidth}");
         }
 
         private async Task CloseSideMenuAsync()
         {
-            _isMenuOpen = false;
-            
-            // Animate width from current to 0
-            var currentWidth = SideMenu.WidthRequest;
-            var animation = new Animation(v => SideMenu.WidthRequest = v, currentWidth, 0);
-            animation.Commit(this, "CloseMenu", 16, 250, Easing.CubicIn);
-            
-            await Task.Delay(250);
-            SideMenu.IsVisible = false;
-            System.Diagnostics.Debug.WriteLine("[MainLayoutPage] Menu closed");
+            try
+            {
+                _isMenuOpen = false;
+                
+                // Cancelar cualquier animación anterior
+                this.AbortAnimation("OpenMenu");
+                this.AbortAnimation("CloseMenu");
+                
+                // Animate width from current to 0
+                var currentWidth = SideMenu.WidthRequest > 0 ? SideMenu.WidthRequest : this.Width;
+                var animation = new Animation(v => SideMenu.WidthRequest = v, currentWidth, 0);
+                animation.Commit(this, "CloseMenu", 16, 250, Easing.CubicIn);
+                
+                await Task.Delay(250);
+                
+                // Resetear completamente el menú
+                SideMenu.WidthRequest = 0;
+                SideMenu.IsVisible = false;
+                
+                System.Diagnostics.Debug.WriteLine("[MainLayoutPage] Menu closed");
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[MainLayoutPage] Error closing menu: {ex}");
+                // Asegurar que el menú esté cerrado incluso si hay error
+                SideMenu.WidthRequest = 0;
+                SideMenu.IsVisible = false;
+            }
         }
 
         private T? FindChildOfType<T>(Microsoft.Maui.IView root) where T : Microsoft.Maui.IView

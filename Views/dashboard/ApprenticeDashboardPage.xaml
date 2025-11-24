@@ -5,66 +5,76 @@
              x:Class="AutogestionSenaMaui.Views.ApprenticeDashboardPage"
              Title="Dashboard - Aprendiz">
 
+
     <VerticalStackLayout>
         <contentViews:DashboardLayout x:Name="DashboardLayout">
             <contentViews:DashboardLayout.PageContent>
                 <ScrollView>
-                    <VerticalStackLayout Spacing="12" Padding="20">
-                    <Label Text="¡Bienvenido!"
-                           FontSize="26"
-                           FontFamily="Roboto-Bold"
-                           TextColor="#2E7D32"
-                           HorizontalTextAlignment="Center"/>
-
-                    <!-- Banner -->
-                    <Frame BackgroundColor="#2E7D32" CornerRadius="12" Padding="16">
-                        <VerticalStackLayout>
-                            <Label Text="Gestione desde aquí sus procesos de formación" TextColor="White" FontSize="16"/>
-                        </VerticalStackLayout>
-                    </Frame>
-
-                    <!-- Grid: left (estado), right (instructor & detalles) -->
-                    <Grid ColumnDefinitions="*,*" RowDefinitions="Auto" ColumnSpacing="12">
-                        <!-- Dashboard Cards component -->
-                        <contentViews:DashboardCards Grid.ColumnSpan="2" BindingContext="{Binding}"/>
-                        <!-- Estado de tu solicitud -->
-                        <Frame Grid.Column="0" BackgroundColor="White" CornerRadius="8" HasShadow="True" Padding="12">
-                            <VerticalStackLayout Spacing="8">
-                                <Label Text="Estado de tu solicitud" FontAttributes="Bold" FontSize="16"/>
-                                <StackLayout IsVisible="{Binding HasRequest}" Spacing="6">
-                                    <Label Text="Solicitud registrada" FontAttributes="Bold"/>
-                                    <Label Text="En revisión / ASIGNADO" TextColor="#b0b0b0"/>
-                                </StackLayout>
-                                <StackLayout IsVisible="{Binding HasRequest, Converter={StaticResource InvertBoolConverter}}" HorizontalOptions="Center">
-                                    <Label Text="Sin solicitudes para tu etapa productiva" FontAttributes="Bold"/>
-                                    <Button Text="Hacer una solicitud" BackgroundColor="#2E7D32" TextColor="White"/>
-                                </StackLayout>
+                    <VerticalStackLayout Spacing="20" Padding="10">
+                        <!-- Saludo principal -->
+                        <Frame BackgroundColor="White" CornerRadius="10" Padding="0" Margin="0,0,0,10">
+                            <VerticalStackLayout>
+                                <BoxView HeightRequest="20" BackgroundColor="#2E7D32" CornerRadius="10,10,0,0"/>
+                                <HorizontalStackLayout Spacing="10" Padding="20,10">
+                                    <Frame BackgroundColor="#CCCCCC" CornerRadius="35" HeightRequest="70" WidthRequest="70" Padding="10" VerticalOptions="Center">
+                                        <!-- Espacio para icono de usuario -->
+                                    </Frame>
+                                    <VerticalStackLayout>
+                                        <Label Text="¡ bienvenido !" FontSize="36" FontAttributes="Bold" TextColor="Black"/>
+                                        <Label Text="sneide contreras velazques" FontSize="24" TextColor="Black"/>
+                                        <Label Text="gestione desde aqui tus procesos de formacion" FontSize="21" TextColor="Black"/>
+                                    </VerticalStackLayout>
+                                </HorizontalStackLayout>
                             </VerticalStackLayout>
                         </Frame>
 
-                        <!-- Right column: instructor e info -->
-                        <VerticalStackLayout Grid.Column="1" Spacing="8">
-                            <Frame BackgroundColor="White" CornerRadius="8" HasShadow="True" Padding="12">
-                                <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
-                                    <Label Text="Tu Instructor asignado" FontAttributes="Bold" FontSize="16" HorizontalTextAlignment="Center"/>
-                                    <Label Text="{Binding InstructorFullName}" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
-                                    <Label Text="{Binding Dashboard.Instructor.KnowledgeArea}" HorizontalTextAlignment="Center"/>
-                                    <Button Text="Enviar Email" BackgroundColor="#2E7D32" TextColor="White" IsVisible="{Binding Dashboard.Instructor.Email, Converter={StaticResource NotNullToBoolConverter}}"/>
+                        <!-- Contenido principal -->
+                        <HorizontalStackLayout Spacing="19" Padding="10,0">
+                            <!-- Estado de solicitud -->
+                            <Frame BackgroundColor="#FFFFFF" CornerRadius="10" Padding="0" WidthRequest="495" HasShadow="True">
+                                <VerticalStackLayout>
+                                    <BoxView HeightRequest="78" BackgroundColor="#2E7D32" CornerRadius="10" VerticalOptions="Start"/>
+                                    <VerticalStackLayout Spacing="10" Padding="10">
+                                        <Frame BackgroundColor="#C4C4C4" CornerRadius="50" HeightRequest="100" WidthRequest="100" Padding="10" HorizontalOptions="Center">
+                                            <!-- Espacio para icono info -->
+                                        </Frame>
+                                        <Label Text="Sin solicitudes para tu etapa productiva" FontSize="23" TextColor="#686868" HorizontalTextAlignment="Center"/>
+                                        <Label Text="Aún no has solicitado ningun proceso para tu etapa productiva por favor registra una solicitud" FontSize="21" TextColor="#686868" HorizontalTextAlignment="Center"/>
+                                        <Button Text="Hacer una solicitud" BackgroundColor="#2E7D32" TextColor="White" CornerRadius="10" FontSize="18" HorizontalOptions="Center"/>
+                                    </VerticalStackLayout>
                                 </VerticalStackLayout>
                             </Frame>
-                            <contentViews:DashboardCharts Grid.Column="1" />
 
-                            <Frame BackgroundColor="White" CornerRadius="8" HasShadow="True" Padding="12">
-                                <VerticalStackLayout Spacing="6">
-                                    <Label Text="Detalle de tu Solicitud" FontAttributes="Bold" FontSize="16" HorizontalTextAlignment="Center"/>
-                                    <Label Text="Empresa: {Binding Dashboard.Request.EnterpriseName}"/>
-                                    <Label Text="Jefe: {Binding Dashboard.Request.BossName}"/>
-                                    <Label Text="Fecha Inicio: {Binding Dashboard.Request.StartDate}"/>
-                                    <Label Text="Fecha Enviado: {Binding Dashboard.Request.RequestDate}"/>
-                                </VerticalStackLayout>
-                            </Frame>
-                        </VerticalStackLayout>
-                    </Grid>
+                            <!-- Columna derecha: instructor y detalles -->
+                            <VerticalStackLayout Spacing="20" WidthRequest="495">
+                                <!-- Instructor asignado -->
+                                <Frame BackgroundColor="#FFFFFF" BorderColor="#a5d9a7" CornerRadius="10" Padding="0" HasShadow="True">
+                                    <VerticalStackLayout>
+                                        <BoxView HeightRequest="78" BackgroundColor="#2E7D32" CornerRadius="10"/>
+                                        <VerticalStackLayout Spacing="10" Padding="26,20">
+                                            <Frame BackgroundColor="#C7C7C7" CornerRadius="50" HeightRequest="100" WidthRequest="100" Padding="40" HorizontalOptions="Center">
+                                                <!-- Espacio para iniciales del instructor -->
+                                            </Frame>
+                                            <Label Text="No asignado" FontSize="24" TextColor="#686868" HorizontalTextAlignment="Center"/>
+                                            <Frame BackgroundColor="#8d8d8d" CornerRadius="10" Padding="10" HorizontalOptions="Center">
+                                                <Label Text="pendiente de Asignar" FontSize="24" TextColor="#686868" HorizontalTextAlignment="Center"/>
+                                            </Frame>
+                                        </VerticalStackLayout>
+                                    </VerticalStackLayout>
+                                </Frame>
+
+                                <!-- Detalle de solicitud -->
+                                <Frame BackgroundColor="#FFFFFF" CornerRadius="10" Padding="0" HasShadow="True">
+                                    <VerticalStackLayout>
+                                        <BoxView HeightRequest="78" BackgroundColor="#2E7D32" CornerRadius="10"/>
+                                        <VerticalStackLayout Spacing="20" Padding="20">
+                                            <Label Text="Sin solicitud" FontSize="23" TextColor="#686868" HorizontalTextAlignment="Center"/>
+                                            <Label Text="Apareceran los detalles de la solicitud una vez sea aprovado" FontSize="21" TextColor="#686868" HorizontalTextAlignment="Center"/>
+                                        </VerticalStackLayout>
+                                    </VerticalStackLayout>
+                                </Frame>
+                            </VerticalStackLayout>
+                        </HorizontalStackLayout>
                     </VerticalStackLayout>
                 </ScrollView>
             </contentViews:DashboardLayout.PageContent>

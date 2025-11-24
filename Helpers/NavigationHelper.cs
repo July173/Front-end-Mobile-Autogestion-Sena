@@ -88,6 +88,13 @@ namespace AutogestionSenaMaui.Helpers
                 return true;
             }
 
+            // SecurityMainPage es accesible para usuarios autenticados
+            // La página puede validar permisos específicos internamente
+            if (route.Equals("SecurityMainPage", StringComparison.OrdinalIgnoreCase))
+            {
+                return true;
+            }
+
             // Por defecto, denegar acceso a rutas no definidas
             return false;
         }

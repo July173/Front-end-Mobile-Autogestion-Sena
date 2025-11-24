@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="AutogestionSenaMaui.Views.Security.SecurityMainPage"
-             xmlns:vm="clr-namespace:AutogestionSenaMaui.ViewModels.Security"
-             xmlns:contentViews="clr-namespace:AutogestionSenaMaui.ContentViews"
-             x:DataType="vm:SecurityMainViewModel"
-             Title="Seguridad">
+<views:ProtectedPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    xmlns:views="clr-namespace:AutogestionSenaMaui.Views"
+                    x:Class="AutogestionSenaMaui.Views.Security.SecurityMainPage"
+                    xmlns:vm="clr-namespace:AutogestionSenaMaui.ViewModels.Security"
+                    xmlns:contentViews="clr-namespace:AutogestionSenaMaui.ContentViews"
+                    x:DataType="vm:SecurityMainViewModel"
+                    Title="Seguridad">
 
     <Grid RowDefinitions="Auto,*,Auto" BackgroundColor="#F8F9FA">
         
@@ -189,7 +190,7 @@
                     <RoundRectangle CornerRadius="10"/>
                 </Border.StrokeShape>
                 
-                <Grid ColumnDefinitions="*,*,*,*" ColumnSpacing="5">
+                <Grid ColumnDefinitions="*,*,*,*,*" ColumnSpacing="5">
                     
                     <!-- Tab Resumen -->
                     <Border Grid.Column="0"
@@ -283,6 +284,28 @@
                         </HorizontalStackLayout>
                     </Border>
 
+                    <!-- Tab General -->
+                    <Border Grid.Column="4"
+                            BackgroundColor="{Binding SelectedTab, Converter={StaticResource TabToColorConverter}, ConverterParameter='General'}"
+                            Padding="10,8">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="10"/>
+                        </Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding SelectTabCommand}" CommandParameter="General"/>
+                        </Border.GestureRecognizers>
+                        <HorizontalStackLayout Spacing="5" HorizontalOptions="Center">
+                            <Image Source="settings_icon.png" 
+                                   WidthRequest="10" 
+                                   HeightRequest="10"
+                                   VerticalOptions="Center"/>
+                            <Label Text="General"
+                                   FontSize="10"
+                                   FontAttributes="Bold"
+                                   TextColor="{Binding SelectedTab, Converter={StaticResource TabToTextColorConverter}, ConverterParameter='General'}"
+                                   VerticalOptions="Center"/>
+                        </HorizontalStackLayout>
+                    </Border>
                 </Grid>
             </Border>
 
@@ -298,4 +321,4 @@
 
     </Grid>
 
-</ContentPage>
+</views:ProtectedPage>

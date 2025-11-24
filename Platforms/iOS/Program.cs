@@ -1,7 +1,7 @@
 ﻿using ObjCRuntime;
 using UIKit;
 
-namespace Experiencias_Significativas_App.MAUI;
+namespace AutogestionSena.MAUI;
 
 public class Program
 {

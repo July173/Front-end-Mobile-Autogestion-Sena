@@ -2,7 +2,7 @@ using System;
 using Microsoft.Maui;
 using Microsoft.Maui.Hosting;
 
-namespace Experiencias_Significativas_App.MAUI;
+namespace AutogestionSena.MAUI;
 
 class Program : MauiApplication
 {

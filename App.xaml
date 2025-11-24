@@ -12,6 +12,7 @@
             </ResourceDictionary.MergedDictionaries>
             
             <!-- Converters -->
+            <converters:BoolToChevronConverter x:Key="BoolToChevronConverter"/>
             <converters:TabToColorConverter x:Key="TabToColorConverter"/>
             <converters:TabToTextColorConverter x:Key="TabToTextColorConverter"/>
             <converters:BoolToSubmenuBackgroundConverter x:Key="BoolToSubmenuBackgroundConverter"/>

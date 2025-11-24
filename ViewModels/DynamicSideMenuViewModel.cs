@@ -47,7 +47,39 @@ public class MenuItemViewModel : INotifyPropertyChanged
         }
     }
 
-    public ObservableCollection<MenuItemViewModel> SubMenus { get; set; } = new();
+    private ObservableCollection<MenuItemViewModel> _subMenus;
+
+    public MenuItemViewModel()
+    {
+        _subMenus = new ObservableCollection<MenuItemViewModel>();
+        _subMenus.CollectionChanged += SubMenus_CollectionChanged;
+    }
+
+    public ObservableCollection<MenuItemViewModel> SubMenus
+    {
+        get => _subMenus;
+        set
+        {
+            if (_subMenus != null)
+            {
+                _subMenus.CollectionChanged -= SubMenus_CollectionChanged;
+            }
+            _subMenus = value ?? new ObservableCollection<MenuItemViewModel>();
+            if (_subMenus != null)
+            {
+                _subMenus.CollectionChanged += SubMenus_CollectionChanged;
+            }
+            OnPropertyChanged();
+            OnPropertyChanged(nameof(HasSubMenus));
+        }
+    }
+
+    public bool HasSubMenus => SubMenus != null && SubMenus.Count > 0;
+
+    private void SubMenus_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+    {
+        OnPropertyChanged(nameof(HasSubMenus));
+    }
 
     public ICommand ToggleCommand { get; set; } = new Command(() => { });
     public ICommand NavigateCommand { get; set; } = new Command(() => { });
@@ -320,14 +352,25 @@ public class DynamicSideMenuViewModel : INotifyPropertyChanged
     private MenuItemViewModel CreateMenuItemViewModel(MenuDto dto)
     {
         MenuItemViewModel menuItem = null!;
+        
+        // Determinar la ruta según el módulo
+        string route = "HomePage";
+        var moduleNameLower = (dto.ModuleName ?? dto.Name ?? "").ToLower();
+        var nameLower = (dto.Name ?? "").ToLower();
+        
+        // Si es el módulo de Seguridad, navegar a SecurityMainPage
+        if (moduleNameLower.Contains("seguridad") || moduleNameLower.Contains("security") || 
+            nameLower.Contains("seguridad") || nameLower.Contains("security"))
+        {
+            route = "SecurityMainPage";
+        }
+        
         menuItem = new MenuItemViewModel
         {
             Id = dto.Id,
             Name = dto.Name,
             Icon = !string.IsNullOrEmpty(dto.Icon) ? dto.Icon : MenuService.GetModuleIcon(dto.ModuleName),
-            // Con la arquitectura simplificada, todo navega a HomePage
-            // HomePage se encarga de mostrar el contenido apropiado
-            Route = "HomePage",
+            Route = route,
             ParentId = dto.ParentId,
             Order = dto.Order,
             IsExpanded = dto.IsExpanded,
@@ -336,7 +379,7 @@ public class DynamicSideMenuViewModel : INotifyPropertyChanged
             // Store backend route/path para referencia futura
             BackendRoute = dto.BackendPath ?? dto.Route,
             NavigateCommand = new Command(() => NavigateToRoute(
-                "HomePage", 
+                route, 
                 dto.BackendPath ?? dto.Route))
         };
 
@@ -383,9 +426,8 @@ public class DynamicSideMenuViewModel : INotifyPropertyChanged
                 selectedItem.IsSelected = true;
             }
 
-            // Con la arquitectura simplificada, siempre navegamos a HomePage
-            // HomePage detecta el rol y carga el dashboard apropiado
-            var shellRoute = "HomePage";
+            // Usar la ruta determinada (puede ser HomePage o SecurityMainPage según el módulo)
+            var shellRoute = route;
 
             // Navegar usando NavigationHelper para validar permisos
             if (Shell.Current != null)

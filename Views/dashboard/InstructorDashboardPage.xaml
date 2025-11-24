@@ -5,17 +5,274 @@
              x:Class="AutogestionSenaMaui.Views.InstructorDashboardPage"
              Title="Dashboard - Instructor">
 
+
     <VerticalStackLayout>
         <contentViews:DashboardLayout x:Name="DashboardLayout">
             <contentViews:DashboardLayout.PageContent>
-                <VerticalStackLayout Spacing="12" Padding="20">
-                    <Label Text="Dashboard - Instructor"
-                           FontSize="26"
-                           FontFamily="Roboto-Bold"
-                           TextColor="#2E7D32"
-                           HorizontalTextAlignment="Center"/> 
-                    <Label Text="Contenido del dashboard para instructores (placeholder)." FontSize="16"/>
-                </VerticalStackLayout>
+                <ScrollView>
+                    <VerticalStackLayout Spacing="32" Padding="0,20">
+                        <!-- Título principal -->
+                        <Frame BackgroundColor="White" BorderColor="#E5E3E3" CornerRadius="10" Padding="0" Margin="0,0,0,20" HeightRequest="100" WidthRequest="999" HorizontalOptions="Center">
+                            <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
+                                <Label Text="BIENVENIDO A AUTOGESTIÓN SENA"
+                                       FontSize="36"
+                                       FontAttributes="Bold"
+                                       TextColor="#2E7D32"
+                                       HorizontalTextAlignment="Center"
+                                       Margin="0,0,0,0"/>
+                            </VerticalStackLayout>
+                        </Frame>
+
+                        <!-- Contenedor principal -->
+                        <Frame BackgroundColor="White"
+                               BorderColor="#E5E3E3"
+                               CornerRadius="10"
+                               Padding="0"
+                               Margin="0"
+                               HeightRequest="878"
+                               WidthRequest="999"
+                               HorizontalOptions="Center">
+                            <VerticalStackLayout Spacing="30" Padding="17,27">
+                                <!-- Título y botón -->
+                                <HorizontalStackLayout Spacing="10" Padding="5,0" HorizontalOptions="FillAndExpand" VerticalOptions="Start">
+                                    <Label Text="Aprendices Asignados"
+                                           FontSize="32"
+                                           FontAttributes="Bold"
+                                           TextColor="#263238"
+                                           HorizontalTextAlignment="Start"
+                                           VerticalOptions="Center"/>
+                                    <Button Text="Lista de aprendices"
+                                            BackgroundColor="#43a047"
+                                            TextColor="White"
+                                            FontSize="20"
+                                            CornerRadius="10"
+                                            HeightRequest="56"
+                                            Margin="0,0,0,0"
+                                            HorizontalOptions="EndAndExpand"
+                                            WidthRequest="431"/>
+                                </HorizontalStackLayout>
+
+                                <!-- Tarjetas resumen -->
+                                <HorizontalStackLayout Spacing="30" Padding="10,0" HorizontalOptions="Center">
+                                    <!-- Tarjeta 1: Visitas programadas -->
+                                    <Frame BackgroundColor="White"
+                                           BorderColor="#8d8d8d"
+                                           CornerRadius="10"
+                                           WidthRequest="216">
+                                        <VerticalStackLayout Spacing="20" Padding="20,0">
+                                            <HorizontalStackLayout Spacing="10">
+                                                <Label Text="Visitas programadas"
+                                                       FontSize="14"
+                                                       TextColor="Black"/>
+                                                <!-- Icono calendario -->
+                                                <Frame BackgroundColor="#7bcc7f"
+                                                       CornerRadius="20"
+                                                       HeightRequest="40"
+                                                       WidthRequest="40"
+                                                       Padding="0">
+                                                    <!-- Icono calendario aquí -->
+                                                </Frame>
+                                            </HorizontalStackLayout>
+                                            <Label Text="2"
+                                                   FontSize="27"
+                                                   FontAttributes="Bold"
+                                                   TextColor="Black"/>
+                                            <Label Text="Para esta semana"
+                                                   FontSize="14"
+                                                   TextColor="Black"/>
+                                        </VerticalStackLayout>
+                                    </Frame>
+                                    <!-- Tarjeta 2: Aprendices Asignados -->
+                                    <Frame BackgroundColor="White"
+                                           BorderColor="#8d8d8d"
+                                           CornerRadius="10"
+                                           HeightRequest="152">
+                                        <VerticalStackLayout Spacing="10" Padding="20,0">
+                                            <HorizontalStackLayout Spacing="10">
+                                                <Label Text="Aprendices Asignados"
+                                                       FontSize="13"
+                                                       TextColor="Black"/>
+                                                <Frame BackgroundColor="#7bcc7f"
+                                                       CornerRadius="20"
+                                                       HeightRequest="40"
+                                                       WidthRequest="40"
+                                                       Padding="0">
+                                                    <!-- Icono birrete aquí -->
+                                                </Frame>
+                                            </HorizontalStackLayout>
+                                            <Label Text="2"
+                                                   FontSize="27"
+                                                   FontAttributes="Bold"
+                                                   TextColor="Black"/>
+                                            <Label Text="Aprendices tienes asigados para ser evaluados"
+                                                   FontSize="13"
+                                                   TextColor="Black"/>
+                                        </VerticalStackLayout>
+                                    </Frame>
+                                    <!-- Tarjeta 3: Aprendices Evaluados -->
+                                    <Frame BackgroundColor="White"
+                                           BorderColor="#8d8d8d"
+                                           CornerRadius="10"
+                                           WidthRequest="218">
+                                        <VerticalStackLayout Spacing="20" Padding="20,0">
+                                            <HorizontalStackLayout Spacing="10">
+                                                <Label Text="Aprendices Evaluados"
+                                                       FontSize="14"
+                                                       TextColor="Black"/>
+                                                <Frame BackgroundColor="#7bcc7f"
+                                                       CornerRadius="20"
+                                                       HeightRequest="40"
+                                                       WidthRequest="40"
+                                                       Padding="0">
+                                                    <!-- Icono check aquí -->
+                                                </Frame>
+                                            </HorizontalStackLayout>
+                                            <Label Text="2"
+                                                   FontSize="27"
+                                                   FontAttributes="Bold"
+                                                   TextColor="Black"/>
+                                            <Label Text="Aprendices evaluados"
+                                                   FontSize="14"
+                                                   TextColor="Black"/>
+                                        </VerticalStackLayout>
+                                    </Frame>
+                                </HorizontalStackLayout>
+
+                                <!-- Tarjetas de detalle -->
+                                <HorizontalStackLayout Spacing="49" Padding="10,0" HorizontalOptions="Center">
+                                    <!-- Tarjeta detalle 1 -->
+                                    <Frame BackgroundColor="White"
+                                           CornerRadius="10"
+                                           Padding="10"
+                                           WidthRequest="451"
+                                           HasShadow="True">
+                                        <VerticalStackLayout Spacing="20">
+                                            <HorizontalStackLayout Spacing="10">
+                                                <Frame BackgroundColor="#F5F5F5"
+                                                       CornerRadius="20"
+                                                       HeightRequest="40"
+                                                       WidthRequest="40"
+                                                       Padding="0">
+                                                    <!-- Icono calendario aquí -->
+                                                </Frame>
+                                                <Label Text="Visita programada"
+                                                       FontSize="24"
+                                                       FontAttributes="Bold"
+                                                       TextColor="Black"/>
+                                            </HorizontalStackLayout>
+                                            <Label Text="Tienes una visita programada"
+                                                   FontSize="24"
+                                                   TextColor="Black"/>
+                                            <HorizontalStackLayout Spacing="10">
+                                                <Frame BackgroundColor="#F5F5F5"
+                                                       CornerRadius="20"
+                                                       HeightRequest="20"
+                                                       WidthRequest="20"
+                                                       Padding="0">
+                                                    <!-- Icono persona aquí -->
+                                                </Frame>
+                                                <Label Text="Carlos ruiz : 11292221893"
+                                                       FontSize="24"
+                                                       TextColor="Black"/>
+                                            </HorizontalStackLayout>
+                                            <Label Text="Programa de formación :"
+                                                   FontSize="24"
+                                                   TextColor="Black"/>
+                                            <Label Text="desarrollo de videojuegos"
+                                                   FontSize="24"
+                                                   TextColor="Black"/>
+                                            <HorizontalStackLayout Spacing="10">
+                                                <Frame BackgroundColor="#F5F5F5"
+                                                       CornerRadius="20"
+                                                       HeightRequest="20"
+                                                       WidthRequest="20"
+                                                       Padding="0">
+                                                    <!-- Icono reloj aquí -->
+                                                </Frame>
+                                                <Label Text="Mañana"
+                                                       FontSize="24"
+                                                       TextColor="Black"/>
+                                            </HorizontalStackLayout>
+                                            <Button Text="Ver detalles"
+                                                    BorderColor="#8d8d8d"
+                                                    BorderWidth="1"
+                                                    CornerRadius="10"
+                                                    HeightRequest="56"
+                                                    FontSize="20"
+                                                    BackgroundColor="White"
+                                                    TextColor="Black"
+                                                    HorizontalOptions="Fill"/>
+                                        </VerticalStackLayout>
+                                    </Frame>
+                                    <!-- Tarjeta detalle 2 (duplicada para ejemplo) -->
+                                    <Frame BackgroundColor="White"
+                                           CornerRadius="10"
+                                           Padding="10"
+                                           WidthRequest="451"
+                                           HasShadow="True">
+                                        <VerticalStackLayout Spacing="20">
+                                            <HorizontalStackLayout Spacing="10">
+                                                <Frame BackgroundColor="#F5F5F5"
+                                                       CornerRadius="20"
+                                                       HeightRequest="40"
+                                                       WidthRequest="40"
+                                                       Padding="0">
+                                                    <!-- Icono calendario aquí -->
+                                                </Frame>
+                                                <Label Text="Visita programada"
+                                                       FontSize="24"
+                                                       FontAttributes="Bold"
+                                                       TextColor="Black"/>
+                                            </HorizontalStackLayout>
+                                            <Label Text="Tienes una visita programada"
+                                                   FontSize="24"
+                                                   TextColor="Black"/>
+                                            <HorizontalStackLayout Spacing="10">
+                                                <Frame BackgroundColor="#F5F5F5"
+                                                       CornerRadius="20"
+                                                       HeightRequest="20"
+                                                       WidthRequest="20"
+                                                       Padding="0">
+                                                    <!-- Icono persona aquí -->
+                                                </Frame>
+                                                <Label Text="Carlos ruiz : 11292221893"
+                                                       FontSize="24"
+                                                       TextColor="Black"/>
+                                            </HorizontalStackLayout>
+                                            <Label Text="Programa de formación :"
+                                                   FontSize="24"
+                                                   TextColor="Black"/>
+                                            <Label Text="desarrollo de videojuegos"
+                                                   FontSize="24"
+                                                   TextColor="Black"/>
+                                            <HorizontalStackLayout Spacing="10">
+                                                <Frame BackgroundColor="#F5F5F5"
+                                                       CornerRadius="20"
+                                                       HeightRequest="20"
+                                                       WidthRequest="20"
+                                                       Padding="0">
+                                                    <!-- Icono reloj aquí -->
+                                                </Frame>
+                                                <Label Text="Mañana"
+                                                       FontSize="24"
+                                                       TextColor="Black"/>
+                                            </HorizontalStackLayout>
+                                            <Button Text="Ver detalles"
+                                                    BorderColor="#8d8d8d"
+                                                    BorderWidth="1"
+                                                    CornerRadius="10"
+                                                    HeightRequest="56"
+                                                    FontSize="20"
+                                                    BackgroundColor="White"
+                                                    TextColor="Black"
+                                                    HorizontalOptions="Fill"/>
+                                        </VerticalStackLayout>
+                                    </Frame>
+                                </HorizontalStackLayout>
+                            </VerticalStackLayout>
+                        </Frame>
+                    </VerticalStackLayout>
+                </ScrollView>
             </contentViews:DashboardLayout.PageContent>
         </contentViews:DashboardLayout>
     </VerticalStackLayout>

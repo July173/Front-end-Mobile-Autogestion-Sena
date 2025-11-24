@@ -46,6 +46,13 @@ namespace AutogestionSena.MAUI
                     "//PasswordResetPage"
                 };
 
+                // Rutas protegidas que requieren autenticación
+                var protectedRoutes = new[]
+                {
+                    "//HomePage",
+                    "//SecurityMainPage"
+                };
+
                 // Si es una ruta pública, permitir navegación
                 if (Array.Exists(publicRoutes, r => targetRoute.Contains(r)))
                 {

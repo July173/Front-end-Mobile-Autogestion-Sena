@@ -83,6 +83,7 @@ public class SecurityMainViewModel : INotifyPropertyChanged
             "Usuarios" => new Views.Security.SecurityUsersView(),
             "Roles" => new Views.Security.SecurityRolesView(),
             "Módulos" => new Views.Security.SecurityModulesView(),
+            "General" => new Views.Security.SecurityGeneralView(),
             _ => new Views.Security.SecuritySummaryView()
         };
     }

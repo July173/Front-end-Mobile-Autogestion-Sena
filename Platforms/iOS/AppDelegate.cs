@@ -1,6 +1,6 @@
 ﻿using Foundation;
 
-namespace Experiencias_Significativas_App.MAUI;
+namespace AutogestionSena.MAUI;
 
 [Register("AppDelegate")]
 public class AppDelegate : MauiUIApplicationDelegate

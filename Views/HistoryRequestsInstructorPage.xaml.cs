@@ -2,12 +2,11 @@ using Microsoft.Maui.Controls;
 
 using AutogestionSenaMaui.ContentViews;
 using AutogestionSenaMaui.Helpers;
-
 namespace AutogestionSenaMaui.Views;
 
-public partial class CoordinatorDashboardPage : ContentPage
+public partial class HistoryRequestsInstructorPage : ContentPage
 {
-    public CoordinatorDashboardPage()
+    public HistoryRequestsInstructorPage()
     {
         InitializeComponent();
     }
@@ -15,7 +14,7 @@ public partial class CoordinatorDashboardPage : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        MainLayoutHelper.UpdateCurrentBreadcrumb("Dashboard", "Coordinador");
+        MainLayoutHelper.UpdateCurrentBreadcrumb("Historial de Solicitudes", "Instructor");
     }
 
     protected override void OnDisappearing()

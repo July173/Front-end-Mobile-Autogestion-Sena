@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:contentViews="clr-namespace:AutogestionSenaMaui.ContentViews"
+             x:Class="AutogestionSenaMaui.Views.HistoryRequestsInstructorPage"
+             Title="Historial de Solicitudes - Instructor">
+
+    <VerticalStackLayout>
+        <contentViews:DashboardLayout x:Name="DashboardLayout">
+            <contentViews:DashboardLayout.PageContent>
+                <ScrollView>
+                    <VerticalStackLayout Spacing="32" Padding="17,27">
+                        <!-- Título y barra de búsqueda -->
+                        <HorizontalStackLayout Spacing="20" HorizontalOptions="FillAndExpand" VerticalOptions="Start">
+                            <Label Text="Historial de seguimientos"
+                                   FontSize="24"
+                                   FontAttributes="Bold"
+                                   TextColor="#263238"
+                                   VerticalOptions="Center"/>
+                            <Frame BackgroundColor="White" BorderColor="#c5c5c5" CornerRadius="4" HeightRequest="30" WidthRequest="229" Padding="0" VerticalOptions="Center">
+                                <HorizontalStackLayout Spacing="8" Padding="9,0">
+                                    <!-- Icono lupa (placeholder) -->
+                                    <Frame BackgroundColor="#E0E0E0" CornerRadius="10" HeightRequest="20" WidthRequest="20" Padding="0" VerticalOptions="Center"/>
+                                    <Label Text="Buscar..." FontSize="16" TextColor="#ababab" VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                            </Frame>
+                        </HorizontalStackLayout>
+
+                        <!-- Filtros -->
+                        <HorizontalStackLayout Spacing="10" HorizontalOptions="FillAndExpand">
+                            <Frame BorderColor="#a19b9b" CornerRadius="5" HeightRequest="36" WidthRequest="231" Padding="0" VerticalOptions="Center">
+                                <HorizontalStackLayout Padding="19,0">
+                                    <Label Text="Todos los estados" FontSize="14" TextColor="Black" VerticalOptions="Center"/>
+                                    <!-- Icono flecha (placeholder) -->
+                                    <Frame BackgroundColor="#E0E0E0" CornerRadius="6" HeightRequest="12" WidthRequest="12" Padding="0" VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                            </Frame>
+                            <Frame BorderColor="#757575" CornerRadius="10" HeightRequest="36" Padding="0" VerticalOptions="Center" HorizontalOptions="FillAndExpand">
+                                <HorizontalStackLayout Padding="23,0">
+                                    <Label Text="Todos los programas" FontSize="14" TextColor="Black" VerticalOptions="Center"/>
+                                    <!-- Icono flecha (placeholder) -->
+                                    <Frame BackgroundColor="#E0E0E0" CornerRadius="6" HeightRequest="12" WidthRequest="12" Padding="0" VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                            </Frame>
+                            <Frame BorderColor="#686868" CornerRadius="10" HeightRequest="36" Padding="0" VerticalOptions="Center" HorizontalOptions="FillAndExpand">
+                                <HorizontalStackLayout Padding="20,0">
+                                    <Label Text="Tipo de modalidad" FontSize="16" TextColor="Black" VerticalOptions="Center"/>
+                                    <!-- Icono flecha (placeholder) -->
+                                    <Frame BackgroundColor="#E0E0E0" CornerRadius="6" HeightRequest="12" WidthRequest="12" Padding="0" VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                            </Frame>
+                            <Frame BackgroundColor="#0c672d" CornerRadius="7" HeightRequest="38" WidthRequest="240" Padding="0" VerticalOptions="Center">
+                                <HorizontalStackLayout>
+                                    <!-- Icono guardar (placeholder) -->
+                                    <Frame BackgroundColor="#E0E0E0" CornerRadius="10" HeightRequest="22" WidthRequest="22" Padding="0" VerticalOptions="Center"/>
+                                    <Label Text="Descargar informe" FontSize="20" TextColor="White" VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                            </Frame>
+                        </HorizontalStackLayout>
+
+                        <!-- Tabla de historial -->
+                        <Frame BorderColor="#C7C7C7" CornerRadius="5" Padding="0" WidthRequest="960" HorizontalOptions="Center">
+                            <VerticalStackLayout>
+                                <!-- Encabezado -->
+                                <HorizontalStackLayout Spacing="20" Padding="42,9">
+                                    <Label Text="#" FontSize="14" TextColor="#686868" WidthRequest="30"/>
+                                    <Label Text="Nombre" FontSize="14" TextColor="#686868" WidthRequest="162"/>
+                                    <Label Text="Tipo de identificación" FontSize="14" TextColor="#686868" WidthRequest="162"/>
+                                    <Label Text="Número de identificación" FontSize="14" TextColor="#686868" WidthRequest="162"/>
+                                    <Label Text="Fecha Solicitud" FontSize="14" TextColor="#686868" WidthRequest="162"/>
+                                    <Label Text="Estado" FontSize="14" TextColor="#686868" WidthRequest="162"/>
+                                </HorizontalStackLayout>
+                                <!-- Fila ejemplo 1 -->
+                                <HorizontalStackLayout Spacing="20" Padding="0,13">
+                                    <Label Text="1" FontSize="14" TextColor="Black" WidthRequest="30"/>
+                                    <Label Text="Daniela Polania Quintero" FontSize="14" TextColor="Black" WidthRequest="162"/>
+                                    <Label Text="Tarjeta de identidad" FontSize="14" TextColor="Black" WidthRequest="162"/>
+                                    <Label Text="1016457896" FontSize="14" TextColor="Black" WidthRequest="162"/>
+                                    <Label Text="10/05/2025" FontSize="14" TextColor="Black" WidthRequest="136"/>
+                                    <Frame BackgroundColor="#d7b8ff" CornerRadius="20" HeightRequest="33" WidthRequest="180" Padding="0" VerticalOptions="Center">
+                                        <HorizontalStackLayout>
+                                            <!-- Icono archivo (placeholder) -->
+                                            <Frame BackgroundColor="#E0E0E0" CornerRadius="10" HeightRequest="23" WidthRequest="23" Padding="0" VerticalOptions="Center"/>
+                                            <Label Text="Concertación" FontSize="20" TextColor="Black" VerticalOptions="Center"/>
+                                        </HorizontalStackLayout>
+                                    </Frame>
+                                </HorizontalStackLayout>
+                                <!-- Fila ejemplo 2 -->
+                                <HorizontalStackLayout Spacing="20" Padding="0,13">
+                                    <Label Text="2" FontSize="14" TextColor="Black" WidthRequest="30"/>
+                                    <Label Text="Daniela Polania Quintero" FontSize="14" TextColor="Black" WidthRequest="162"/>
+                                    <Label Text="Tarjeta de identidad" FontSize="14" TextColor="Black" WidthRequest="162"/>
+                                    <Label Text="1016457896" FontSize="14" TextColor="Black" WidthRequest="162"/>
+                                    <Label Text="10/05/2025" FontSize="14" TextColor="Black" WidthRequest="136"/>
+                                    <Frame BackgroundColor="#ffa577" CornerRadius="20" HeightRequest="33" WidthRequest="180" Padding="0" VerticalOptions="Center">
+                                        <HorizontalStackLayout>
+                                            <!-- Icono parcial (placeholder) -->
+                                            <Frame BackgroundColor="#E0E0E0" CornerRadius="10" HeightRequest="23" WidthRequest="23" Padding="0" VerticalOptions="Center"/>
+                                            <Label Text="Visita Parcial" FontSize="20" TextColor="Black" VerticalOptions="Center"/>
+                                        </HorizontalStackLayout>
+                                    </Frame>
+                                </HorizontalStackLayout>
+                                <!-- Fila ejemplo 3 -->
+                                <HorizontalStackLayout Spacing="20" Padding="0,13">
+                                    <Label Text="3" FontSize="14" TextColor="Black" WidthRequest="30"/>
+                                    <Label Text="Daniela Polania Quintero" FontSize="14" TextColor="Black" WidthRequest="162"/>
+                                    <Label Text="Tarjeta de identidad" FontSize="14" TextColor="Black" WidthRequest="162"/>
+                                    <Label Text="1016457896" FontSize="14" TextColor="Black" WidthRequest="162"/>
+                                    <Label Text="10/05/2025" FontSize="14" TextColor="Black" WidthRequest="136"/>
+                                    <Frame BackgroundColor="#fed801" CornerRadius="20" HeightRequest="33" WidthRequest="180" Padding="0" VerticalOptions="Center">
+                                        <HorizontalStackLayout>
+                                            <!-- Icono final (placeholder) -->
+                                            <Frame BackgroundColor="#E0E0E0" CornerRadius="10" HeightRequest="23" WidthRequest="23" Padding="0" VerticalOptions="Center"/>
+                                            <Label Text="Visita Final" FontSize="20" TextColor="Black" VerticalOptions="Center"/>
+                                        </HorizontalStackLayout>
+                                    </Frame>
+                                </HorizontalStackLayout>
+                                <!-- Fila ejemplo 4 -->
+                                <HorizontalStackLayout Spacing="20" Padding="0,13">
+                                    <Label Text="4" FontSize="14" TextColor="Black" WidthRequest="30"/>
+                                    <Label Text="Daniela Polania Quintero" FontSize="14" TextColor="Black" WidthRequest="162"/>
+                                    <Label Text="Tarjeta de identidad" FontSize="14" TextColor="Black" WidthRequest="162"/>
+                                    <Label Text="1016457896" FontSize="14" TextColor="Black" WidthRequest="162"/>
+                                    <Label Text="10/05/2025" FontSize="14" TextColor="Black" WidthRequest="136"/>
+                                    <Frame BackgroundColor="#7bcc7f" CornerRadius="20" HeightRequest="33" WidthRequest="180" Padding="0" VerticalOptions="Center">
+                                        <HorizontalStackLayout>
+                                            <!-- Icono final (placeholder) -->
+                                            <Frame BackgroundColor="#E0E0E0" CornerRadius="10" HeightRequest="23" WidthRequest="23" Padding="0" VerticalOptions="Center"/>
+                                            <Label Text="Visita Final" FontSize="20" TextColor="Black" VerticalOptions="Center"/>
+                                        </HorizontalStackLayout>
+                                    </Frame>
+                                </HorizontalStackLayout>
+                                <!-- Fila ejemplo 5 (roja) -->
+                                <HorizontalStackLayout Spacing="20" Padding="0,13">
+                                    <Label Text="5" FontSize="14" TextColor="Black" WidthRequest="30"/>
+                                    <Label Text="Daniela Polania Quintero" FontSize="14" TextColor="Black" WidthRequest="162"/>
+                                    <Label Text="Tarjeta de identidad" FontSize="14" TextColor="Black" WidthRequest="162"/>
+                                    <Label Text="1016457896" FontSize="14" TextColor="Black" WidthRequest="162"/>
+                                    <Label Text="10/05/2025" FontSize="14" TextColor="Black" WidthRequest="136"/>
+                                    <Frame BackgroundColor="#f35656" CornerRadius="20" HeightRequest="33" WidthRequest="174" Padding="0" VerticalOptions="Center">
+                                        <HorizontalStackLayout>
+                                            <!-- Icono final (placeholder) -->
+                                            <Frame BackgroundColor="#E0E0E0" CornerRadius="10" HeightRequest="23" WidthRequest="23" Padding="0" VerticalOptions="Center"/>
+                                            <Label Text="Visita Final" FontSize="20" TextColor="Black" VerticalOptions="Center"/>
+                                        </HorizontalStackLayout>
+                                    </Frame>
+                                </HorizontalStackLayout>
+                            </VerticalStackLayout>
+                        </Frame>
+
+                        <!-- Botones de paginación -->
+                        <HorizontalStackLayout Spacing="15" HorizontalOptions="End" WidthRequest="950">
+                            <Frame BorderColor="#a19b9b" CornerRadius="5" WidthRequest="78" Padding="7,0">
+                                <HorizontalStackLayout Spacing="3">
+                                    <!-- Icono anterior (placeholder) -->
+                                    <Frame BackgroundColor="#E0E0E0" CornerRadius="5" HeightRequest="10" WidthRequest="10" Padding="0" VerticalOptions="Center"/>
+                                    <Label Text="Anterior" FontSize="12" TextColor="#686868" VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                            </Frame>
+                            <Frame BorderColor="#a19b9b" CornerRadius="5" Padding="8,0">
+                                <HorizontalStackLayout Spacing="2">
+                                    <Label Text="Siguiente" FontSize="12" TextColor="#686868" VerticalOptions="Center"/>
+                                    <!-- Icono siguiente (placeholder) -->
+                                    <Frame BackgroundColor="#E0E0E0" CornerRadius="5" HeightRequest="10" WidthRequest="10" Padding="0" VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                            </Frame>
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
+                </ScrollView>
+            </contentViews:DashboardLayout.PageContent>
+        </contentViews:DashboardLayout>
+    </VerticalStackLayout>
+
+</ContentPage>

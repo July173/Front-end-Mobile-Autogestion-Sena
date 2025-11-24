@@ -38,5 +38,9 @@
     <!-- HomePage - Dashboard dinámico según rol con MainLayout integrado -->
     <ShellContent Route="HomePage" 
                   ContentTemplate="{DataTemplate mauidash:HomePage}" />
+    
+    <!-- SecurityMainPage - Módulo de Seguridad -->
+    <ShellContent Route="SecurityMainPage" 
+                  ContentTemplate="{DataTemplate mauidash:Security.SecurityMainPage}" />
 
 </Shell>
