@@ -39,6 +39,7 @@ namespace AutogestionSenaMaui.ContentViews
             {
                 try
                 {
+                    System.Diagnostics.Debug.WriteLine("[TopBar] OnMenuButtonClicked - invoking MenuButtonClicked");
                     MenuButtonClicked?.Invoke(this, EventArgs.Empty);
                     return;
                 }
@@ -52,6 +53,7 @@ namespace AutogestionSenaMaui.ContentViews
             var mainPage = Application.Current?.MainPage;
             if (mainPage is Shell shell)
             {
+                System.Diagnostics.Debug.WriteLine("[TopBar] No subscribers for MenuButtonClicked - opening Shell.FlyoutIsPresented as fallback");
                 shell.FlyoutIsPresented = true;
             }
         }

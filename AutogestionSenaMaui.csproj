@@ -83,6 +83,9 @@
 		<MauiXaml Remove="Resources\NewFolder\**" />
 		<None Remove="Resources\NewFolder\**" />
 		<None Remove="Tests\**\*" />
+		<!-- Explicit include for Android colors resources to satisfy AAPT -->
+		<AndroidResource Include="Platforms\Android\Resources\values\colors.xml" />
+		<AndroidResource Include="Resources\values\colors.xml" Condition="Exists('Resources\values\colors.xml')" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -7,30 +7,11 @@
     <Grid BackgroundColor="White">
         
         <!-- Contenido Principal -->
-        <Grid RowDefinitions="*">
-            <!-- Contenido dinámico con scroll -->
-            <ScrollView Grid.Row="0">
-                <ContentView x:Name="MainContent" Padding="0,20">
-                    <!-- El contenido se cargará dinámicamente desde el código -->
-                </ContentView>
-            </ScrollView>
-        </Grid>
-
-        <!-- Overlay oscuro (cuando el menú está abierto) -->
-        <BoxView x:Name="MenuOverlay"
-                 BackgroundColor="Black"
-                 Opacity="0"
-                 IsVisible="False"
-                 InputTransparent="True">
-            <BoxView.GestureRecognizers>
-                <TapGestureRecognizer Tapped="OnOverlayTapped"/>
-            </BoxView.GestureRecognizers>
-        </BoxView>
-
-        <!-- Menú Lateral Dinámico (deslizante) -->
-        <contentViews:DynamicSideMenu x:Name="SideMenu"
-                                      HorizontalOptions="Start"
-                                      TranslationX="-320"/>
+        <ScrollView>
+            <ContentView x:Name="MainContent" Padding="0,20">
+                <!-- El contenido se cargará dinámicamente desde el código -->
+            </ContentView>
+        </ScrollView>
 
     </Grid>
 

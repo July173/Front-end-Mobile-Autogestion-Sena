@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using System.Linq;
+using Microsoft.Maui.Controls;
 
 namespace AutogestionSenaMaui.ViewModels;
 
@@ -428,14 +429,29 @@ public class DynamicSideMenuViewModel : INotifyPropertyChanged
 
     private async void OnOpenProfile()
     {
-        // Navegar a la página de perfil
-        if (Shell.Current != null)
+        // Request to close the side menu first (if any)
+        try
         {
-            await Shell.Current.GoToAsync("//profile");
+            // Inform any listeners (eg. DashboardLayout) that they should close the side menu
+            MessagingCenter.Send(this, "CloseSideMenu");
         }
-        else
+        catch { }
+
+        // Navegar a la página de perfil (route registered in AppShell)
+        try
         {
-            System.Diagnostics.Debug.WriteLine("[NAV] Shell.Current es null, no se pudo navegar a profile");
+            if (Shell.Current != null)
+            {
+                await Shell.Current.GoToAsync(nameof(AutogestionSenaMaui.Views.ProfilePage));
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine("[NAV] Shell.Current es null, no se pudo navegar a profile");
+            }
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"[NAV] Error navigating to profile: {ex}");
         }
     }
 

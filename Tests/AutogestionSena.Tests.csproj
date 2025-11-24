@@ -27,6 +27,8 @@
     <Compile Include="..\Validators\LoginValidator.cs" Link="Validators\LoginValidator.cs" />
     <Compile Include="..\Validators\AuthenticationValidators.cs" Link="Validators\AuthenticationValidators.cs" />
     <Compile Include="..\Api\Dtos\AssignmentDto.cs" Link="Dtos\AssignmentDto.cs" />
+    <Compile Include="..\Helpers\SideMenuLayoutHelper.cs" Link="Helpers\SideMenuLayoutHelper.cs" />
+    <Compile Include="SideMenuLayoutHelperTests.cs" />
   </ItemGroup>
 
 </Project>

@@ -4,9 +4,11 @@
  xmlns:vm="clr-namespace:AutogestionSenaMaui.ViewModels"
  x:Class="AutogestionSenaMaui.ContentViews.DynamicSideMenu"
  x:DataType="vm:DynamicSideMenuViewModel">
+    
 
- <Border BackgroundColor="#388E3C"
- WidthRequest="306"
+ <Border x:Name="RootBorder" BackgroundColor="#388E3C"
+ VerticalOptions="Start"
+ HorizontalOptions="Start"
  Padding="2,12">
  <Border.StrokeShape>
  <RoundRectangle CornerRadius="20"/>
