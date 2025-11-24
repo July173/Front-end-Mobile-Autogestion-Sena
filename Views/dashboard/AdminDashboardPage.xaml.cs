@@ -6,6 +6,7 @@ using AutogestionSenaMaui.ViewModels;
 using AutogestionSena.MAUI.Api.Services;
 using AutogestionSena.MAUI.Api.Dtos;
 using Microsoft.Maui.Controls;
+using AutogestionSenaMaui.Helpers;
 using AutogestionSena.MAUI.Api;
 
 namespace AutogestionSenaMaui.Views
@@ -64,6 +65,8 @@ namespace AutogestionSenaMaui.Views
             {
                 System.Diagnostics.Debug.WriteLine($"[AdminDashboard] Error cargando datos: {ex}");
             }
+            // Configurar breadcrumb en el MainLayout TopBar
+            MainLayoutHelper.UpdateCurrentBreadcrumb("Dashboard", "Administración");
         }
 
         protected override void OnDisappearing()
@@ -75,7 +78,10 @@ namespace AutogestionSenaMaui.Views
                 _autoRefreshTimer.Dispose();
                 _autoRefreshTimer = null;
             }
+            // (TopBar is in MainLayout; menu toggling is handled by MainLayoutPage)
         }
+
+        // Removed local OnTopBarMenuClicked: handled by MainLayoutPage globally
 
         /// <summary>
         /// Carga los datos de debug: usuario y menú

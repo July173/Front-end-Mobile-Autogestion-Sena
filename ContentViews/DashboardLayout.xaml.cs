@@ -12,12 +12,6 @@ public partial class DashboardLayout : ContentView
         this.Loaded += DashboardLayout_Loaded;
     }
 
-    // Propiedad para establecer el texto del breadcrumb actual
-    public string CurrentPage
-    {
-        get => BreadcrumbCurrent.Text;
-        set => BreadcrumbCurrent.Text = value;
-    }
 
     // Propiedad para establecer el contenido principal
     public View PageContent
@@ -95,6 +89,15 @@ public partial class DashboardLayout : ContentView
         {
             await CloseMenu();
         }
+    }
+
+    // Método público para alternar el estado del menú (abrir/cerrar) desde fuera
+    public async Task ToggleMenuAsync()
+    {
+        if (_isMenuOpen)
+            await CloseMenu();
+        else
+            await OpenMenu();
     }
 
     private async void DashboardLayout_Loaded(object? sender, EventArgs e)

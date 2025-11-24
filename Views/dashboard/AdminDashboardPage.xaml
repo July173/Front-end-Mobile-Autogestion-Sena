@@ -7,10 +7,11 @@
              Title="Dashboard - Administración"
              BackgroundColor="#F5F5F5">
 
-    <contentViews:DashboardLayout x:Name="DashboardLayout">
-        <contentViews:DashboardLayout.PageContent>
-            <ScrollView>
-                <VerticalStackLayout Spacing="20" Padding="20">
+       <VerticalStackLayout>
+              <contentViews:DashboardLayout x:Name="DashboardLayout">
+                     <contentViews:DashboardLayout.PageContent>
+                            <ScrollView>
+                                   <VerticalStackLayout Spacing="20" Padding="20">
                     
                     <!-- Título Principal -->
                     <Label Text="BIENVENIDO A AUTOGESTIÓN SENA" 
@@ -338,8 +339,9 @@
                         </VerticalStackLayout>
                     </Frame>
 
-                </VerticalStackLayout>
-            </ScrollView>
-        </contentViews:DashboardLayout.PageContent>
-    </contentViews:DashboardLayout>
+                                   </VerticalStackLayout>
+                            </ScrollView>
+                     </contentViews:DashboardLayout.PageContent>
+              </contentViews:DashboardLayout>
+       </VerticalStackLayout>
 </ContentPage>

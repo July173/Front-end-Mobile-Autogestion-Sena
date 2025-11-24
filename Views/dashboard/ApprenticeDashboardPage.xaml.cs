@@ -2,6 +2,8 @@ using Microsoft.Maui.Controls;
 using AutogestionSenaMaui.ViewModels;
 using Microsoft.Maui.Storage;
 using AutogestionSena.MAUI.Api.Services;
+using AutogestionSenaMaui.ContentViews;
+using AutogestionSenaMaui.Helpers;
 
 namespace AutogestionSenaMaui.Views;
 
@@ -10,7 +12,6 @@ public partial class ApprenticeDashboardPage : ContentPage
     public ApprenticeDashboardPage()
     {
         InitializeComponent();
-        DashboardLayout.CurrentPage = "Inicio - Aprendiz";
     }
 
     protected override async void OnAppearing()
@@ -20,6 +21,9 @@ public partial class ApprenticeDashboardPage : ContentPage
         // Set BindingContext and load dashboard data
         var vm = new ApprenticeDashboardViewModel();
         BindingContext = vm;
+
+        // Cambiar el breadcrumb en el MainLayout TopBar
+        MainLayoutHelper.UpdateCurrentBreadcrumb("Dashboard", "Aprendiz");
 
         try
         {
@@ -31,7 +35,7 @@ public partial class ApprenticeDashboardPage : ContentPage
                 // TODO: Implementar ApprenticeService completo
                 // var svc = new AutogestionSena.MAUI.Api.Services.ApprenticeService();
                 // var apprentice = await svc.GetApprenticeByPersonAsync(personId);
-                
+
                 // Temporal: usar personId directamente
                 if (true) // apprentice != null
                 {
@@ -43,5 +47,10 @@ public partial class ApprenticeDashboardPage : ContentPage
         {
             System.Diagnostics.Debug.WriteLine($"[ApprenticeDashboardPage] Error OnAppearing load dashboard: {ex}");
         }
+    }
+
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
     }
 }

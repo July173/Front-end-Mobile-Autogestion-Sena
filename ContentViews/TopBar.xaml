@@ -3,125 +3,77 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:converters="clr-namespace:AutogestionSenaMaui.Converters"
              x:Class="AutogestionSenaMaui.ContentViews.TopBar">
-    
     <ContentView.Resources>
         <ResourceDictionary>
             <converters:StringNotEmptyConverter x:Key="StringNotEmptyConverter"/>
         </ResourceDictionary>
     </ContentView.Resources>
-    
-    <!-- Frame 425: TopBar con breadcrumb navigation y notificaciones -->
-    <Border BackgroundColor="White"
-            Stroke="Transparent"
-            StrokeThickness="0"
-            Padding="16,12">
-        
-        <Border.Shadow>
-            <Shadow Brush="Black"
-                    Opacity="0.1"
-                    Offset="0,2"
-                    Radius="4"/>
-        </Border.Shadow>
-        
-        <Grid ColumnDefinitions="Auto,*,Auto"
-              ColumnSpacing="16">
-            
-            <!-- Breadcrumb Navigation -->
-            <HorizontalStackLayout Grid.Column="0"
-                                   Spacing="8"
-                                   VerticalOptions="Center">
-                
-                <Label Text="Dashboard"
+    <Border BackgroundColor="#DFE3E8"
+            Padding="20,10"
+            Margin="0">
+        <Border.StrokeShape>
+            <RoundRectangle CornerRadius="10"/>
+        </Border.StrokeShape>
+        <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,Auto">
+            <!-- Botón de menú hamburguesa -->
+            <Label Grid.Row="0" Grid.Column="0"
+                   Text="&#xf479;"
+                   FontFamily="BootstrapIcons"
+                   FontSize="36"
+                   TextColor="#263238"
+                   HorizontalOptions="Start"
+                   VerticalOptions="Center"
+                   Margin="0,0,0,10">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnMenuButtonClicked"/>
+                </Label.GestureRecognizers>
+            </Label>
+            <!-- Breadcrumb -->
+            <HorizontalStackLayout Grid.Row="1" Grid.Column="0"
+                                  Spacing="10"
+                                  Padding="10,0">
+                <Label x:Name="BreadcrumbRoot"
+                       Text="Dashboard"
                        FontSize="14"
-                       TextColor="#39A900"
-                       FontAttributes="Bold"
+                       FontFamily="Roboto-Regular"
+                       TextColor="#263238"
+                       Opacity="0.5"
                        VerticalOptions="Center"/>
-                
                 <Label Text=">"
                        FontSize="14"
-                       TextColor="#666666"
-                       VerticalOptions="Center"
-                       IsVisible="{Binding ActiveModule, Converter={StaticResource StringNotEmptyConverter}}"/>
-                
-                <Label Text="{Binding ActiveModule}"
-                       FontSize="14"
-                       TextColor="#333333"
-                       VerticalOptions="Center"
-                       IsVisible="{Binding ActiveModule, Converter={StaticResource StringNotEmptyConverter}}"/>
-                
-                <Label Text=">"
-                       FontSize="14"
-                       TextColor="#666666"
-                       VerticalOptions="Center"
-                       IsVisible="{Binding ActiveFormName, Converter={StaticResource StringNotEmptyConverter}}"/>
-                
-                <Label Text="{Binding ActiveFormName}"
-                       FontSize="14"
-                       TextColor="#333333"
-                       FontAttributes="Bold"
-                       VerticalOptions="Center"
-                       IsVisible="{Binding ActiveFormName, Converter={StaticResource StringNotEmptyConverter}}"/>
-                
+                       FontFamily="Roboto-Regular"
+                       TextColor="#607D8B"
+                       VerticalOptions="Center"/>
+                <Label x:Name="BreadcrumbCurrent"
+                       Text="Inicio"
+                       FontSize="20"
+                       FontFamily="Roboto-Regular"
+                       TextColor="#263238"
+                       VerticalOptions="Center"/>
             </HorizontalStackLayout>
-            
-            <!-- Spacer -->
-            <BoxView Grid.Column="1"
-                     Color="Transparent"/>
-            
-            <!-- Notifications Icon -->
-            <Border Grid.Column="2"
-                    BackgroundColor="#F5F5F5"
-                    StrokeThickness="1"
-                    Stroke="#E0E0E0"
-                    Padding="12,8"
-                    HeightRequest="40"
-                    WidthRequest="40"
-                    HorizontalOptions="End"
+            <!-- Notificaciones -->
+            <Border Grid.Row="0" Grid.RowSpan="2" Grid.Column="1"
+                    BackgroundColor="Transparent"
+                    Padding="10"
                     VerticalOptions="Center">
-                
                 <Border.StrokeShape>
                     <RoundRectangle CornerRadius="8"/>
                 </Border.StrokeShape>
-                
                 <Border.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding NotificationsCommand}"/>
+                    <TapGestureRecognizer Tapped="OnNotificationsTapped"/>
                 </Border.GestureRecognizers>
-                
-                <Grid>
-                    <!-- Bell Icon (Unicode) -->
-                    <Label Text="&#xf599;"
+                <HorizontalStackLayout Spacing="10">
+                    <Label Text="&#xf234;"
                            FontFamily="BootstrapIcons"
                            FontSize="20"
-                           TextColor="#39A900"
-                           HorizontalOptions="Center"
+                           TextColor="#607D8B"/>
+                    <Label Text="Notificaciones"
+                           FontSize="14"
+                           FontFamily="Roboto-Regular"
+                           TextColor="Black"
                            VerticalOptions="Center"/>
-                    
-                    <!-- Badge de notificaciones pendientes -->
-                    <Border BackgroundColor="#DC395F"
-                            StrokeThickness="0"
-                            WidthRequest="18"
-                            HeightRequest="18"
-                            HorizontalOptions="End"
-                            VerticalOptions="Start"
-                            Margin="-4,-4,0,0"
-                            IsVisible="{Binding HasUnreadNotifications}">
-                        
-                        <Border.StrokeShape>
-                            <RoundRectangle CornerRadius="9"/>
-                        </Border.StrokeShape>
-                        
-                        <Label Text="{Binding UnreadNotificationsCount}"
-                               FontSize="10"
-                               TextColor="White"
-                               FontAttributes="Bold"
-                               HorizontalOptions="Center"
-                               VerticalOptions="Center"/>
-                    </Border>
-                </Grid>
+                </HorizontalStackLayout>
             </Border>
-            
         </Grid>
-        
     </Border>
-    
 </ContentView>

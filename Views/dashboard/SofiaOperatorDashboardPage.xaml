@@ -5,17 +5,19 @@
              x:Class="AutogestionSenaMaui.Views.SofiaOperatorDashboardPage"
              Title="Dashboard - Operador SofiaPlus">
 
-    <contentViews:DashboardLayout x:Name="DashboardLayout">
-        <contentViews:DashboardLayout.PageContent>
-            <VerticalStackLayout Spacing="12" Padding="20">
-                <Label Text="Dashboard - Operador SofiaPlus"
-                       FontSize="26"
-                       FontFamily="Roboto-Bold"
-                       TextColor="#2E7D32"
-                       HorizontalTextAlignment="Center"/> 
-                <Label Text="Contenido del dashboard para operadores SofiaPlus (placeholder)." FontSize="16"/>
-            </VerticalStackLayout>
-        </contentViews:DashboardLayout.PageContent>
-    </contentViews:DashboardLayout>
+    <VerticalStackLayout>
+        <contentViews:DashboardLayout x:Name="DashboardLayout">
+            <contentViews:DashboardLayout.PageContent>
+                <VerticalStackLayout Spacing="12" Padding="20">
+                    <Label Text="Dashboard - Operador SofiaPlus"
+                           FontSize="26"
+                           FontFamily="Roboto-Bold"
+                           TextColor="#2E7D32"
+                           HorizontalTextAlignment="Center"/> 
+                    <Label Text="Contenido del dashboard para operadores SofiaPlus (placeholder)." FontSize="16"/>
+                </VerticalStackLayout>
+            </contentViews:DashboardLayout.PageContent>
+        </contentViews:DashboardLayout>
+    </VerticalStackLayout>
 
 </ContentPage>
