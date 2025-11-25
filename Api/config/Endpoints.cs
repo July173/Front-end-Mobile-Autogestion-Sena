@@ -17,9 +17,9 @@ namespace AutogestionSena.MAUI.Api
         {
 #if ANDROID
             // Usando la IP directa de la máquina en la red
-            return "http://192.168.1.13:8000/api/";
+            return "http://10.3.232.121:8000/api/";
 #elif IOS
-            return "http://192.168.1.13:8000/api/";
+            return "http://10.3.232.121:8000/api/";
 #else
             return "http://localhost:8000/api/";
 #endif

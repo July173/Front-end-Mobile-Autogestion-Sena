@@ -74,14 +74,13 @@ namespace AutogestionSena.MAUI.Api.Dtos
 
     public class PasswordResetRequestResponse
     {
-        public string? Detail { get; set; }
-        public string? Code { get; set; }  // Código de recuperación que retorna el backend
-        public bool Success { get; set; }
+        public string? code { get; set; }  // Código de recuperación que retorna el backend
+        public string? fecha_expiracion { get; set; }  // Fecha de expiración del código
+        public string? success { get; set; }  // Mensaje de éxito
     }
 
     public class PasswordResetResponse
     {
-        public string? Detail { get; set; }
-        public bool Success { get; set; }
+      public string? success { get; set; } // Mensaje de éxito: "Contraseña actualizada correctamente."
     }
 }

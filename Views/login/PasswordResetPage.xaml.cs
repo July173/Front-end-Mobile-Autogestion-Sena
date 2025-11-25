@@ -100,30 +100,52 @@ namespace AutogestionSena.MAUI.Views
                 return;
             }
 
+            // Nota: El código ya fue validado en CodeVerificationPage antes de llegar aquí
+            // No necesitamos validar el código nuevamente ni enviarlo al API
+            System.Diagnostics.Debug.WriteLine($"[PASSWORD-RESET] El código {_code} ya fue validado previamente. Procediendo con reset de contraseña para email: {_email}");
+
             try
             {
-                // Intentar restablecer contraseña y obtener la respuesta parseada
-                var parsed = await _apiService.ResetPasswordParsedAsync(_email, newPassword);
-
-                if (parsed != null && parsed.Success)
+                // Mostrar indicador de carga
+                if (ResetButton != null)
                 {
-                    await DisplayAlert("Éxito", "Tu contraseña ha sido restablecida correctamente.", "Aceptar");
+                    ResetButton.IsEnabled = false;
+                    ResetButton.Text = "Restableciendo...";
+                }
+
+                // Restablecer contraseña enviando SOLO email y nueva contraseña al endpoint
+                // El código NO se envía al API, solo se usó para validación local
+                var result = await _apiService.ResetPasswordAsync(_email, newPassword);
+
+                if (result != null && !string.IsNullOrEmpty(result.success))
+                {
+                    // Mostrar el mensaje de éxito del servidor
+                    await DisplayAlert("Éxito", result.success, "Aceptar");
 
                     // Volver al login
                     await Shell.Current.GoToAsync("///LoginPage");
                 }
                 else
                 {
-                    string detail = "No se pudo restablecer la contraseña.";
-                    if (parsed != null && !string.IsNullOrEmpty(parsed.Detail)) detail = parsed.Detail;
-                    await DisplayAlert("Error", detail, "Aceptar");
+                    // Si no hay respuesta o está vacía
+                    await DisplayAlert("Error", "No se pudo restablecer la contraseña. Por favor intenta nuevamente.", "Aceptar");
                 }
             }
             catch (Exception ex)
             {
+                System.Diagnostics.Debug.WriteLine($"[PASSWORD-RESET] Error: {ex.Message}");
                 await DisplayAlert("Error", 
                     $"Error al restablecer contraseña: {ex.Message}", 
                     "Aceptar");
+            }
+            finally
+            {
+                // Restaurar botón
+                if (ResetButton != null)
+                {
+                    ResetButton.IsEnabled = true;
+                    ResetButton.Text = "Restablecer contraseña";
+                }
             }
         }
 

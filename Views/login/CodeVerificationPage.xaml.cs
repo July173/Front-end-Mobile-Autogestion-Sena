@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Maui.Controls;
 using AutogestionSena.MAUI.Api.Services;
 using AutogestionSena.MAUI.Api.Dtos;
@@ -115,21 +117,43 @@ namespace AutogestionSena.MAUI.Views
                 return;
             }
 
+            // Validaciones de formato
+            if (code.Length != 6)
+            {
+                await DisplayAlert("Error", "El código debe tener exactamente 6 dígitos.", "Aceptar");
+                return;
+            }
+
+            if (!code.All(char.IsDigit))
+            {
+                await DisplayAlert("Error", "El código solo debe contener números.", "Aceptar");
+                return;
+            }
+
             try
             {
                 if (_isPasswordReset)
                 {
-                    // Flujo de recuperación de contraseña
-                    // El código será validado en el backend cuando se envíe junto con la nueva contraseña
-                    // Navegar a la pantalla de cambio de contraseña con email y código (URL-encoded)
+                    // Flujo de recuperación de contraseña - validar código localmente
+                    if (!ValidateStoredCode(code))
+                    {
+                        await DisplayAlert("Error", "Código inválido o expirado. Por favor solicita un nuevo código.", "Aceptar");
+                        return;
+                    }
+
+                    // Si el código es válido, navegar a la pantalla de cambio de contraseña
                     var encodedEmail = Uri.EscapeDataString(_email);
                     var encodedCode = Uri.EscapeDataString(code ?? string.Empty);
-                    System.Diagnostics.Debug.WriteLine($"[DEBUG] Navigating to PasswordResetPage with email={_email} code={code}");
+                    System.Diagnostics.Debug.WriteLine($"[DEBUG] Código validado correctamente. Navegando a PasswordResetPage con email={_email} code={code}");
+
+                    // Limpiar los datos del código una vez validado
+                    Preferences.Remove("password_reset_data");
+
                     await Shell.Current.GoToAsync($"///PasswordResetPage?email={encodedEmail}&code={encodedCode}");
                 }
                 else
                 {
-                    // Flujo de 2FA para login
+                    // Flujo de 2FA para login - validar con el servidor
                     var result = await _apiService.ValidateSecondFactorAsync(new SecondFactorRequest
                     {
                         Email = _email,
@@ -148,7 +172,7 @@ namespace AutogestionSena.MAUI.Views
                         {
                             System.Diagnostics.Debug.WriteLine($"[NAV] Error saving tokens to Preferences: {ex}");
                         }
-                        
+
 
                         // Guardar datos del usuario (asegurar que el json tenga firstName y roleId para el menú dinámico)
                         int roleId = 0;
@@ -206,8 +230,6 @@ namespace AutogestionSena.MAUI.Views
                             System.Diagnostics.Debug.WriteLine($"[NAV] Error setting token in UserService: {ex}");
                         }
 
-                        // Notificar a subscriptores (DynamicSideMenuViewModel) que el usuario ha iniciado sesión
-
                         // Navegar a la página correspondiente según el roleId. Default: MainDashboard
                         int navigateRoleId = 0;
                         if (result.User != null) navigateRoleId = result.User.Role;
@@ -215,18 +237,18 @@ namespace AutogestionSena.MAUI.Views
 
                         // Navegar a HomePage que cargará el dashboard apropiado según el rol
                         string route = "HomePage";
-                        
+
                         System.Diagnostics.Debug.WriteLine($"[CODE-VERIFY] Usuario con rol {navigateRoleId} ({NavigationHelper.GetRoleName(navigateRoleId)}) será redirigido a: {route}");
 
-                            // Notificar a subscriptores (DynamicSideMenuViewModel) que el usuario ha iniciado sesión
-                            try
-                            {
-                                AuthEvents.NotifyUserLoggedIn(navigateRoleId, firstName, result.Access ?? string.Empty);
-                            }
-                            catch (Exception exEvent)
-                            {
-                                System.Diagnostics.Debug.WriteLine($"[NAV] AuthEvents.NotifyUserLoggedIn failed: {exEvent}");
-                            }
+                        // Notificar a subscriptores (DynamicSideMenuViewModel) que el usuario ha iniciado sesión
+                        try
+                        {
+                            AuthEvents.NotifyUserLoggedIn(navigateRoleId, firstName, result.Access ?? string.Empty);
+                        }
+                        catch (Exception exEvent)
+                        {
+                            System.Diagnostics.Debug.WriteLine($"[NAV] AuthEvents.NotifyUserLoggedIn failed: {exEvent}");
+                        }
 
                         try
                         {
@@ -247,7 +269,92 @@ namespace AutogestionSena.MAUI.Views
             }
             catch (Exception ex)
             {
+                System.Diagnostics.Debug.WriteLine($"[CODE-VERIFY] Error: {ex.Message}");
                 await DisplayAlert("Error", $"Error al verificar código: {ex.Message}", "Aceptar");
+            }
+        }
+
+        private void OnCodeTextChanged(object sender, TextChangedEventArgs e)
+        {
+  // Validar que solo se ingresen números
+  if (sender is Entry entry)
+      {
+         var newText = e.NewTextValue;
+                if (!string.IsNullOrEmpty(newText))
+             {
+// Filtrar solo números
+   var numericText = new string(newText.Where(char.IsDigit).ToArray());
+   
+          // Limitar a 6 caracteres
+         if (numericText.Length > 6)
+          {
+            numericText = numericText.Substring(0, 6);
+ }
+      
+             // Solo actualizar si hay cambios para evitar bucles infinitos
+       if (numericText != newText)
+      {
+      entry.Text = numericText;
+       }
+      }
+     }
+        }
+
+        private bool ValidateStoredCode(string inputCode)
+  {
+       try
+ {
+      // Obtener los datos guardados del código
+      var codeDataJson = Preferences.Get("password_reset_data", string.Empty);
+    if (string.IsNullOrEmpty(codeDataJson))
+      {
+            System.Diagnostics.Debug.WriteLine("[CODE-VALIDATION] No hay datos de código guardados");
+                    return false;
+     }
+
+ var codeData = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(codeDataJson);
+         if (codeData == null || !codeData.ContainsKey("code"))
+      {
+     System.Diagnostics.Debug.WriteLine("[CODE-VALIDATION] Datos de código inválidos");
+      return false;
+            }
+
+   var storedCode = codeData["code"]?.ToString();
+           var expirationDate = codeData.ContainsKey("fecha_expiracion") ? codeData["fecha_expiracion"]?.ToString() : null;
+
+        System.Diagnostics.Debug.WriteLine($"[CODE-VALIDATION] Código guardado: {storedCode}");
+                System.Diagnostics.Debug.WriteLine($"[CODE-VALIDATION] Código ingresado: {inputCode}");
+      System.Diagnostics.Debug.WriteLine($"[CODE-VALIDATION] Fecha expiración: {expirationDate}");
+
+         // Validar fecha de expiración si está disponible
+          if (!string.IsNullOrEmpty(expirationDate))
+    {
+            try
+        {
+     // Formato esperado: "24/11/2025 22:19"
+    if (DateTime.TryParseExact(expirationDate, "dd/MM/yyyy HH:mm", null, System.Globalization.DateTimeStyles.None, out DateTime expiry))
+             {
+                if (DateTime.Now > expiry)
+         {
+          System.Diagnostics.Debug.WriteLine("[CODE-VALIDATION] Código expirado");
+          return false;
+   }
+          }
+         }
+      catch (Exception ex)
+        {
+             System.Diagnostics.Debug.WriteLine($"[CODE-VALIDATION] Error validando expiración: {ex.Message}");
+      // Si no podemos validar la fecha, continuamos con la validación del código
+        }
+                }
+
+           // Validar el código
+    return !string.IsNullOrEmpty(storedCode) && storedCode.Equals(inputCode, StringComparison.OrdinalIgnoreCase);
+         }
+    catch (Exception ex)
+    {
+        System.Diagnostics.Debug.WriteLine($"[CODE-VALIDATION] Error validando código: {ex.Message}");
+         return false;
             }
         }
     }

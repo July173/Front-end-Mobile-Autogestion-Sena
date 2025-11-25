@@ -74,6 +74,15 @@ namespace AutogestionSena.MAUI.Api.Services
         }
 
         /// <summary>
+        /// Restablece la contraseña usando email, código de verificación y nueva contraseña
+        /// </summary>
+        public async Task<PasswordResetResponse?> ResetPasswordAsync(string email, string newPassword, string code)
+        {
+            var payload = new { email, new_password = newPassword, code };
+            return await _apiService.PostAsync<object, PasswordResetResponse>(Endpoints.User.ResetPassword, payload);
+        }
+
+        /// <summary>
         /// Restablece la contraseña usando email y nueva contraseña
         /// </summary>
         public async Task<PasswordResetResponse?> ResetPasswordAsync(string email, string newPassword)
@@ -86,6 +95,15 @@ namespace AutogestionSena.MAUI.Api.Services
         /// Envía la petición de restablecimiento y devuelve el HttpResponseMessage crudo para escenarios donde
         /// la respuesta no puede deserializarse al DTO esperado. Esto ayuda en UIs que deben reaccionar al status code.
         /// </summary>
+        public async Task<System.Net.Http.HttpResponseMessage?> ResetPasswordRawAsync(string email, string newPassword, string code)
+        {
+            var payload = new { email, new_password = newPassword, code };
+            return await _apiService.PostAsync<object>(Endpoints.User.ResetPassword, payload);
+        }
+
+        /// <summary>
+        /// Envía la petición de restablecimiento y devuelve el HttpResponseMessage crudo (método original para compatibilidad)
+        /// </summary>
         public async Task<System.Net.Http.HttpResponseMessage?> ResetPasswordRawAsync(string email, string newPassword)
         {
             var payload = new { email, new_password = newPassword };
@@ -94,6 +112,16 @@ namespace AutogestionSena.MAUI.Api.Services
 
         /// <summary>
         /// Envía la petición de restablecimiento y devuelve un objeto parseado con éxito / detalle / status code.
+        /// </summary>
+        public async Task<AutogestionSena.MAUI.Api.Dtos.ApiResponseParsedDto?> ResetPasswordParsedAsync(string email, string newPassword, string code)
+        {
+            var response = await ResetPasswordRawAsync(email, newPassword, code);
+            if (response == null) return null;
+            return await _apiService.ParseApiResponseAsync(response);
+        }
+
+        /// <summary>
+        /// Envía la petición de restablecimiento y devuelve un objeto parseado (método original para compatibilidad)
         /// </summary>
         public async Task<AutogestionSena.MAUI.Api.Dtos.ApiResponseParsedDto?> ResetPasswordParsedAsync(string email, string newPassword)
         {

@@ -6,6 +6,9 @@ namespace AutogestionSenaMaui.Helpers
     {
         // Simple event to notify that a user logged in
         public static event EventHandler<UserLoggedInEventArgs>? UserLoggedIn;
+        
+        // Simple event to notify that a user logged out
+        public static event EventHandler? UserLoggedOut;
 
         public static void NotifyUserLoggedIn(int roleId, string firstName, string accessToken)
         {
@@ -15,6 +18,11 @@ namespace AutogestionSenaMaui.Helpers
                 FirstName = firstName,
                 AccessToken = accessToken
             });
+        }
+
+        public static void NotifyUserLoggedOut()
+        {
+            UserLoggedOut?.Invoke(null, EventArgs.Empty);
         }
     }
 

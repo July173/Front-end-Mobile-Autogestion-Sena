@@ -48,7 +48,15 @@
             <!-- Input código -->
             <Frame BorderColor="#e0e0e0" CornerRadius="8" BackgroundColor="White" Padding="0" HasShadow="False" HorizontalOptions="FillAndExpand">
               <Grid Padding="10,8" VerticalOptions="Center" HorizontalOptions="FillAndExpand">
-                    <Entry x:Name="CodeEntry" Placeholder="Código de recuperación" FontSize="16" TextColor="#90A4AE" FontFamily="Roboto-Regular" HorizontalOptions="FillAndExpand"/>
+                    <Entry x:Name="CodeEntry" 
+   Placeholder="Código de recuperación" 
+  FontSize="16" 
+       TextColor="#90A4AE" 
+   FontFamily="Roboto-Regular" 
+  HorizontalOptions="FillAndExpand"
+          Keyboard="Numeric"
+    MaxLength="6"
+       TextChanged="OnCodeTextChanged"/>
                 </Grid>
             </Frame>
             <!-- Botón Verificar Código -->
