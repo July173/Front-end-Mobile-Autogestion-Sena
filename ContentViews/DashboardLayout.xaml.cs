@@ -10,13 +10,36 @@ public partial class DashboardLayout : ContentView
         InitializeComponent();
         // Cuando el componente se haya cargado, intentar seleccionar el dashboard por defecto
         this.Loaded += DashboardLayout_Loaded;
+      
+        // 🔧 ARREGLADO: Asegurar que el BindingContext se propague correctamente
+        this.BindingContextChanged += DashboardLayout_BindingContextChanged;
     }
 
     // Propiedad para establecer el contenido principal
     public View PageContent
     {
         get => MainContent.Content;
-        set => MainContent.Content = value;
+        set 
+        {
+            MainContent.Content = value;
+   
+            // 🔧 ARREGLADO: Propagar el BindingContext al contenido
+            if (value != null && this.BindingContext != null)
+            {
+                value.BindingContext = this.BindingContext;
+            }
+        }
+    }
+
+    private void DashboardLayout_BindingContextChanged(object? sender, EventArgs e)
+    {
+        // 🔧 ARREGLADO: Propagar el BindingContext al contenido cuando cambie
+        if (MainContent.Content != null && this.BindingContext != null)
+        {
+            MainContent.Content.BindingContext = this.BindingContext;
+        }
+        
+        System.Diagnostics.Debug.WriteLine($"📋 [DashboardLayout] BindingContext changed to: {this.BindingContext?.GetType().Name ?? "null"}");
     }
 
     private async void OnNotificationsTapped(object sender, EventArgs e)

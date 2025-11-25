@@ -17,11 +17,11 @@ namespace AutogestionSena.MAUI.Api
         {
 #if ANDROID
             // Usando la IP directa de la máquina en la red
-            return "http://10.3.232.121:8000/api/";
+            return "http://10.3.234.91:8001/api/";
 #elif IOS
-            return "http://10.3.232.121:8000/api/";
+            return "http://10.3.234.91:8001/api/";
 #else
-            return "http://localhost:8000/api/";
+            return "http://10.3.234.91:8001/api/";
 #endif
         }
 
@@ -93,12 +93,16 @@ namespace AutogestionSena.MAUI.Api
 
         public static class Instructor
         {
-            public static string AllInstructores => $"{API_BASE_URL}general/instructors/Create-Instructor/create/";
-            public static string GetAllInstructores => $"{API_BASE_URL}general/instructors/";
-            public static string PutIdInstructor(int id) => $"{API_BASE_URL}general/instructors/{id}/Create-Instructor/update/";
-            public static string GetCustomList => $"{API_BASE_URL}general/instructors/custom-list/";
-            public static string PatchLimit(int id) => $"{API_BASE_URL}general/instructors/{id}/update-learners/";
-            public static string FilterInstructores => $"{API_BASE_URL}general/instructors/filter/";
+            // 🔧 CORREGIDO: Usar endpoints relativos
+            public static string AllInstructores => "general/instructors/Create-Instructor/create/";
+            public static string GetAllInstructores => "general/instructors/";
+            public static string PutIdInstructor(int id) => $"general/instructors/{id}/Create-Instructor/update/";
+            public static string GetCustomList => "general/instructors/custom-list/";
+            public static string PatchLimit(int id) => $"general/instructors/{id}/update-learners/";
+            public static string FilterInstructores => "general/instructors/filter/";
+    
+            // 🔧 NUEVO: Endpoint para obtener instructor por ID
+            public static string GetInstructor(int instructorId) => $"general/instructors/{instructorId}/";
         }
 
         public static class Regional
@@ -151,7 +155,22 @@ namespace AutogestionSena.MAUI.Api
 
         public static class Assignment
         {
-            public static string GetFormRequestList => $"{API_BASE_URL}assign/request_asignation/form-request-list/";
+            // 🔧 CORREGIDO: Usar endpoints relativos
+            public static string GetFormRequestList => "assign/request_asignation/form-request-list/";
+            public static string GetApprenticeDashboard(int apprenticeId) 
+            {
+                // 🔧 CORREGIDO: Usar 'aprendiz_id' en lugar de 'apprentice_id'
+                var endpoint = $"assign/request_asignation/aprendiz-dashboard/?aprendiz_id={apprenticeId}";
+                System.Diagnostics.Debug.WriteLine($"🔗 [Endpoints] GetApprenticeDashboard construida:");
+                System.Diagnostics.Debug.WriteLine($"   📊 ApprenticeId: {apprenticeId}");
+                System.Diagnostics.Debug.WriteLine($"   🔗 Endpoint relativo: {endpoint}");
+                System.Diagnostics.Debug.WriteLine($"   🏠 Base URL disponible: {API_BASE_URL}");
+                return endpoint;
+            }
+      
+            // 🔧 NUEVO: Endpoints adicionales detectados en los logs
+            public static string GetEnterprise(int enterpriseId) => $"assign/enterprise/{enterpriseId}/";
+            public static string GetModalityProductiveStage => "assign/modality_productive_stage/";
         }
 
         public static class ApprenticeSimple

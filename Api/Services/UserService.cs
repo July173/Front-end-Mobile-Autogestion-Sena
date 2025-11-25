@@ -31,9 +31,44 @@ namespace AutogestionSena.MAUI.Api.Services
         /// <summary>
         /// Obtiene un usuario por su ID
         /// </summary>
-        public async Task<User?> GetUserByIdAsync(int id)
+        public async Task<UserDetailDto?> GetUserByIdAsync(int id)
         {
-            return await _apiService.GetAsync<User>(Endpoints.User.GetUserId(id));
+            try
+            {
+                System.Diagnostics.Debug.WriteLine($"🔍 [UserService] Obteniendo datos completos del usuario ID: {id}");
+                System.Diagnostics.Debug.WriteLine($"🔗 [UserService] Endpoint: {Endpoints.User.GetUserId(id)}");
+
+                var result = await _apiService.GetAsync<UserDetailDto>(Endpoints.User.GetUserId(id));
+
+                if (result != null)
+                {
+                    System.Diagnostics.Debug.WriteLine($"✅ [UserService] Usuario obtenido: {result.Email}");
+                    System.Diagnostics.Debug.WriteLine($"👤 [UserService] Role ID: {result.Role?.Id}, Type: {result.Role?.TypeRole}");
+
+                    if (result.Apprentice != null)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"🎓 [UserService] Apprentice ID: {result.Apprentice.Id}");
+                        System.Diagnostics.Debug.WriteLine($"📋 [UserService] Ficha: {result.Apprentice.Ficha}");
+                        System.Diagnostics.Debug.WriteLine($"🎯 [UserService] Programa: {result.Apprentice.Programa?.Name}");
+                    }
+
+                    if (result.Instructor != null)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"👨‍🏫 [UserService] Instructor ID: {result.Instructor.Id}");
+                    }
+                }
+                else
+                {
+                    System.Diagnostics.Debug.WriteLine($"⚠️ [UserService] No se encontraron datos para el usuario ID: {id}");
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"❌ [UserService] Error obteniendo usuario ID {id}: {ex.Message}");
+                throw;
+            }
         }
 
         /// <summary>
