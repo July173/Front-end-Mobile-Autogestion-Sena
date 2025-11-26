@@ -29,13 +29,13 @@ namespace AutogestionSena.MAUI.Api
         {
 #if ANDROID
             // Para Android usamos la IP directa
-            return $"http://{BASE_IP}:{BASE_PORT}/api/";
+            return $"http://{BASE_IP}/api/";
 #elif IOS
             // Para iOS usamos la IP de la red local
-            return $"http://{BASE_IP}:{BASE_PORT}/api/";
+            return $"http://{BASE_IP}/api/";
 #else
             // Para Windows y otras plataformas
-            return $"http://{BASE_IP}:{BASE_PORT}/api/";
+            return $"http://{BASE_IP}/api/";
 #endif
         }
 
