@@ -28,29 +28,7 @@
                   Padding="15,0"
                   Command="{Binding RefreshCommand}" />
         </Grid>
-      
-        <!-- Mensaje de diagnóstico (visible solo si hay problemas) -->
-        <Frame BackgroundColor="#FFF3CD" 
-               BorderColor="#F0AD4E" 
-               CornerRadius="8" 
-               Padding="12" 
-               IsVisible="{Binding ShowDiagnosticMessage}">
-          <VerticalStackLayout Spacing="8">
-            <Label Text="{Binding DiagnosticMessage}" 
-                   FontSize="14" 
-                   TextColor="#856404" 
-                   LineBreakMode="WordWrap" />
-            <Button Text="🔍 Diagnosticar Conexión" 
-                    Command="{Binding DiagnoseConnectionCommand}"
-                    BackgroundColor="#F0AD4E" 
-                    TextColor="White" 
-                    CornerRadius="6" 
-                    FontSize="12" 
-                    HeightRequest="35" 
-                    HorizontalOptions="FillAndExpand" />
-          </VerticalStackLayout>
-        </Frame>
-   
+         
         <!-- Saludo principal -->
         <Frame BackgroundColor="White"
                CornerRadius="10"
@@ -61,32 +39,35 @@
             <BoxView HeightRequest="20"
                      BackgroundColor="#2E7D32"
                      CornerRadius="10,10,0,0" />
-            <HorizontalStackLayout Spacing="15" Padding="20,15">
+            <VerticalStackLayout Spacing="10" Padding="10,10" HorizontalOptions="Center" VerticalOptions="Center">
               <Frame BackgroundColor="#CCCCCC"
                      CornerRadius="35"
                      HeightRequest="60"
                      WidthRequest="60"
                      Padding="5"
+                     HorizontalOptions="Center"
                      VerticalOptions="Center" />
-              <Grid VerticalOptions="Center">
-                <Grid.RowDefinitions>
-                  <RowDefinition Height="Auto" />
-                  <RowDefinition Height="Auto" />
-                  <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <Label Grid.Row="0" Text="¡Bienvenido!"
-                       FontSize="24"
-                       FontAttributes="Bold"
-                       TextColor="Black" />
-                <Label Grid.Row="1" Text="{Binding ApprenticeName}"
-                       FontSize="18"
-                       TextColor="Black"
-                       FontAttributes="Bold" />
-                <Label Grid.Row="2" Text="Gestiona desde aquí tus procesos de formación"
-                       FontSize="14"
-                       TextColor="#666666" />
-              </Grid>
-            </HorizontalStackLayout>
+              <Label Text="¡Bienvenido!"
+                     FontSize="20"
+                     FontAttributes="Bold"
+                     TextColor="Black"
+                     HorizontalTextAlignment="Center"
+                     LineBreakMode="WordWrap"
+                     MaxLines="1" />
+              <Label Text="{Binding ApprenticeName}"
+                     FontSize="16"
+                     TextColor="Black"
+                     FontAttributes="Bold"
+                     HorizontalTextAlignment="Center"
+                     LineBreakMode="TailTruncation"
+                     MaxLines="2" />
+              <Label Text="Gestiona desde aquí tus procesos de formación"
+                     FontSize="13"
+                     TextColor="#666666"
+                     HorizontalTextAlignment="Center"
+                     LineBreakMode="WordWrap"
+                     MaxLines="2" />
+            </VerticalStackLayout>
           </VerticalStackLayout>
         </Frame>
 
@@ -205,26 +186,59 @@
                 <Label Text="Detalle de la solicitud"
                        FontSize="18"
                        FontAttributes="Bold"
-                       TextColor="#333333" />
-                <Grid ColumnDefinitions="Auto,*"
-                      RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto"
-                      ColumnSpacing="10"
-                      RowSpacing="8">
-                  <Label Grid.Row="0" Text="Empresa:" FontAttributes="Bold" TextColor="#333" />
-                  <Label Grid.Row="0" Grid.Column="1" Text="{Binding EnterpriseName}" TextColor="#555" />
-                  <Label Grid.Row="1" Text="Jefe inmediato:" FontAttributes="Bold" TextColor="#333" />
-                  <Label Grid.Row="1" Grid.Column="1" Text="{Binding BossName}" TextColor="#555" />
-                  <Label Grid.Row="2" Text="Modalidad:" FontAttributes="Bold" TextColor="#333" />
-                  <Label Grid.Row="2" Grid.Column="1" Text="{Binding ModalityDisplay}" TextColor="#555" />
-                  <Label Grid.Row="3" Text="Ciudad:" FontAttributes="Bold" TextColor="#333" />
-                  <Label Grid.Row="3" Grid.Column="1" Text="{Binding CityDisplay}" TextColor="#555" />
-                  <Label Grid.Row="4" Text="Fecha solicitud:" FontAttributes="Bold" TextColor="#333" />
-                  <Label Grid.Row="4" Grid.Column="1" Text="{Binding RequestDateDisplay}" TextColor="#555" />
-                  <Label Grid.Row="5" Text="Inicio etapa:" FontAttributes="Bold" TextColor="#333" />
-                  <Label Grid.Row="5" Grid.Column="1" Text="{Binding StartDateDisplay}" TextColor="#555" />
-                  <Label Grid.Row="6" Text="Fin etapa:" FontAttributes="Bold" TextColor="#333" />
-                  <Label Grid.Row="6" Grid.Column="1" Text="{Binding EndDateDisplay}" TextColor="#555" />
-                </Grid>
+                       TextColor="#333333"
+                       HorizontalTextAlignment="Center" />
+                <VerticalStackLayout Spacing="8">
+                  <Label Text="Empresa:"
+                         FontAttributes="Bold"
+                         TextColor="#333"
+                         FontSize="15" />
+                  <Label Text="{Binding EnterpriseName}"
+                         TextColor="#555"
+                         FontSize="14" />
+                  <Label Text="Jefe inmediato:"
+                         FontAttributes="Bold"
+                         TextColor="#333"
+                         FontSize="15" />
+                  <Label Text="{Binding BossName}"
+                         TextColor="#555"
+                         FontSize="14" />
+                  <Label Text="Modalidad:"
+                         FontAttributes="Bold"
+                         TextColor="#333"
+                         FontSize="15" />
+                  <Label Text="{Binding ModalityDisplay}"
+                         TextColor="#555"
+                         FontSize="14" />
+                  <Label Text="Ciudad:"
+                         FontAttributes="Bold"
+                         TextColor="#333"
+                         FontSize="15" />
+                  <Label Text="{Binding CityDisplay}"
+                         TextColor="#555"
+                         FontSize="14" />
+                  <Label Text="Fecha solicitud:"
+                         FontAttributes="Bold"
+                         TextColor="#333"
+                         FontSize="15" />
+                  <Label Text="{Binding RequestDateDisplay}"
+                         TextColor="#555"
+                         FontSize="14" />
+                  <Label Text="Inicio etapa:"
+                         FontAttributes="Bold"
+                         TextColor="#333"
+                         FontSize="15" />
+                  <Label Text="{Binding StartDateDisplay}"
+                         TextColor="#555"
+                         FontSize="14" />
+                  <Label Text="Fin etapa:"
+                         FontAttributes="Bold"
+                         TextColor="#333"
+                         FontSize="15" />
+                  <Label Text="{Binding EndDateDisplay}"
+                         TextColor="#555"
+                         FontSize="14" />
+                </VerticalStackLayout>
                 <Button Text="Descargar soporte"
                         BackgroundColor="#FFFFFF"
                         TextColor="#2E7D32"
@@ -248,48 +262,6 @@
                        HorizontalTextAlignment="Center" />
               </VerticalStackLayout>
             </VerticalStackLayout>
-          </VerticalStackLayout>
-        </Frame>
-
-        <!-- Acciones rápidas -->
-        <Frame BackgroundColor="White"
-               CornerRadius="10"
-               Padding="20"
-               HasShadow="True"
-               HorizontalOptions="FillAndExpand">
-          <VerticalStackLayout Spacing="15">
-            <Label Text="Acciones Rápidas"
-                   FontSize="18"
-                   FontAttributes="Bold"
-                   TextColor="#333333" />
-            <Grid ColumnDefinitions="*,*,*" ColumnSpacing="10">
-              <Button Grid.Column="0"
-                      Text="🔄 Actualizar"
-                      BackgroundColor="#2E7D32"
-                      TextColor="White"
-                      CornerRadius="10"
-                      FontSize="13"
-                      HeightRequest="45"
-                      Command="{Binding RefreshCommand}" />
-              <Button Grid.Column="1"
-                      Text="👤 Ver Perfil"
-                      BackgroundColor="White"
-                      TextColor="#2E7D32"
-                      BorderColor="#2E7D32"
-                      BorderWidth="1"
-                      CornerRadius="10"
-                      FontSize="13"
-                      HeightRequest="45" />
-              <Button Grid.Column="2"
-                      Text="📞 Soporte"
-                      BackgroundColor="White"
-                      TextColor="#2E7D32"
-                      BorderColor="#2E7D32"
-                      BorderWidth="1"
-                      CornerRadius="10"
-                      FontSize="13"
-                      HeightRequest="45" />
-            </Grid>
           </VerticalStackLayout>
         </Frame>
       </VerticalStackLayout>

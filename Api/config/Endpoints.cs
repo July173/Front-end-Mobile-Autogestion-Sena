@@ -6,22 +6,28 @@ using System.Threading.Tasks;
 
 namespace AutogestionSena.MAUI.Api
 {
-    public static class Endpoints{
-
+    public static class Endpoints
+    {
+        // Configuración centralizada de IP
+        private const string BASE_IP = "192.168.1.12";
+        private const string BASE_PORT = "8000";
+        
         // Configuración de URL base según la plataforma
         // Para emulador Android: usa 10.0.2.2 en lugar de localhost/127.0.0.1
-        // Para dispositivo físico Android: usa la IP de tu red local (192.168.1.18)
+        // Para dispositivo físico Android: usa la IP de tu red local
         // Para iOS: usa la IP de tu red local
         // Para Windows: usa localhost o la IP de tu red local
         private static string GetBaseUrl()
         {
 #if ANDROID
-            // Usando la IP directa de la máquina en la red
-            return "http://10.3.234.91:8001/api/";
+            // Para Android usamos la IP directa
+            return $"http://{BASE_IP}:{BASE_PORT}/api/";
 #elif IOS
-            return "http://10.3.234.91:8001/api/";
+            // Para iOS usamos la IP de la red local
+            return $"http://{BASE_IP}:{BASE_PORT}/api/";
 #else
-            return "http://10.3.234.91:8001/api/";
+            // Para Windows y otras plataformas
+            return $"http://{BASE_IP}:{BASE_PORT}/api/";
 #endif
         }
 
