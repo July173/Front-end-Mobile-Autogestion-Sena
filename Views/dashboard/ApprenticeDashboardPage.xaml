@@ -11,6 +11,24 @@
     <ScrollView IsVisible="{Binding IsLoading, Converter={StaticResource InvertBoolConverter}}">
       <VerticalStackLayout Spacing="20" Padding="16,20">
       
+        <!-- Barra superior con botón de actualizar -->
+        <Grid ColumnDefinitions="*,Auto" Margin="0,0,0,5">
+          <Label Text="Mi Dashboard"
+                 FontSize="22"
+                 FontAttributes="Bold"
+                 TextColor="#333333"
+                 VerticalOptions="Center" />
+          <Button Grid.Column="1"
+                  Text="🔄 Actualizar"
+                  BackgroundColor="#2E7D32"
+                  TextColor="White"
+                  CornerRadius="8"
+                  FontSize="14"
+                  HeightRequest="40"
+                  Padding="15,0"
+                  Command="{Binding RefreshCommand}" />
+        </Grid>
+      
         <!-- Mensaje de diagnóstico (visible solo si hay problemas) -->
         <Frame BackgroundColor="#FFF3CD" 
                BorderColor="#F0AD4E" 
@@ -244,25 +262,33 @@
                    FontSize="18"
                    FontAttributes="Bold"
                    TextColor="#333333" />
-            <Grid ColumnDefinitions="*,*" ColumnSpacing="15">
+            <Grid ColumnDefinitions="*,*,*" ColumnSpacing="10">
               <Button Grid.Column="0"
-                      Text="Ver Perfil"
-                      BackgroundColor="White"
-                      TextColor="#2E7D32"
-                      BorderColor="#2E7D32"
-                      BorderWidth="1"
+                      Text="🔄 Actualizar"
+                      BackgroundColor="#2E7D32"
+                      TextColor="White"
                       CornerRadius="10"
-                      FontSize="14"
-                      HeightRequest="40" />
+                      FontSize="13"
+                      HeightRequest="45"
+                      Command="{Binding RefreshCommand}" />
               <Button Grid.Column="1"
-                      Text="Contactar Soporte"
+                      Text="👤 Ver Perfil"
                       BackgroundColor="White"
                       TextColor="#2E7D32"
                       BorderColor="#2E7D32"
                       BorderWidth="1"
                       CornerRadius="10"
-                      FontSize="14"
-                      HeightRequest="40" />
+                      FontSize="13"
+                      HeightRequest="45" />
+              <Button Grid.Column="2"
+                      Text="📞 Soporte"
+                      BackgroundColor="White"
+                      TextColor="#2E7D32"
+                      BorderColor="#2E7D32"
+                      BorderWidth="1"
+                      CornerRadius="10"
+                      FontSize="13"
+                      HeightRequest="45" />
             </Grid>
           </VerticalStackLayout>
         </Frame>

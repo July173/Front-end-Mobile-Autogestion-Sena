@@ -212,6 +212,53 @@ System.Diagnostics.Debug.WriteLine($"📍 [ApiService] StackTrace: {ex.StackTrac
         }
 
         /// <summary>
+        /// Realiza una petición GET y retorna el JSON crudo como string
+        /// Útil cuando el formato de respuesta puede variar (array vs objeto)
+        /// </summary>
+        public async Task<string?> GetRawAsync(string endpoint)
+        {
+            try
+            {
+                System.Diagnostics.Debug.WriteLine($"");
+                System.Diagnostics.Debug.WriteLine($"🌐 [ApiService] ===== PETICIÓN GET RAW =====");
+                System.Diagnostics.Debug.WriteLine($"🔗 [ApiService] Endpoint: {endpoint}");
+
+                string finalUrl;
+                bool isFullUrl = Uri.IsWellFormedUriString(endpoint, UriKind.Absolute);
+                
+                if (isFullUrl)
+                {
+                    finalUrl = endpoint;
+                }
+                else
+                {
+                    finalUrl = $"{_httpClient.BaseAddress}{endpoint}";
+                }
+
+                System.Diagnostics.Debug.WriteLine($"🔗 [ApiService] URL Final: {finalUrl}");
+
+                var response = await _httpClient.GetAsync(finalUrl);
+                var content = await response.Content.ReadAsStringAsync();
+
+                System.Diagnostics.Debug.WriteLine($"📊 [ApiService] Status: {(int)response.StatusCode} - {response.StatusCode}");
+                System.Diagnostics.Debug.WriteLine($"📄 [ApiService] Content Length: {content?.Length ?? 0} chars");
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    System.Diagnostics.Debug.WriteLine($"❌ [ApiService] Error Response: {content}");
+                    throw new Exception($"Error {(int)response.StatusCode}: {content}");
+                }
+
+                return content;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"❌ [ApiService] GetRawAsync Error: {ex.Message}");
+                throw;
+            }
+        }
+
+        /// <summary>
         /// Diagnostica la conexión al servidor
         /// </summary>
         public async Task<(bool isConnected, string message)> DiagnoseConnectionAsync()

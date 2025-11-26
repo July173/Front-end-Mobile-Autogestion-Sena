@@ -110,7 +110,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Image Source="https://www.figma.com/api/mcp/asset/8ff54c37-b100-4f2b-af9b-561ab83a9a18" HeightRequest="16" WidthRequest="16" VerticalOptions="Center"/>
-                            <Entry x:Name="DocumentoEntry" Grid.Column="1" Placeholder="Número de documento" FontSize="13" TextColor="#424242" FontFamily="Roboto-Regular" BackgroundColor="White"/>
+                            <Entry x:Name="DocumentoEntry" Grid.Column="1" Placeholder="Número de documento" FontSize="13" TextColor="#424242" FontFamily="Roboto-Regular" BackgroundColor="White" Keyboard="Numeric"/>
                         </Grid>
                     </Frame>
                     <Frame Grid.Column="1" BorderColor="#e5e7eb" CornerRadius="6" Padding="0" HasShadow="False" BackgroundColor="White">
@@ -120,19 +120,24 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Image Source="https://www.figma.com/api/mcp/asset/b184b380-4530-446a-b126-00aa309fd6ed" HeightRequest="16" WidthRequest="16" VerticalOptions="Center"/>
-                            <Entry x:Name="TelefonoEntry" Grid.Column="1" Placeholder="Teléfono" FontSize="16" TextColor="#424242" FontFamily="Roboto-Regular" BackgroundColor="White"/>
+                            <Entry x:Name="TelefonoEntry" Grid.Column="1" Placeholder="Teléfono" FontSize="16" TextColor="#424242" FontFamily="Roboto-Regular" BackgroundColor="White" Keyboard="Telephone" MaxLength="10"/>
                         </Grid>
                     </Frame>
                 </Grid>
                 <!-- Términos y condiciones -->
                 <HorizontalStackLayout Spacing="5" VerticalOptions="Center">
-                    <CheckBox Color="#388e3c"/>
-                    <Label Text="Acepto los " FontSize="14" TextColor="#757575" FontFamily="Roboto-Regular"/>
-                    <Label Text="términos y condiciones" FontSize="14" TextColor="#43a047" FontFamily="Roboto-Regular"/>
+                    <CheckBox x:Name="TermsCheckbox" Color="#388e3c"/>
+                    <Label Text="Acepto los " FontSize="14" TextColor="#757575" FontFamily="Roboto-Regular" VerticalOptions="Center"/>
+                    <Label Text="términos y condiciones" FontSize="14" TextColor="#43a047" FontFamily="Roboto-Regular" VerticalOptions="Center">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnTermsClicked"/>
+                        </Label.GestureRecognizers>
+                    </Label>
                 </HorizontalStackLayout>
             </VerticalStackLayout>
             <!-- Botón Registrarse -->
-            <Button Text="Registrarse"
+            <Button x:Name="RegisterButton"
+                    Text="Registrarse"
                     BackgroundColor="#388e3c"
                     TextColor="White"
                     FontFamily="Roboto-SemiBold"

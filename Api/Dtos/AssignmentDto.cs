@@ -109,6 +109,9 @@ namespace AutogestionSena.MAUI.Api.Dtos
         [JsonPropertyName("email_enterprise")]
         public string? Email { get; set; }
 
+        [JsonPropertyName("immediate_boss")]
+        public string? ImmediateBoss { get; set; }
+
         [JsonPropertyName("active")]
         public bool Active { get; set; }
     }
@@ -116,13 +119,14 @@ namespace AutogestionSena.MAUI.Api.Dtos
     /// <summary>
     /// DTO para los datos de modalidad de etapa productiva
     /// Usado para GET assign/modality_productive_stage/
+    /// Estructura real: {"id":2,"name_modality":"Vínculo Laboral","description":"...","active":true}
     /// </summary>
     public class ModalityProductiveStageDto
     {
         [JsonPropertyName("id")]
         public int Id { get; set; }
 
-        [JsonPropertyName("name")]
+        [JsonPropertyName("name_modality")]
         public string? Name { get; set; }
 
         [JsonPropertyName("description")]
@@ -130,12 +134,6 @@ namespace AutogestionSena.MAUI.Api.Dtos
 
         [JsonPropertyName("active")]
         public bool Active { get; set; }
-
-        [JsonPropertyName("duration_months")]
-        public int? DurationMonths { get; set; }
-
-        [JsonPropertyName("requires_enterprise")]
-        public bool RequiresEnterprise { get; set; }
     }
 
     /// <summary>
@@ -251,15 +249,57 @@ namespace AutogestionSena.MAUI.Api.Dtos
   public long? InstructorNumberIdentification { get; set; }
 
         [JsonPropertyName("instructor_phone_number")]
-   public long? InstructorPhoneNumber { get; set; }
+        public long? InstructorPhoneNumber { get; set; }
 
- [JsonPropertyName("instructor_type_identification")]
-     public int? InstructorTypeIdentification { get; set; }
+        [JsonPropertyName("instructor_type_identification")]
+        public string? InstructorTypeIdentification { get; set; }
 
         [JsonPropertyName("instructor_knowledge_area")]
         public string? InstructorKnowledgeArea { get; set; }
 
   [JsonPropertyName("instructor_email")]
         public string? InstructorEmail { get; set; }
+    }
+
+    /// <summary>
+    /// DTO para la respuesta del dashboard cuando NO hay instructor asignado (array)
+    /// Usado para GET assign/request_asignation/aprendiz-dashboard/?aprendiz_id={id}
+    /// cuando el estado es PRE-APROBADO o similar
+    /// Estructura: [{"id":1,"apprentice":1,"enterprise":1,"modality_productive_stage":2,...}]
+    /// </summary>
+    public class ApprenticeDashboardBasicApiResponse
+    {
+        [JsonPropertyName("id")]
+        public int Id { get; set; }
+
+        [JsonPropertyName("apprentice")]
+        public int Apprentice { get; set; }
+
+        [JsonPropertyName("enterprise")]
+        public int Enterprise { get; set; }
+
+        [JsonPropertyName("modality_productive_stage")]
+        public int ModalityProductiveStage { get; set; }
+
+        [JsonPropertyName("request_date")]
+        public string? RequestDate { get; set; }
+
+        [JsonPropertyName("date_start_production_stage")]
+        public string? DateStartProductionStage { get; set; }
+
+        [JsonPropertyName("start_date")]
+        public string? StartDate { get; set; }
+
+        [JsonPropertyName("end_date")]
+        public string? EndDate { get; set; }
+
+        [JsonPropertyName("pdf_request")]
+        public string? PdfRequest { get; set; }
+
+        [JsonPropertyName("pdf_url")]
+        public string? PdfUrl { get; set; }
+
+        [JsonPropertyName("request_state")]
+        public string? RequestState { get; set; }
     }
 }
