@@ -26,7 +26,7 @@ namespace AutogestionSena.MAUI
             builder.Logging.AddDebug();
             builder.Logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Debug);
 #else
-            builder.Logging.SetMinimumLevel(LogLevel.Warning);
+            builder.Logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Warning);
 #endif
 
             // Registrar servicio de logging como singleton

@@ -479,22 +479,7 @@ public class DynamicSideMenuViewModel : INotifyPropertyChanged
         }
         catch { }
 
-        // Navegar a la página de perfil (route registered in AppShell)
-        try
-        {
-            if (Shell.Current != null)
-            {
-                await Shell.Current.GoToAsync(nameof(AutogestionSenaMaui.Views.ProfilePage));
-            }
-            else
-            {
-                System.Diagnostics.Debug.WriteLine("[NAV] Shell.Current es null, no se pudo navegar a profile");
-            }
-        }
-        catch (Exception ex)
-        {
-            System.Diagnostics.Debug.WriteLine($"[NAV] Error navigating to profile: {ex}");
-        }
+        
     }
 
     private async Task OnLogoutAsync()

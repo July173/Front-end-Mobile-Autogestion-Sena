@@ -107,9 +107,19 @@ Proyecto MAUI que incluye vistas para autenticación, perfil y manejo de experie
 
 	4. **Generar APK para distribución (Release):**
 	   ```powershell
-	   dotnet publish -f net8.0-android -c Release -p:AndroidPackageFormat=apk -o ./publish/android
+	   # El proyecto ya está configurado para generar APK por defecto
+	   dotnet publish -f net8.0-android -c Release
 	   ```
-	   El APK estará en: `./publish/android/com.companyname.autogestionsenamaui-Signed.apk`
+	   El APK estará en: `bin/Release/net8.0-android/publish/com.companyname.autogestionsena.maui-Signed.apk`
+
+	   **Comandos alternativos:**
+	   ```powershell
+	   # Forzar formato APK (si el .csproj no tiene la configuración)
+	   dotnet publish -f net8.0-android -c Release /p:AndroidPackageFormat=apk
+
+	   # Generar AAB para Google Play Store
+	   dotnet publish -f net8.0-android -c Release /p:AndroidPackageFormat=aab
+	   ```
 
 	5. **Instalar APK manualmente (opcional):**
 	   ```powershell

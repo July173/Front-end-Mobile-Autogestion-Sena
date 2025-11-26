@@ -8,9 +8,17 @@ namespace AutogestionSena.MAUI.Api
 {
     public static class Endpoints
     {
-        // Configuración centralizada de IP
-        private const string BASE_IP = "192.168.1.12";
-        private const string BASE_PORT = "8000";
+        // ============================================
+        // CONFIGURACIÓN DEL SERVIDOR
+        // ============================================
+        // 🔧 DESARROLLO LOCAL: Descomentar estas líneas
+        // private const string BASE_IP = "192.168.1.12";
+        // private const string BASE_PORT = "8000";
+        
+        // 🚀 PRODUCCIÓN: Servidor desplegado
+        private const string BASE_IP = "167.114.98.199";
+        private const string BASE_PORT = "8000";  // Puerto del backend Django
+        // ============================================
         
         // Configuración de URL base según la plataforma
         // Para emulador Android: usa 10.0.2.2 en lugar de localhost/127.0.0.1

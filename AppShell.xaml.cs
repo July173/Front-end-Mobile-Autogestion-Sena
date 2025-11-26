@@ -1,5 +1,4 @@
 ﻿using AutogestionSenaMaui.Views;
-using AutogestionSenaMaui.Views.Security;
 using AutogestionSena.MAUI.Views;
 using AutogestionSenaMaui.Helpers;
 
@@ -18,9 +17,7 @@ namespace AutogestionSena.MAUI
             Routing.RegisterRoute(nameof(RegisterPage), typeof(RegisterPage));
             Routing.RegisterRoute(nameof(CodeVerificationPage), typeof(CodeVerificationPage));
             Routing.RegisterRoute(nameof(PasswordResetPage), typeof(PasswordResetPage));
-            Routing.RegisterRoute(nameof(SecurityMainPage), typeof(SecurityMainPage));
             Routing.RegisterRoute(nameof(AdminDashboardPage), typeof(AdminDashboardPage));
-            Routing.RegisterRoute(nameof(ProfilePage), typeof(ProfilePage));
             // Dashboards de rol están definidos como ShellContent en AppShell.xaml
 
             // Suscribirse al evento de navegación para validar acceso
@@ -50,7 +47,6 @@ namespace AutogestionSena.MAUI
                 var protectedRoutes = new[]
                 {
                     "//HomePage",
-                    "//SecurityMainPage"
                 };
 
                 // Si es una ruta pública, permitir navegación

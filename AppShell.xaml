@@ -39,8 +39,6 @@
     <ShellContent Route="HomePage" 
                   ContentTemplate="{DataTemplate mauidash:HomePage}" />
     
-    <!-- SecurityMainPage - Módulo de Seguridad -->
-    <ShellContent Route="SecurityMainPage" 
-                  ContentTemplate="{DataTemplate mauidash:Security.SecurityMainPage}" />
+    
 
 </Shell>
