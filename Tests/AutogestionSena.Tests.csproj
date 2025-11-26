@@ -11,6 +11,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
     <PackageReference Include="FluentAssertions" Version="8.8.0" />
+    <PackageReference Include="Moq" Version="4.20.70" />
     <PackageReference Include="xunit" Version="2.6.6" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.5.6">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -23,12 +24,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <!-- Incluir solo las clases necesarias sin depender del proyecto MAUI completo -->
+    <!-- Incluir clases del proyecto principal para pruebas unitarias -->
     <Compile Include="..\Validators\LoginValidator.cs" Link="Validators\LoginValidator.cs" />
     <Compile Include="..\Validators\AuthenticationValidators.cs" Link="Validators\AuthenticationValidators.cs" />
     <Compile Include="..\Api\Dtos\AssignmentDto.cs" Link="Dtos\AssignmentDto.cs" />
+    <Compile Include="..\Api\Dtos\PersonDto.cs" Link="Dtos\PersonDto.cs" />
+    <Compile Include="..\Api\Dtos\DocumentTypeDto.cs" Link="Dtos\DocumentTypeDto.cs" />
     <Compile Include="..\Helpers\SideMenuLayoutHelper.cs" Link="Helpers\SideMenuLayoutHelper.cs" />
-    <Compile Include="SideMenuLayoutHelperTests.cs" />
   </ItemGroup>
 
 </Project>
