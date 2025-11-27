@@ -30,23 +30,11 @@ namespace AutogestionSena.MAUI.Api.Services
         {
             try
             {
-                System.Diagnostics.Debug.WriteLine($"[ApprenticeService] Obteniendo lista de aprendices...");
                 var response = await _apiService.GetAsync<List<ApprenticeSimpleDto>>(Endpoints.ApprenticeSimple.GetAllApprenticesSimple);
-                
-                if (response != null)
-                {
-                    System.Diagnostics.Debug.WriteLine($"[ApprenticeService] ✅ {response.Count} aprendices encontrados");
-                    
-                    var activos = response.Count(x => x.Active);
-                    System.Diagnostics.Debug.WriteLine($"[ApprenticeService]   - Activos: {activos}");
-                    System.Diagnostics.Debug.WriteLine($"[ApprenticeService]   - Total: {response.Count}");
-                }
-                
                 return response;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine($"[ApprenticeService] ❌ Error: {ex.Message}");
                 throw;
             }
         }
@@ -65,9 +53,8 @@ namespace AutogestionSena.MAUI.Api.Services
 
                 return response.Count(x => x.Active);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine($"[ApprenticeService] ❌ Error obteniendo conteo: {ex.Message}");
                 return 0;
             }
         }

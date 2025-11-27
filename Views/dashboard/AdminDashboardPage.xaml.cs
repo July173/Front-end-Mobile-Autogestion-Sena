@@ -58,9 +58,9 @@ namespace AutogestionSenaMaui.Views
                     _autoRefreshTimer.Start();
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine($"[AdminDashboard] Error cargando datos: {ex}");
+                // Error loading data handled silently
             }
             // Configurar breadcrumb en el MainLayout TopBar
             MainLayoutHelper.UpdateCurrentBreadcrumb("Dashboard", "Administración");
@@ -129,8 +129,6 @@ namespace AutogestionSenaMaui.Views
         {
             try
             {
-                System.Diagnostics.Debug.WriteLine("[AdminDashboard] 📊 Cargando estadísticas...");
-
                 // Configurar token de autenticación
                 var authToken = Preferences.Get("AuthToken", string.Empty);
                 if (!string.IsNullOrEmpty(authToken))
@@ -155,9 +153,8 @@ namespace AutogestionSenaMaui.Views
                         TotalApprenticesLabel.Text = "0";
                     }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    System.Diagnostics.Debug.WriteLine($"[AdminDashboard] ❌ ERROR al cargar aprendices: {ex.Message}");
                     TotalApprenticesLabel.Text = "Error";
                 }
 
@@ -184,9 +181,8 @@ namespace AutogestionSenaMaui.Views
                         UnassignedCountLabel.Text = "0";
                     }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    System.Diagnostics.Debug.WriteLine($"[AdminDashboard] ❌ ERROR al cargar asignaciones: {ex.Message}");
                     TotalAssignmentsLabel.Text = "Error";
                     UnassignedCountLabel.Text = "Error";
                 }
@@ -194,9 +190,9 @@ namespace AutogestionSenaMaui.Views
                 // Cargar gráficas
                 LoadCharts(assignedCount, unassignedCount);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine($"[AdminDashboard] ❌ ERROR GENERAL: {ex.Message}");
+                // General statistics error handled silently
             }
         }
 
@@ -316,9 +312,9 @@ namespace AutogestionSenaMaui.Views
                     ApprovedChart.Chart = new Microcharts.LineChart { Entries = emptyEntry };
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine($"[AdminDashboard] ❌ Error cargando gráficas: {ex.Message}");
+                // Charts loading error handled silently
             }
         }
 
@@ -347,9 +343,9 @@ namespace AutogestionSenaMaui.Views
             {
                 await LoadStatisticsAsync();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine($"[AdminDashboard] ❌ Error al recargar: {ex.Message}");
+                // Reload error handled silently
             }
         }
     }

@@ -36,10 +36,10 @@ namespace AutogestionSena.MAUI.Api.Dtos
             {
                 if (string.IsNullOrEmpty(FechaSolicitud))
                     return null;
-                
+
                 if (DateTime.TryParse(FechaSolicitud, out DateTime result))
                     return result;
-                
+
                 return null;
             }
         }
@@ -143,19 +143,19 @@ namespace AutogestionSena.MAUI.Api.Dtos
     public class InstructorDetailDto
     {
         [JsonPropertyName("id")]
-     public int Id { get; set; }
+        public int Id { get; set; }
 
         [JsonPropertyName("first_name")]
-      public string? FirstName { get; set; }
+        public string? FirstName { get; set; }
 
         [JsonPropertyName("second_name")]
-  public string? SecondName { get; set; }
+        public string? SecondName { get; set; }
 
-     [JsonPropertyName("first_last_name")]
+        [JsonPropertyName("first_last_name")]
         public string? FirstLastName { get; set; }
 
-     [JsonPropertyName("second_last_name")]
-    public string? SecondLastName { get; set; }
+        [JsonPropertyName("second_last_name")]
+        public string? SecondLastName { get; set; }
 
         [JsonPropertyName("phone_number")]
         public long? PhoneNumber { get; set; }
@@ -164,16 +164,16 @@ namespace AutogestionSena.MAUI.Api.Dtos
         public int TypeIdentification { get; set; }
 
         [JsonPropertyName("number_identification")]
-  public long NumberIdentification { get; set; }
+        public long NumberIdentification { get; set; }
 
-     [JsonPropertyName("email")]
- public string? Email { get; set; }
+        [JsonPropertyName("email")]
+        public string? Email { get; set; }
 
         [JsonPropertyName("role")]
-     public int Role { get; set; }
+        public int Role { get; set; }
 
         [JsonPropertyName("contract_type")]
-     public int ContractType { get; set; }
+        public int ContractType { get; set; }
 
         [JsonPropertyName("contract_start_date")]
         public string? ContractStartDate { get; set; }
@@ -184,13 +184,13 @@ namespace AutogestionSena.MAUI.Api.Dtos
         [JsonPropertyName("knowledge_area")]
         public int KnowledgeArea { get; set; }
 
-   [JsonPropertyName("sede")]
-   public int Sede { get; set; }
+        [JsonPropertyName("sede")]
+        public int Sede { get; set; }
 
         [JsonPropertyName("is_followup_instructor")]
         public bool IsFollowupInstructor { get; set; }
 
-     [JsonPropertyName("assigned_learners")]
+        [JsonPropertyName("assigned_learners")]
         public int AssignedLearners { get; set; }
 
         [JsonPropertyName("max_assigned_learners")]
@@ -200,9 +200,9 @@ namespace AutogestionSena.MAUI.Api.Dtos
         public bool Active { get; set; }
     }
 
-  /// <summary>
+    /// <summary>
     /// DTO para la respuesta del dashboard del aprendiz (estructura real del API)
-/// Usado para GET assign/request_asignation/aprendiz-dashboard/?aprendiz_id={id}
+    /// Usado para GET assign/request_asignation/aprendiz-dashboard/?aprendiz_id={id}
     /// </summary>
     public class ApprenticeDashboardRealApiResponse
     {
@@ -213,7 +213,7 @@ namespace AutogestionSena.MAUI.Api.Dtos
         public int Enterprise { get; set; }
 
         [JsonPropertyName("modality_productive_stage")]
-    public int ModalityProductiveStage { get; set; }
+        public int ModalityProductiveStage { get; set; }
 
         [JsonPropertyName("start_date")]
         public string? StartDate { get; set; }
@@ -225,28 +225,28 @@ namespace AutogestionSena.MAUI.Api.Dtos
         public string? RequestDate { get; set; }
 
         [JsonPropertyName("request_state")]
-    public string? RequestState { get; set; }
+        public string? RequestState { get; set; }
 
         [JsonPropertyName("pdf_url")]
-      public string? PdfUrl { get; set; }
+        public string? PdfUrl { get; set; }
 
         [JsonPropertyName("instructor_id")]
-     public int? InstructorId { get; set; }
+        public int? InstructorId { get; set; }
 
         [JsonPropertyName("instructor_first_name")]
         public string? InstructorFirstName { get; set; }
 
-      [JsonPropertyName("instructor_second_name")]
-  public string? InstructorSecondName { get; set; }
+        [JsonPropertyName("instructor_second_name")]
+        public string? InstructorSecondName { get; set; }
 
         [JsonPropertyName("instructor_first_last_name")]
-      public string? InstructorFirstLastName { get; set; }
+        public string? InstructorFirstLastName { get; set; }
 
         [JsonPropertyName("instructor_second_last_name")]
         public string? InstructorSecondLastName { get; set; }
 
         [JsonPropertyName("instructor_number_identification")]
-  public long? InstructorNumberIdentification { get; set; }
+        public long? InstructorNumberIdentification { get; set; }
 
         [JsonPropertyName("instructor_phone_number")]
         public long? InstructorPhoneNumber { get; set; }
@@ -257,7 +257,7 @@ namespace AutogestionSena.MAUI.Api.Dtos
         [JsonPropertyName("instructor_knowledge_area")]
         public string? InstructorKnowledgeArea { get; set; }
 
-  [JsonPropertyName("instructor_email")]
+        [JsonPropertyName("instructor_email")]
         public string? InstructorEmail { get; set; }
     }
 

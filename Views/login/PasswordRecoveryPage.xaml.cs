@@ -33,7 +33,6 @@ namespace AutogestionSena.MAUI.Views
 
             try
             {
-                System.Diagnostics.Debug.WriteLine($"[DEBUG] OnSendCodeClicked called with email: {email}");
                 // Mostrar indicador de carga
                 if (SendButton != null)
                 {
@@ -44,68 +43,58 @@ namespace AutogestionSena.MAUI.Views
                 try
                 {
                     var result = await _apiService.RequestPasswordResetAsync(email);
- 
-       // Si recibimos una respuesta válida con código, la guardamos en Preferences
-  if (result != null && !string.IsNullOrEmpty(result.code))
-          {
-  // Guardar la respuesta completa del servidor en Preferences
-     var codeData = new
-        {
-      code = result.code,
-       email = email,
-        fecha_expiracion = result.fecha_expiracion,
-   success = result.success
-         };
 
-        var codeDataJson = System.Text.Json.JsonSerializer.Serialize(codeData);
-   Preferences.Set("password_reset_data", codeDataJson);
-              
-          System.Diagnostics.Debug.WriteLine($"[DEBUG] Código guardado en Preferences: {result.code}");
- System.Diagnostics.Debug.WriteLine($"[DEBUG] Fecha expiración: {result.fecha_expiracion}");
-     
-         // Mostrar mensaje de éxito
-              await DisplayAlert("Código Enviado", 
-   result.success ?? "Se ha enviado un código de verificación a tu correo electrónico.", 
-          "Continuar");
-           
-  // Navegar a la pantalla de verificación de código
-        var encodedEmail = Uri.EscapeDataString(email);
-      System.Diagnostics.Debug.WriteLine("[NAV] Navigating to CodeVerificationPage");
-       await Shell.Current.GoToAsync($"///CodeVerificationPage?email={encodedEmail}&isPasswordReset=true");
-             }
-   else if (result != null)
-           {
-        // Si result no es null pero no hay código, navegamos de todos modos
-   // pero mostramos mensaje apropiado
-      System.Diagnostics.Debug.WriteLine($"[DEBUG] Result sin código pero backend respondió OK");
-            
-           await DisplayAlert("Código Enviado", 
-           "Se ha enviado un código de verificación a tu correo electrónico.", 
-   "Continuar");
-   
-     var encodedEmail = Uri.EscapeDataString(email);
-      await Shell.Current.GoToAsync($"///CodeVerificationPage?email={encodedEmail}&isPasswordReset=true");
-             }
- else
-     {
-         // Si result es null pero no hubo excepción, significa que el backend respondió
- System.Diagnostics.Debug.WriteLine($"[DEBUG] Result es null pero backend respondió OK");
-         var encodedEmail = Uri.EscapeDataString(email);
-          await Shell.Current.GoToAsync($"///CodeVerificationPage?email={encodedEmail}&isPasswordReset=true");
-        }
-      }
-                catch (Exception apiEx) when (apiEx.Message.Contains("Error al procesar la respuesta") || 
+                    // Si recibimos una respuesta válida con código, la guardamos en Preferences
+                    if (result != null && !string.IsNullOrEmpty(result.code))
+                    {
+                        // Guardar la respuesta completa del servidor en Preferences
+                        var codeData = new
+                        {
+                            code = result.code,
+                            email = email,
+                            fecha_expiracion = result.fecha_expiracion,
+                            success = result.success
+                        };
+
+                        var codeDataJson = System.Text.Json.JsonSerializer.Serialize(codeData);
+                        Preferences.Set("password_reset_data", codeDataJson);
+
+                        // Mostrar mensaje de éxito
+                        await DisplayAlert("Código Enviado",
+             result.success ?? "Se ha enviado un código de verificación a tu correo electrónico.",
+                    "Continuar");
+
+                        // Navegar a la pantalla de verificación de código
+                        var encodedEmail = Uri.EscapeDataString(email);
+                        await Shell.Current.GoToAsync($"///CodeVerificationPage?email={encodedEmail}&isPasswordReset=true");
+                    }
+                    else if (result != null)
+                    {
+                        // Si result no es null pero no hay código, navegamos de todos modos
+
+                        await DisplayAlert("Código Enviado",
+                        "Se ha enviado un código de verificación a tu correo electrónico.",
+                "Continuar");
+
+                        var encodedEmail = Uri.EscapeDataString(email);
+                        await Shell.Current.GoToAsync($"///CodeVerificationPage?email={encodedEmail}&isPasswordReset=true");
+                    }
+                    else
+                    {
+                        // Si result es null pero no hubo excepción, significa que el backend respondió
+                        var encodedEmail = Uri.EscapeDataString(email);
+                        await Shell.Current.GoToAsync($"///CodeVerificationPage?email={encodedEmail}&isPasswordReset=true");
+                    }
+                }
+                catch (Exception apiEx) when (apiEx.Message.Contains("Error al procesar la respuesta") ||
                                              apiEx.Message.Contains("Object reference not set") ||
                                              apiEx is NullReferenceException)
                 {
                     // El servidor respondió pero hay error en la deserialización o referencia nula
-                    // Como viste el email, esto significa que el código SÍ se envió
-                    System.Diagnostics.Debug.WriteLine($"[DEBUG] Error de deserialización/null pero el código fue enviado: {apiEx.Message}");
-    
-                    await DisplayAlert("Código Enviado", 
-                            "Se ha enviado un código de verificación a tu correo electrónico.", 
+                    await DisplayAlert("Código Enviado",
+                            "Se ha enviado un código de verificación a tu correo electrónico.",
                             "Continuar");
-                    
+
                     var encodedEmail = Uri.EscapeDataString(email);
                     await Shell.Current.GoToAsync($"///CodeVerificationPage?email={encodedEmail}&isPasswordReset=true");
                 }
@@ -113,10 +102,10 @@ namespace AutogestionSena.MAUI.Views
             catch (HttpRequestException httpEx)
             {
                 // Error de conexión - Para desarrollo, permitir navegación
-                var continuar = await DisplayAlert("Error de Conexión", 
-                    $"No se pudo conectar al servidor.\n\n¿Deseas continuar de todos modos? (Solo para pruebas de UI)\n\nError: {httpEx.Message}", 
+                var continuar = await DisplayAlert("Error de Conexión",
+                    $"No se pudo conectar al servidor.\n\n¿Deseas continuar de todos modos? (Solo para pruebas de UI)\n\nError: {httpEx.Message}",
                     "Continuar", "Cancelar");
-                
+
                 if (continuar)
                 {
                     var encodedEmail = Uri.EscapeDataString(email);
@@ -126,7 +115,6 @@ namespace AutogestionSena.MAUI.Views
             catch (Exception ex)
             {
                 // Para cualquier otro error, mostrar el mensaje real del error
-                System.Diagnostics.Debug.WriteLine($"[DEBUG] Excepción: {ex.GetType().Name} - {ex.Message}");
                 await DisplayAlert("Error", $"No se pudo enviar el código: {ex.Message}", "Aceptar");
             }
             finally

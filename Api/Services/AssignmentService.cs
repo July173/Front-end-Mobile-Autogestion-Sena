@@ -30,26 +30,11 @@ namespace AutogestionSena.MAUI.Api.Services
         {
             try
             {
-                System.Diagnostics.Debug.WriteLine($"[AssignmentService] Obteniendo lista de solicitudes de asignación...");
                 var response = await _apiService.GetAsync<AssignmentRequestListResponse>(Endpoints.Assignment.GetFormRequestList);
-                
-                if (response != null)
-                {
-                    System.Diagnostics.Debug.WriteLine($"[AssignmentService] ✅ {response.Count} solicitudes encontradas");
-                    
-                    if (response.Data != null && response.Data.Any())
-                    {
-                        var sinAsignar = response.Data.Count(x => x.RequestState == "SIN_ASIGNAR");
-                        System.Diagnostics.Debug.WriteLine($"[AssignmentService]   - Sin asignar: {sinAsignar}");
-                        System.Diagnostics.Debug.WriteLine($"[AssignmentService]   - Total: {response.Count}");
-                    }
-                }
-                
                 return response;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine($"[AssignmentService] ❌ Error: {ex.Message}");
                 throw;
             }
         }
@@ -68,9 +53,8 @@ namespace AutogestionSena.MAUI.Api.Services
 
                 return response.Data.Count(x => x.RequestState == "SIN_ASIGNAR");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine($"[AssignmentService] ❌ Error obteniendo conteo sin asignar: {ex.Message}");
                 return 0;
             }
         }
@@ -89,9 +73,8 @@ namespace AutogestionSena.MAUI.Api.Services
 
                 return response.Data.Where(x => x.RequestState == "SIN_ASIGNAR").ToList();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine($"[AssignmentService] ❌ Error obteniendo solicitudes sin asignar: {ex.Message}");
                 return new List<AssignmentRequestDto>();
             }
         }

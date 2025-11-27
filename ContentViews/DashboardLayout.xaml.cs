@@ -33,13 +33,10 @@ public partial class DashboardLayout : ContentView
 
     private void DashboardLayout_BindingContextChanged(object? sender, EventArgs e)
     {
-        // 🔧 ARREGLADO: Propagar el BindingContext al contenido cuando cambie
         if (MainContent.Content != null && this.BindingContext != null)
         {
             MainContent.Content.BindingContext = this.BindingContext;
         }
-        
-        System.Diagnostics.Debug.WriteLine($"📋 [DashboardLayout] BindingContext changed to: {this.BindingContext?.GetType().Name ?? "null"}");
     }
 
     private async void OnNotificationsTapped(object sender, EventArgs e)
@@ -51,9 +48,9 @@ public partial class DashboardLayout : ContentView
                 await Shell.Current.GoToAsync("//notifications");
             }
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            System.Diagnostics.Debug.WriteLine($"[NAV] Error navegando a notificaciones: {ex}");
+            // Navigation error handled silently
         }
     }
 

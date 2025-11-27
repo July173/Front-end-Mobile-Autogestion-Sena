@@ -15,7 +15,7 @@ namespace AutogestionSena.Tests.IntegrationTests
     public class AuthenticationApiIntegrationTests : IDisposable
     {
         private readonly HttpClient _httpClient;
-        private const string BASE_URL = "http://10.3.234.91:8001/api/";
+        private const string BASE_URL = "http://167.114.98.199/api/";
         
         // Credenciales de prueba (usuario existente en el sistema)
         private const string TEST_EMAIL = "daniela_ramos@soy.sena.edu.co";

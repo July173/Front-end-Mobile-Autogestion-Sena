@@ -34,18 +34,15 @@ namespace AutogestionSenaMaui.Helpers
                 }
                 else
                 {
-                    System.Diagnostics.Debug.WriteLine($"[MAINLAYOUT_HELPER] Invalid content type: {content?.GetType().Name}");
                     return;
                 }
                 
                 mainLayout.UpdateBreadcrumb(moduleName, formName);
                 await Shell.Current.Navigation.PushAsync(mainLayout);
-                
-                System.Diagnostics.Debug.WriteLine($"[MAINLAYOUT_HELPER] Navigated to MainLayout with module: {moduleName}, form: {formName}");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine($"[MAINLAYOUT_HELPER] Error navigating with layout: {ex.Message}");
+                // Navigation error handled silently
             }
         }
 
@@ -64,16 +61,11 @@ namespace AutogestionSenaMaui.Helpers
                 if (currentPage is MainLayoutPage mainLayout)
                 {
                     mainLayout.UpdateBreadcrumb(moduleName, formName);
-                    System.Diagnostics.Debug.WriteLine($"[MAINLAYOUT_HELPER] Breadcrumb updated: {moduleName} > {formName}");
-                }
-                else
-                {
-                    System.Diagnostics.Debug.WriteLine("[MAINLAYOUT_HELPER] Current page is not MainLayoutPage");
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine($"[MAINLAYOUT_HELPER] Error updating breadcrumb: {ex.Message}");
+                // Breadcrumb update error handled silently
             }
         }
 
@@ -92,9 +84,9 @@ namespace AutogestionSenaMaui.Helpers
                     return viewModel;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine($"[MAINLAYOUT_HELPER] Error getting current ViewModel: {ex.Message}");
+                // ViewModel retrieval error handled silently
             }
 
             return null;

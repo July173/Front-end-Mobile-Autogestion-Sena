@@ -91,9 +91,9 @@ namespace AutogestionSena.MAUI.Views
                     VerifyButton.FontSize = 15;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine($"[RESPONSIVE] Error resizing TwoFactorModal: {ex}");
+                // Responsive sizing error handled silently
             }
         }
 
@@ -122,9 +122,8 @@ namespace AutogestionSena.MAUI.Views
                 ClearCode();
                 Code1Entry.Focus();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine($"[MODAL] ShowOverlayAsync error: {ex}");
                 ModalContainer.IsVisible = true;
             }
         }
@@ -137,9 +136,8 @@ namespace AutogestionSena.MAUI.Views
                 await ModalContainer.FadeTo(0, 150);
                 ModalContainer.IsVisible = false;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine($"[MODAL] HideOverlayAsync error: {ex}");
                 ModalContainer.IsVisible = false;
             }
         }

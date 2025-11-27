@@ -106,22 +106,16 @@ namespace AutogestionSenaMaui.Helpers
         {
             try
             {
-                // Verificar autenticación
                 if (!IsUserAuthenticated())
                 {
-                    System.Diagnostics.Debug.WriteLine($"[NAV] Usuario no autenticado, redirigiendo a Login");
                     await Shell.Current.GoToAsync("///LoginPage", animate);
                     return false;
                 }
 
                 var userRole = GetUserRole();
 
-                // Verificar permisos
                 if (!CanAccessRoute(route, userRole))
                 {
-                    System.Diagnostics.Debug.WriteLine($"[NAV] Usuario rol={userRole} no tiene permiso para acceder a {route}");
-                    
-                    // Mostrar mensaje de error
                     if (Application.Current?.MainPage != null)
                     {
                         await Application.Current.MainPage.DisplayAlert(
@@ -131,20 +125,16 @@ namespace AutogestionSenaMaui.Helpers
                         );
                     }
 
-                    // Redirigir al dashboard correspondiente
                     var dashboardRoute = GetDashboardRouteForRole(userRole);
                     await Shell.Current.GoToAsync($"///{dashboardRoute}", animate);
                     return false;
                 }
 
-                // Navegar a la ruta solicitada
-                System.Diagnostics.Debug.WriteLine($"[NAV] Navegando a {route}");
                 await Shell.Current.GoToAsync($"///{route}", animate);
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine($"[NAV] Error en NavigateToAsync: {ex}");
                 return false;
             }
         }
@@ -166,35 +156,30 @@ namespace AutogestionSenaMaui.Helpers
         {
             try
             {
-                // Limpiar datos de autenticación
                 Preferences.Remove("AuthToken");
                 Preferences.Remove("RefreshToken");
                 Preferences.Remove("UserRole");
                 Preferences.Remove("user_data");
                 Preferences.Remove("UserId");
 
-                // Limpiar SecureStorage
                 try
                 {
                     SecureStorage.Remove("user_data");
                     SecureStorage.Remove("AuthToken");
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    System.Diagnostics.Debug.WriteLine($"[NAV] Error limpiando SecureStorage: {ex}");
+                    // SecureStorage cleanup error handled silently
                 }
 
-                System.Diagnostics.Debug.WriteLine("[NAV] Sesión cerrada, redirigiendo a Login");
-
-                // Redirigir a login
                 if (Shell.Current != null)
                 {
                     await Shell.Current.GoToAsync("///LoginPage", true);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine($"[NAV] Error en LogoutAsync: {ex}");
+                // Logout error handled silently
             }
         }
 
@@ -205,7 +190,6 @@ namespace AutogestionSenaMaui.Helpers
         {
             if (!IsUserAuthenticated())
             {
-                System.Diagnostics.Debug.WriteLine("[NAV] Sesión no válida, redirigiendo a Login");
                 await Shell.Current.GoToAsync("///LoginPage", true);
             }
         }

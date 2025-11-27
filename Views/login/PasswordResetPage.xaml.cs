@@ -70,9 +70,9 @@ namespace AutogestionSena.MAUI.Views
                     ResetButton.FontSize = 18;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine($"[RESPONSIVE] Error resizing PasswordResetPage: {ex}");
+                // Responsive sizing error handled silently
             }
         }
 
@@ -101,8 +101,6 @@ namespace AutogestionSena.MAUI.Views
             }
 
             // Nota: El código ya fue validado en CodeVerificationPage antes de llegar aquí
-            // No necesitamos validar el código nuevamente ni enviarlo al API
-            System.Diagnostics.Debug.WriteLine($"[PASSWORD-RESET] El código {_code} ya fue validado previamente. Procediendo con reset de contraseña para email: {_email}");
 
             try
             {
@@ -133,7 +131,6 @@ namespace AutogestionSena.MAUI.Views
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"[PASSWORD-RESET] Error: {ex.Message}");
                 await DisplayAlert("Error", 
                     $"Error al restablecer contraseña: {ex.Message}", 
                     "Aceptar");

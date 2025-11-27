@@ -124,22 +124,19 @@ public class DynamicSideMenuViewModel : INotifyPropertyChanged
         {
             try
             {
-                // Configurar token para futuras peticiones
                 if (!string.IsNullOrEmpty(e.AccessToken))
                 {
                     _apiService.SetAuthToken(e.AccessToken);
                 }
 
-                // Actualizar propiedades
                 RoleId = e.RoleId;
                 UserName = e.FirstName;
 
-                // Recargar menú con rol actualizado
                 await LoadMenuAsync();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine($"[SIDE-MENU] Error reloading menu after login event: {ex}");
+                // Menu reload error handled silently
             }
         };
     }
@@ -262,9 +259,9 @@ public class DynamicSideMenuViewModel : INotifyPropertyChanged
                     if (user.TryGetProperty("email", out var emailProp))
                         UserEmail = emailProp.GetString() ?? string.Empty;
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    System.Diagnostics.Debug.WriteLine($"[SIDE-MENU] Error parsing user_data: {ex.Message}");
+                    // User data parsing error handled silently
                 }
             }
 
@@ -296,55 +293,39 @@ public class DynamicSideMenuViewModel : INotifyPropertyChanged
     {
         try
         {
-            // IMPORTANTE: Siempre usar UserId para cargar el menú del usuario
-            // El endpoint es: /api/security/rol-form-permissions/{userId}/get-menu/
             var userId = Preferences.Get("UserId", 0);
 
             if (userId <= 0)
             {
-                System.Diagnostics.Debug.WriteLine("[SIDE-MENU] ❌ UserId no encontrado o inválido. No se puede cargar el menú.");
                 LoadDefaultMenu();
                 return;
             }
 
-            System.Diagnostics.Debug.WriteLine($"[SIDE-MENU] 📡 Cargando menú para UserId={userId}");
-
-            // Usar el MenuService para obtener y procesar el menú desde la API
-            // Endpoint: GET /api/security/rol-form-permissions/{userId}/get-menu/
             var processedData = await _menuService.GetMenuItemsAsync(userId.ToString(), UserName);
 
             if (processedData != null && processedData.MenuItems != null)
             {
-                // Actualizar información del usuario
                 if (!string.IsNullOrEmpty(processedData.UserInfo.Role))
                     RoleName = processedData.UserInfo.Role;
 
                 if (string.IsNullOrEmpty(UserName) && !string.IsNullOrEmpty(processedData.UserInfo.Name))
                     UserName = processedData.UserInfo.Name;
 
-                // Limpiar y cargar nuevo menú
                 MenuItems.Clear();
 
-                // Mostrar el menú exactamente como lo entrega el backend, sin filtrar ni modificar
                 foreach (var menuItem in processedData.MenuItems.OrderBy(m => m.Order))
                 {
                     var menuItemVm = CreateMenuItemViewModel(menuItem);
                     MenuItems.Add(menuItemVm);
                 }
-
-                System.Diagnostics.Debug.WriteLine($"[SIDE-MENU] Successfully loaded {MenuItems.Count} menu modules (sin filtrado)");
             }
             else
             {
-                System.Diagnostics.Debug.WriteLine("[SIDE-MENU] No menu data received");
                 LoadDefaultMenu();
             }
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            Console.WriteLine($"Error al cargar menú: {ex.Message}");
-            System.Diagnostics.Debug.WriteLine($"[SIDE-MENU] Exception: {ex}");
-            // Fallback: cargar menú por defecto
             LoadDefaultMenu();
         }
     }
@@ -432,21 +413,16 @@ public class DynamicSideMenuViewModel : INotifyPropertyChanged
             // Navegar usando NavigationHelper para validar permisos
             if (Shell.Current != null)
             {
-                System.Diagnostics.Debug.WriteLine($"[SIDE-MENU] Navigating to {shellRoute} (backend={backendRoute})");
-                
-                // Usar NavigationHelper para navegación protegida
                 await NavigationHelper.NavigateToAsync(shellRoute);
             }
             else if (Application.Current?.MainPage?.Navigation != null)
             {
-                // No tenemos un mapeo directo para rutas Shell, así que como fallback no haremos nada
-                // o podríamos intentar mapear rutas manualmente según la convención de la app.
-                System.Diagnostics.Debug.WriteLine($"[NAV] Shell.Current es null, no se pudo navegar a: {route}");
+                // Fallback when Shell.Current is null
             }
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            Console.WriteLine($"Error al navegar: {ex.Message}");
+            // Navigation error handled silently
         }
     }
 
@@ -504,9 +480,9 @@ public class DynamicSideMenuViewModel : INotifyPropertyChanged
                 await NavigationHelper.LogoutAsync();
             }
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            System.Diagnostics.Debug.WriteLine($"[SIDE-MENU] Error en logout: {ex}");
+            // Logout error handled silently
         }
     }
 

@@ -40,7 +40,6 @@ namespace AutogestionSenaMaui.ViewModels
                 {
                     _activeModule = value;
                     OnPropertyChanged();
-                    System.Diagnostics.Debug.WriteLine($"[MAINLAYOUT] ActiveModule changed to: {value}");
                 }
             }
         }
@@ -57,7 +56,6 @@ namespace AutogestionSenaMaui.ViewModels
                 {
                     _activeFormName = value;
                     OnPropertyChanged();
-                    System.Diagnostics.Debug.WriteLine($"[MAINLAYOUT] ActiveFormName changed to: {value}");
                 }
             }
         }
@@ -142,14 +140,8 @@ namespace AutogestionSenaMaui.ViewModels
         /// </summary>
         private async void OnNotificationsTapped()
         {
-            System.Diagnostics.Debug.WriteLine("[MAINLAYOUT] Notifications tapped");
-            
             try
             {
-                // TODO: Navegar a página de notificaciones cuando esté implementada
-                // await Shell.Current.GoToAsync("///NotificationSamplePage");
-                
-                // Por ahora, mostrar un DisplayAlert
                 if (Application.Current?.MainPage != null)
                 {
                     await Application.Current.MainPage.DisplayAlert(
@@ -158,9 +150,9 @@ namespace AutogestionSenaMaui.ViewModels
                         "OK");
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine($"[MAINLAYOUT] Error opening notifications: {ex.Message}");
+                // Notifications display error handled silently
             }
         }
 
@@ -173,11 +165,9 @@ namespace AutogestionSenaMaui.ViewModels
             {
                 var version = AppInfo.Current.VersionString;
                 AppVersion = $"v{version}";
-                System.Diagnostics.Debug.WriteLine($"[MAINLAYOUT] App version loaded: {AppVersion}");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine($"[MAINLAYOUT] Error loading app version: {ex.Message}");
                 AppVersion = "v1.0.0";
             }
         }
@@ -192,7 +182,6 @@ namespace AutogestionSenaMaui.ViewModels
         {
             ActiveModule = moduleName;
             ActiveFormName = formName;
-            System.Diagnostics.Debug.WriteLine($"[MAINLAYOUT] Breadcrumb updated: {moduleName} > {formName}");
         }
 
         /// <summary>
@@ -203,7 +192,6 @@ namespace AutogestionSenaMaui.ViewModels
         public void UpdateNotificationCount(int count)
         {
             UnreadNotificationsCount = count;
-            System.Diagnostics.Debug.WriteLine($"[MAINLAYOUT] Notification count updated: {count}");
         }
 
         #endregion

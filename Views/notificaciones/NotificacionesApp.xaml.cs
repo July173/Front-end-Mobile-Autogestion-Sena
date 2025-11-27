@@ -45,7 +45,7 @@ namespace AutogestionSena.MAUI.Views.notificaciones
             InitializeComponent();
             BindingContext = this;
 
-            // Inicializar WebSocket service (pero no conectar aún)
+            // Inicializar WebSocket service (pero no conectar aï¿½n)
             _wsService = new NotificationWebSocketService();
             _wsService.NotificationReceived += OnWsNotificationReceived;
             _wsService.ErrorOccurred += OnWsError;
@@ -56,7 +56,7 @@ namespace AutogestionSena.MAUI.Views.notificaciones
             base.OnAppearing();
             await LoadNotificationsAsync();
 
-            // Iniciar conexión websocket para recibir notificaciones en tiempo real
+            // Iniciar conexiï¿½n websocket para recibir notificaciones en tiempo real
             try
             {
                 if (_wsService != null && !_wsService.IsConnected)
@@ -64,9 +64,9 @@ namespace AutogestionSena.MAUI.Views.notificaciones
                     await _wsService.StartAsync();
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine($"[Notifications] WS start error: {ex}");
+                // WS start error handled silently
             }
         }
 
@@ -81,9 +81,9 @@ namespace AutogestionSena.MAUI.Views.notificaciones
                     await _wsService.StopAsync();
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine($"[Notifications] WS stop error: {ex}");
+                // WS stop error handled silently
             }
         }
 
@@ -98,9 +98,8 @@ namespace AutogestionSena.MAUI.Views.notificaciones
                 int role = Preferences.Get("UserRole", 0);
                 int userId = Preferences.Get("UserId", 0);
 
-                if (role == 0 || userId == 0)
+if (role == 0 || userId == 0)
                 {
-                    System.Diagnostics.Debug.WriteLine("[Notifications] No se encontró rol o userId en Preferences");
                     // Cargar ejemplo si no hay datos
                     AddSampleData();
                     UpdateDisplayed();
@@ -112,7 +111,6 @@ namespace AutogestionSena.MAUI.Views.notificaciones
                 var roleQuery = RoleToQueryParam(role);
                 if (string.IsNullOrEmpty(roleQuery))
                 {
-                    System.Diagnostics.Debug.WriteLine($"[Notifications] Rol desconocido: {role}");
                     AddSampleData();
                     UpdateDisplayed();
                     UpdateTabVisuals();
@@ -141,9 +139,8 @@ namespace AutogestionSena.MAUI.Views.notificaciones
                 UpdateDisplayed();
                 UpdateTabVisuals();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine($"[Notifications] Error cargando notificaciones: {ex}");
                 AddSampleData();
                 UpdateDisplayed();
                 UpdateTabVisuals();
@@ -163,7 +160,7 @@ namespace AutogestionSena.MAUI.Views.notificaciones
 
         private string RoleToQueryParam(int role)
         {
-            // Mapeo según la documentación proporcionada
+            // Mapeo segï¿½n la documentaciï¿½n proporcionada
             return role switch
             {
                 1 => "admin_id",
@@ -191,7 +188,7 @@ namespace AutogestionSena.MAUI.Views.notificaciones
             {
                 Id = Guid.NewGuid().ToString(),
                 Title = "Informe semanal disponible",
-                Message = "Tu informe semanal ya está listo para descarga.",
+                Message = "Tu informe semanal ya estï¿½ listo para descarga.",
                 Timestamp = DateTime.Now.AddHours(-5),
                 IsRead = true,
                 Active = true
@@ -204,13 +201,13 @@ namespace AutogestionSena.MAUI.Views.notificaciones
         public string TodasTabText => $"Todas ({Notifications.Count})";
         public string SinLeerTabText => $"Sin leer ({Notifications.Count(n => !n.IsRead)})";
 
-        // Propiedades para cambiar apariencia de pestañas (simple)
+        // Propiedades para cambiar apariencia de pestaï¿½as (simple)
         public string TabTodasBackground => _selectedTab == 0 ? "#E3F2FD" : "#FFFFFF";
         public string TabSinLeerBackground => _selectedTab == 1 ? "#E3F2FD" : "#FFFFFF";
         public string TabTodasTextColor => _selectedTab == 0 ? "#1976D2" : "#333";
         public string TabSinLeerTextColor => _selectedTab == 1 ? "#1976D2" : "#333";
 
-        // Nuevas propiedades para controlar sombra en pestañas
+        // Nuevas propiedades para controlar sombra en pestaï¿½as
         public bool TabTodasHasShadow => _selectedTab == 0;
         public bool TabSinLeerHasShadow => _selectedTab == 1;
 
@@ -243,7 +240,7 @@ namespace AutogestionSena.MAUI.Views.notificaciones
             OnPropertyChanged(nameof(TabSinLeerHasShadow));
         }
 
-        // Eventos de pestañas
+        // Eventos de pestaï¿½as
         private void OnTabTodasClicked(object sender, EventArgs e)
         {
             _selectedTab = 0;
@@ -298,7 +295,7 @@ namespace AutogestionSena.MAUI.Views.notificaciones
 
         private async void OnDeleteAllClicked(object sender, EventArgs e)
         {
-            var answer = await DisplayAlert("Eliminar", "¿Eliminar todas las notificaciones?", "Sí", "No");
+            var answer = await DisplayAlert("Eliminar", "ï¿½Eliminar todas las notificaciones?", "Sï¿½", "No");
             if (!answer) return;
 
             IsLoading = true;
@@ -316,9 +313,8 @@ namespace AutogestionSena.MAUI.Views.notificaciones
                     UpdateDisplayed();
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine($"[Notifications] Error al eliminar todas: {ex}");
                 await DisplayAlert("Error", "No se pudo eliminar las notificaciones.", "Aceptar");
             }
             finally
@@ -341,7 +337,7 @@ namespace AutogestionSena.MAUI.Views.notificaciones
             {
                 if (!int.TryParse(id, out var nid))
                 {
-                    // si el id no es numérico, eliminar localmente
+                    // si el id no es numï¿½rico, eliminar localmente
                     var itemLocal = Notifications.FirstOrDefault(x => x.Id == id);
                     if (itemLocal != null) Notifications.Remove(itemLocal);
                     UpdateDisplayed();
@@ -351,7 +347,7 @@ namespace AutogestionSena.MAUI.Views.notificaciones
                 var item = Notifications.FirstOrDefault(x => x.Id == id);
                 if (item != null)
                 {
-                    var ok = await DisplayAlert("Eliminar", "¿Eliminar esta notificación?", "Sí", "No");
+                    var ok = await DisplayAlert("Eliminar", "ï¿½Eliminar esta notificaciï¿½n?", "Sï¿½", "No");
                     if (!ok) return;
 
                     IsLoading = true;
@@ -366,8 +362,8 @@ namespace AutogestionSena.MAUI.Views.notificaciones
                     }
                     catch (Exception ex)
                     {
-                        System.Diagnostics.Debug.WriteLine($"[Notifications] Error al eliminar notificación: {ex}");
-                        await DisplayAlert("Error", "No se pudo eliminar la notificación.", "Aceptar");
+                        System.Diagnostics.Debug.WriteLine($"[Notifications] Error al eliminar notificaciï¿½n: {ex}");
+                        await DisplayAlert("Error", "No se pudo eliminar la notificaciï¿½n.", "Aceptar");
                     }
                     finally
                     {
@@ -397,7 +393,7 @@ namespace AutogestionSena.MAUI.Views.notificaciones
             }
         }
 
-        // Evento WS: cuando llega una notificación en tiempo real
+        // Evento WS: cuando llega una notificaciï¿½n en tiempo real
         private void OnWsNotificationReceived(object? sender, NotificationDto dto)
         {
             if (dto == null) return;
@@ -405,7 +401,7 @@ namespace AutogestionSena.MAUI.Views.notificaciones
             // Ignorar notificaciones no activas
             if (!dto.Active) return;
 
-            // Mapear y añadir al inicio de la lista en el hilo UI
+            // Mapear y aï¿½adir al inicio de la lista en el hilo UI
             MainThread.BeginInvokeOnMainThread(() =>
             {
                 var item = new NotificationItem
@@ -421,63 +417,78 @@ namespace AutogestionSena.MAUI.Views.notificaciones
                 // Insertar al inicio
                 Notifications.Insert(0, item);
                 UpdateDisplayed();
+
+                // Notificar contador en topbar
+                try { MainLayoutHelper.UpdateNotificationCount(Notifications.Count(n => !n.IsRead)); } catch { }
             });
         }
 
         private void OnWsError(object? sender, string message)
         {
-            System.Diagnostics.Debug.WriteLine($"[WS] Error: {message}");
+            // WS error handled silently
         }
 
-        // Nuevo handler: tap en notificación -> marcar como leída (GET /general/notifications/{id}/)
+        // Nuevo handler: tap en notificaciï¿½n -> marcar como leï¿½da (GET /general/notifications/{id}/)
         private async void OnNotificationTapped(object? sender, EventArgs e)
         {
             try
             {
-                if (sender is VisualElement ve && ve.BindingContext is NotificationItem item)
+                NotificationItem? item = null;
+
+                // If the gesture was configured with CommandParameter, sender will be a TapGestureRecognizer
+                if (sender is Microsoft.Maui.Controls.TapGestureRecognizer tap)
                 {
-                    if (string.IsNullOrEmpty(item.Id)) return;
+                    if (tap.CommandParameter is NotificationItem ni)
+                        item = ni;
+                    else if (tap.CommandParameter is string idStr)
+                        item = Notifications.FirstOrDefault(n => n.Id == idStr);
+                }
 
-                    if (!int.TryParse(item.Id, out var nid))
+                // Fallback: sender could be the element in some scenarios
+                if (item == null && sender is Element el && el.BindingContext is NotificationItem bc)
+                    item = bc;
+
+                if (item == null) return;
+
+                if (string.IsNullOrEmpty(item.Id)) return;
+
+                if (!int.TryParse(item.Id, out var nid))
+                {
+                    // id no numï¿½rico: marcar localmente
+                    var itemInSource = Notifications.FirstOrDefault(n => n.Id == item.Id);
+                    if (itemInSource != null) itemInSource.IsRead = true;
+                    else item.IsRead = true;
+
+                    UpdateDisplayed();
+                    try { MainLayoutHelper.UpdateNotificationCount(Notifications.Count(n => !n.IsRead)); } catch { }
+                    return;
+                }
+
+                IsLoading = true;
+                try
+                {
+                    var dto = await _notificationService.MarkAsReadAsync(nid);
+                    if (dto != null)
                     {
-                        // id no numérico: marcar localmente
-                        item.IsRead = true;
+                        var existing = Notifications.FirstOrDefault(n => n.Id == item.Id || (int.TryParse(n.Id, out var id2) && id2 == dto.Id));
+                        if (existing != null) existing.IsRead = dto.IsRead;
+
                         UpdateDisplayed();
-                        return;
-                    }
-
-                    IsLoading = true;
-                    try
-                    {
-                        var dto = await _notificationService.MarkAsReadAsync(nid);
-                        if (dto != null)
-                        {
-                            // actualizar item en la lista
-                            var existing = Notifications.FirstOrDefault(n => n.Id == item.Id);
-                            if (existing != null)
-                            {
-                                existing.IsRead = dto.IsRead;
-                            }
-
-                            UpdateDisplayed();
-
-                            // Actualizar contador en MainLayout (TopBar)
-                            try { MainLayoutHelper.UpdateNotificationCount(Notifications.Count(n => !n.IsRead)); } catch { }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        System.Diagnostics.Debug.WriteLine($"[Notifications] Error marking as read: {ex}");
-                    }
-                    finally
-                    {
-                        IsLoading = false;
+                        try { MainLayoutHelper.UpdateNotificationCount(Notifications.Count(n => !n.IsRead)); } catch { }
                     }
                 }
+                catch (Exception)
+                {
+                    // Error marking as read handled silently
+                }
+                finally
+                {
+                    IsLoading = false;
+                }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine($"[Notifications] OnNotificationTapped error: {ex}");
+                // OnNotificationTapped error handled silently
             }
         }
 
@@ -488,23 +499,105 @@ namespace AutogestionSena.MAUI.Views.notificaciones
             {
                 await NavigationHelper.NavigateToDashboardAsync(true);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine($"[Notifications] Error navigating to dashboard: {ex}");
+                // Error navigating to dashboard handled silently
             }
         }
     }
 
     // Modelo para UI
-    public class NotificationItem
+    public class NotificationItem : INotifyPropertyChanged
     {
-        public string Id { get; set; } = Guid.NewGuid().ToString();
-        public string Title { get; set; } = string.Empty;
-        public string Message { get; set; } = string.Empty;
-        public DateTime Timestamp { get; set; } = DateTime.Now;
-        public bool IsRead { get; set; } = false;
-        public bool Active { get; set; } = true;
+        private string _id = Guid.NewGuid().ToString();
+        private string _title = string.Empty;
+        private string _message = string.Empty;
+        private DateTime _timestamp = DateTime.Now;
+        private bool _isRead = false;
+        private bool _active = true;
+
+        public string Id
+        {
+            get => _id;
+            set
+            {
+                if (_id != value)
+                {
+                    _id = value;
+                    OnPropertyChanged(nameof(Id));
+                }
+            }
+        }
+
+        public string Title
+        {
+            get => _title;
+            set
+            {
+                if (_title != value)
+                {
+                    _title = value;
+                    OnPropertyChanged(nameof(Title));
+                }
+            }
+        }
+
+        public string Message
+        {
+            get => _message;
+            set
+            {
+                if (_message != value)
+                {
+                    _message = value;
+                    OnPropertyChanged(nameof(Message));
+                }
+            }
+        }
+
+        public DateTime Timestamp
+        {
+            get => _timestamp;
+            set
+            {
+                if (_timestamp != value)
+                {
+                    _timestamp = value;
+                    OnPropertyChanged(nameof(Timestamp));
+                    OnPropertyChanged(nameof(TimestampText));
+                }
+            }
+        }
+
+        public bool IsRead
+        {
+            get => _isRead;
+            set
+            {
+                if (_isRead != value)
+                {
+                    _isRead = value;
+                    OnPropertyChanged(nameof(IsRead));
+                }
+            }
+        }
+
+        public bool Active
+        {
+            get => _active;
+            set
+            {
+                if (_active != value)
+                {
+                    _active = value;
+                    OnPropertyChanged(nameof(Active));
+                }
+            }
+        }
 
         public string TimestampText => Timestamp.ToString("dd/MM/yyyy, HH:mm:ss");
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+        private void OnPropertyChanged(string name) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
     }
 }

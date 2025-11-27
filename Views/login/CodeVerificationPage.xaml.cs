@@ -86,9 +86,9 @@ namespace AutogestionSena.MAUI.Views
                     LogoImage.WidthRequest = 120;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine($"[RESPONSIVE] Error resizing CodeVerificationPage: {ex}");
+                // Responsive sizing error handled silently
             }
         }
 
@@ -143,7 +143,6 @@ namespace AutogestionSena.MAUI.Views
                     // Si el código es válido, navegar a la pantalla de cambio de contraseña
                     var encodedEmail = Uri.EscapeDataString(_email);
                     var encodedCode = Uri.EscapeDataString(code ?? string.Empty);
-                    System.Diagnostics.Debug.WriteLine($"[DEBUG] Código validado correctamente. Navegando a PasswordResetPage con email={_email} code={code}");
 
                     // Limpiar los datos del código una vez validado
                     Preferences.Remove("password_reset_data");
@@ -167,9 +166,9 @@ namespace AutogestionSena.MAUI.Views
                             Preferences.Set("AuthToken", result.Access ?? string.Empty);
                             Preferences.Set("RefreshToken", result.Refresh ?? string.Empty);
                         }
-                        catch (Exception ex)
+                        catch (Exception)
                         {
-                            System.Diagnostics.Debug.WriteLine($"[NAV] Error saving tokens to Preferences: {ex}");
+                            // Error saving tokens handled silently
                         }
 
 
@@ -200,23 +199,23 @@ namespace AutogestionSena.MAUI.Views
                             {
                                 await SecureStorage.SetAsync("user_data", userJson);
                             }
-                            catch (Exception ex)
+                            catch (Exception)
                             {
-                                System.Diagnostics.Debug.WriteLine($"[NAV] SecureStorage.SetAsync user_data failed: {ex}");
+                                // SecureStorage.SetAsync error handled silently
                             }
                             // Guardar rol explícito
                             try
                             {
                                 Preferences.Set("UserRole", roleId);
                             }
-                            catch (Exception ex)
+                            catch (Exception)
                             {
-                                System.Diagnostics.Debug.WriteLine($"[NAV] No se pudo guardar UserRole en Preferences: {ex}");
+                                // Error saving UserRole handled silently
                             }
                         }
-                        catch (Exception ex)
+                        catch (Exception)
                         {
-                            System.Diagnostics.Debug.WriteLine($"[NAV] Error saving user_data: {ex}");
+                            // Error saving user_data handled silently
                         }
 
                         // Configurar token para el servicio para llamadas subsecuentes (ej: cargar menú)
@@ -224,9 +223,9 @@ namespace AutogestionSena.MAUI.Views
                         {
                             _apiService.SetAuthToken(result.Access ?? string.Empty);
                         }
-                        catch (Exception ex)
+                        catch (Exception)
                         {
-                            System.Diagnostics.Debug.WriteLine($"[NAV] Error setting token in UserService: {ex}");
+                            // Error setting token handled silently
                         }
 
                         // Navegar a la página correspondiente según el roleId. Default: MainDashboard
@@ -237,16 +236,14 @@ namespace AutogestionSena.MAUI.Views
                         // Navegar a HomePage que cargará el dashboard apropiado según el rol
                         string route = "HomePage";
 
-                        System.Diagnostics.Debug.WriteLine($"[CODE-VERIFY] Usuario con rol {navigateRoleId} ({NavigationHelper.GetRoleName(navigateRoleId)}) será redirigido a: {route}");
-
                         // Notificar a subscriptores (DynamicSideMenuViewModel) que el usuario ha iniciado sesión
                         try
                         {
                             AuthEvents.NotifyUserLoggedIn(navigateRoleId, firstName, result.Access ?? string.Empty);
                         }
-                        catch (Exception exEvent)
+                        catch (Exception)
                         {
-                            System.Diagnostics.Debug.WriteLine($"[NAV] AuthEvents.NotifyUserLoggedIn failed: {exEvent}");
+                            // AuthEvents error handled silently
                         }
 
                         try
@@ -254,9 +251,8 @@ namespace AutogestionSena.MAUI.Views
                             // Usar NavigationHelper para navegación segura
                             await NavigationHelper.NavigateToAsync(route);
                         }
-                        catch (Exception navEx)
+                        catch (Exception)
                         {
-                            System.Diagnostics.Debug.WriteLine($"[CODE-VERIFY] Error navegando a {route}: {navEx}");
                             await DisplayAlert("Error", "No se pudo navegar al dashboard.", "Aceptar");
                         }
                     }
@@ -268,7 +264,6 @@ namespace AutogestionSena.MAUI.Views
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"[CODE-VERIFY] Error: {ex.Message}");
                 await DisplayAlert("Error", $"Error al verificar código: {ex.Message}", "Aceptar");
             }
         }
@@ -307,23 +302,17 @@ namespace AutogestionSena.MAUI.Views
       var codeDataJson = Preferences.Get("password_reset_data", string.Empty);
     if (string.IsNullOrEmpty(codeDataJson))
       {
-            System.Diagnostics.Debug.WriteLine("[CODE-VALIDATION] No hay datos de código guardados");
-                    return false;
+            return false;
      }
 
  var codeData = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(codeDataJson);
          if (codeData == null || !codeData.ContainsKey("code"))
       {
-     System.Diagnostics.Debug.WriteLine("[CODE-VALIDATION] Datos de código inválidos");
-      return false;
+     return false;
             }
 
    var storedCode = codeData["code"]?.ToString();
            var expirationDate = codeData.ContainsKey("fecha_expiracion") ? codeData["fecha_expiracion"]?.ToString() : null;
-
-        System.Diagnostics.Debug.WriteLine($"[CODE-VALIDATION] Código guardado: {storedCode}");
-                System.Diagnostics.Debug.WriteLine($"[CODE-VALIDATION] Código ingresado: {inputCode}");
-      System.Diagnostics.Debug.WriteLine($"[CODE-VALIDATION] Fecha expiración: {expirationDate}");
 
          // Validar fecha de expiración si está disponible
           if (!string.IsNullOrEmpty(expirationDate))
@@ -335,25 +324,22 @@ namespace AutogestionSena.MAUI.Views
              {
                 if (DateTime.Now > expiry)
          {
-          System.Diagnostics.Debug.WriteLine("[CODE-VALIDATION] Código expirado");
           return false;
    }
           }
          }
-      catch (Exception ex)
+      catch (Exception)
         {
-             System.Diagnostics.Debug.WriteLine($"[CODE-VALIDATION] Error validando expiración: {ex.Message}");
-      // Si no podemos validar la fecha, continuamos con la validación del código
+             // Si no podemos validar la fecha, continuamos con la validación del código
         }
                 }
 
            // Validar el código
     return !string.IsNullOrEmpty(storedCode) && storedCode.Equals(inputCode, StringComparison.OrdinalIgnoreCase);
          }
-    catch (Exception ex)
+    catch (Exception)
     {
-        System.Diagnostics.Debug.WriteLine($"[CODE-VALIDATION] Error validando código: {ex.Message}");
-         return false;
+        return false;
             }
         }
     }

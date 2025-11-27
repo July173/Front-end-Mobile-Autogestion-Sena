@@ -23,14 +23,14 @@ public partial class InstructorDashboardPage : ContentPage
         base.OnDisappearing();
     }
 
-    // Override para aplicar diseño responsive
+    // Override para aplicar diseï¿½o responsive
     protected override void OnSizeAllocated(double width, double height)
     {
         base.OnSizeAllocated(width, height);
         ApplyResponsiveLayout(width);
     }
 
-    // Aplicar diseño responsive según el ancho de la pantalla
+    // Aplicar diseï¿½o responsive segï¿½n el ancho de la pantalla
     private void ApplyResponsiveLayout(double width)
     {
         try
@@ -40,18 +40,18 @@ public partial class InstructorDashboardPage : ContentPage
 
             if (welcomeGrid == null) return;
 
-            System.Diagnostics.Debug.WriteLine($"[InstructorDashboard] Aplicando diseño responsive para ancho: {width}px");
+            System.Diagnostics.Debug.WriteLine($"[InstructorDashboard] Aplicando diseï¿½o responsive para ancho: {width}px");
 
-            // Ajustar tamaños de fuente según el ancho de pantalla
-            if (width <= 360) // Pantallas muy pequeñas
+            // Ajustar tamaï¿½os de fuente segï¿½n el ancho de pantalla
+            if (width <= 360) // Pantallas muy pequeï¿½as
             {
-                // Ajustar tamaños para celulares pequeños
+                // Ajustar tamaï¿½os para celulares pequeï¿½os
                 if (instructorNameLabel != null)
                 {
                     instructorNameLabel.FontSize = 16;
                 }
             }
-            else if (width <= 480) // Pantallas medianas (mayoría de celulares)
+            else if (width <= 480) // Pantallas medianas (mayorï¿½a de celulares)
             {
                 if (instructorNameLabel != null)
                 {
@@ -66,9 +66,9 @@ public partial class InstructorDashboardPage : ContentPage
                 }
             }
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            System.Diagnostics.Debug.WriteLine($"[InstructorDashboard] Error aplicando diseño responsive: {ex}");
+            // Responsive layout error handled silently
         }
     }
 
@@ -79,8 +79,6 @@ public partial class InstructorDashboardPage : ContentPage
         {
             var instructorNameLabel = this.FindByName<Label>("InstructorNameLabel");
 
-            // TODO: Obtener datos reales del instructor desde Preferences o API
-            // Por ahora usamos datos de ejemplo
             string instructorName = GetInstructorNameFromStorage();
 
             if (instructorNameLabel != null && !string.IsNullOrEmpty(instructorName))
@@ -88,9 +86,9 @@ public partial class InstructorDashboardPage : ContentPage
                 instructorNameLabel.Text = instructorName;
             }
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            System.Diagnostics.Debug.WriteLine($"[InstructorDashboard] Error cargando datos del instructor: {ex}");
+            // Load instructor data error handled silently
         }
     }
 
@@ -118,9 +116,8 @@ public partial class InstructorDashboardPage : ContentPage
             // Fallback: nombre por defecto
             return "Sneider Contreras Vargas";
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            System.Diagnostics.Debug.WriteLine($"[InstructorDashboard] Error obteniendo nombre del instructor: {ex}");
             return "Instructor";
         }
     }

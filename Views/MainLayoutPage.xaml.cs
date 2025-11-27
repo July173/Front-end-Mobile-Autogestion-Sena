@@ -28,9 +28,9 @@ namespace AutogestionSenaMaui.Views
                     MainThread.BeginInvokeOnMainThread(async () => await CloseSideMenuAsync());
                 });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine($"[MainLayoutPage] Error subscribing to CloseSideMenu: {ex}");
+                // Subscription error handled silently
             }
             
             // Desuscribirse al descargar la página
@@ -68,14 +68,13 @@ namespace AutogestionSenaMaui.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            System.Diagnostics.Debug.WriteLine("[MAINLAYOUT] MainLayoutPage appeared");
             try
             {
                 TopBarView.MenuButtonClicked += TopBarView_MenuButtonClicked;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine($"[MainLayoutPage] Error subscribing to TopBarView.MenuButtonClicked: {ex}");
+                // Subscription error handled silently
             }
         }
 
@@ -93,7 +92,6 @@ namespace AutogestionSenaMaui.Views
 
         private async void TopBarView_MenuButtonClicked(object? sender, EventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine("[MainLayoutPage] TopBarView_MenuButtonClicked invoked");
             await ToggleSideMenuAsync();
         }
 
@@ -110,9 +108,9 @@ namespace AutogestionSenaMaui.Views
                     await OpenSideMenuAsync();
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine($"[MainLayoutPage] Error toggling side menu: {ex}");
+                // Toggle menu error handled silently
             }
         }
 
@@ -151,11 +149,10 @@ namespace AutogestionSenaMaui.Views
                 animation.Commit(this, "OpenMenu", 16, 250, Easing.CubicOut);
                 
                 await Task.Delay(250);
-                System.Diagnostics.Debug.WriteLine($"[MainLayoutPage] Menu opened to width: {desiredWidth}");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine($"[MainLayoutPage] Error opening menu: {ex}");
+                // Open menu error handled silently
             }
         }
 
@@ -179,12 +176,9 @@ namespace AutogestionSenaMaui.Views
                 // Resetear completamente el menú
                 SideMenu.WidthRequest = 0;
                 SideMenu.IsVisible = false;
-                
-                System.Diagnostics.Debug.WriteLine("[MainLayoutPage] Menu closed");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine($"[MainLayoutPage] Error closing menu: {ex}");
                 // Asegurar que el menú esté cerrado incluso si hay error
                 SideMenu.WidthRequest = 0;
                 SideMenu.IsVisible = false;

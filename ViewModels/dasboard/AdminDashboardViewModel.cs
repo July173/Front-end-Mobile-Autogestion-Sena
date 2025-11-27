@@ -45,9 +45,9 @@ namespace AutogestionSenaMaui.ViewModels
                     TotalForms = counts.TotalForms;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine($"[AdminDashboardVM] Error loading admin counts: {ex}");
+                // Admin counts load error handled silently
             }
             finally
             {

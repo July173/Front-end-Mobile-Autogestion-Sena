@@ -146,14 +146,14 @@ namespace AutogestionSena.MAUI.Views
                         {
                             await SecureStorage.SetAsync("user_data", userJson);
                         }
-                        catch (Exception sx)
+                        catch (Exception)
                         {
-                            System.Diagnostics.Debug.WriteLine($"[LOGIN] SecureStorage not available or set failed: {sx}");
+                            // SecureStorage not available
                         }
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
-                        System.Diagnostics.Debug.WriteLine($"[LOGIN] Error saving user_data: {ex}");
+                        // Error saving user_data handled silently
                     }
                     
                     TwoFactorModal.ShowSuccess();
@@ -168,29 +168,22 @@ namespace AutogestionSena.MAUI.Views
                     {
                         Preferences.Set("UserRole", navigateRoleId);
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
-                        System.Diagnostics.Debug.WriteLine($"[LOGIN] No se pudo guardar UserRole en Preferences: {ex}");
+                        // Error saving UserRole handled silently
                     }
 
                     // Navegar a HomePage que cargará el dashboard apropiado según el rol
-                    // Similar a React que redirige a "/home" y Home.tsx decide qué mostrar
                     string route = "HomePage";
-                    
-                    System.Diagnostics.Debug.WriteLine($"[LOGIN] Usuario con rol {navigateRoleId} ({NavigationHelper.GetRoleName(navigateRoleId)}) será redirigido a: {route}");
-
-                    // Limpiar credenciales
-                    // _currentEmail = string.Empty;
-                    // _currentPassword = string.Empty;
                     
                     // Notificar a subscriptores (DynamicSideMenuViewModel) que el usuario ha iniciado sesión
                     try
                     {
                         AuthEvents.NotifyUserLoggedIn(navigateRoleId, (response.User?.Email ?? _currentEmail), response.Access ?? string.Empty);
                     }
-                    catch (Exception exEvent)
+                    catch (Exception)
                     {
-                        System.Diagnostics.Debug.WriteLine($"[LOGIN] AuthEvents.NotifyUserLoggedIn failed: {exEvent}");
+                        // AuthEvents notification error handled silently
                     }
 
                     try
@@ -200,9 +193,8 @@ namespace AutogestionSena.MAUI.Views
                             await Shell.Current.GoToAsync($"///{route}");
                         }
                     }
-                    catch (Exception navEx)
+                    catch (Exception)
                     {
-                        System.Diagnostics.Debug.WriteLine($"[LOGIN] Error navegando a {route}: {navEx}");
                         await DisplayAlert("Error", "No se pudo navegar al dashboard.", "Aceptar");
                     }
                 }

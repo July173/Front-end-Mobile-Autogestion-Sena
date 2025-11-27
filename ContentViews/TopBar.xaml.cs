@@ -59,16 +59,12 @@ namespace AutogestionSenaMaui.ContentViews
         {
             try
             {
-                // El overlay modal funciona bien en todas las pantallas
-                System.Diagnostics.Debug.WriteLine($"[TopBar] Ancho de pantalla: {width}px - Usando overlay modal");
-                
-                // Ajustar el ancho del menú según la pantalla
                 var dropdownMenu = this.FindByName<Border>("DropdownMenu");
                 if (dropdownMenu != null)
                 {
                     if (width < 400)
                     {
-                        dropdownMenu.WidthRequest = width * 0.85; // 85% del ancho en pantallas pequeñas
+                        dropdownMenu.WidthRequest = width * 0.85;
                         dropdownMenu.Margin = new Thickness(10, 80, 10, 20);
                     }
                     else if (width < 600)
@@ -83,9 +79,9 @@ namespace AutogestionSenaMaui.ContentViews
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine($"[TopBar] Error aplicando diseño responsive: {ex}");
+                // Layout error handled silently
             }
         }
 
@@ -94,8 +90,6 @@ namespace AutogestionSenaMaui.ContentViews
         {
             try
             {
-                System.Diagnostics.Debug.WriteLine($"[TopBar] Hamburger tapped. Menu currently: {(_isMenuOpen ? "open" : "closed")}");
-
                 if (_isMenuOpen)
                 {
                     await HideOverlayMenu();
@@ -105,9 +99,9 @@ namespace AutogestionSenaMaui.ContentViews
                     await ShowOverlayMenu();
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine($"[TopBar] Error en OnHamburgerTapped: {ex}");
+                // Menu toggle error handled silently
             }
         }
 
@@ -116,15 +110,14 @@ namespace AutogestionSenaMaui.ContentViews
         {
             try
             {
-                System.Diagnostics.Debug.WriteLine("[TopBar] Overlay background tapped, hiding menu...");
                 if (_isMenuOpen)
                 {
                     await HideOverlayMenu();
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine($"[TopBar] Error en OnOverlayTapped: {ex}");
+                // Overlay tap error handled silently
             }
         }
 
@@ -138,21 +131,15 @@ namespace AutogestionSenaMaui.ContentViews
                 
                 if (overlayContainer == null || dropdownMenu == null) return;
 
-                System.Diagnostics.Debug.WriteLine("[TopBar] Showing overlay menu...");
-
-                // Preparar el overlay para la animación
                 overlayContainer.IsVisible = true;
                 overlayContainer.Opacity = 0;
                 
-                // Preparar el menú para la animación (viene desde arriba)
                 dropdownMenu.Opacity = 0;
                 dropdownMenu.TranslationY = -100;
                 dropdownMenu.Scale = 0.9;
 
-                // Animar el overlay (fondo)
                 var overlayFadeIn = overlayContainer.FadeTo(1, 200, Easing.CubicOut);
                 
-                // Animar el menú (deslizar desde arriba + fade + scale)
                 var menuFadeIn = dropdownMenu.FadeTo(1, 300, Easing.CubicOut);
                 var menuSlideIn = dropdownMenu.TranslateTo(0, 0, 300, Easing.CubicOut);
                 var menuScaleIn = dropdownMenu.ScaleTo(1, 300, Easing.CubicOut);
@@ -162,14 +149,11 @@ namespace AutogestionSenaMaui.ContentViews
 
                 _isMenuOpen = true;
 
-                // Iniciar el timer para auto-ocultar
                 StartAutoHideTimer();
-
-                System.Diagnostics.Debug.WriteLine("[TopBar] Overlay menu shown successfully");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine($"[TopBar] Error showing overlay menu: {ex}");
+                // Show menu error handled silently
             }
         }
 
@@ -183,29 +167,22 @@ namespace AutogestionSenaMaui.ContentViews
                 
                 if (overlayContainer == null || !overlayContainer.IsVisible || dropdownMenu == null) return;
 
-                System.Diagnostics.Debug.WriteLine("[TopBar] Hiding overlay menu...");
-
-                // Parar el timer
                 StopAutoHideTimer();
 
-                // Animar el menú (deslizar hacia arriba + fade + scale)
                 var menuFadeOut = dropdownMenu.FadeTo(0, 200, Easing.CubicIn);
                 var menuSlideOut = dropdownMenu.TranslateTo(0, -50, 200, Easing.CubicIn);
                 var menuScaleOut = dropdownMenu.ScaleTo(0.9, 200, Easing.CubicIn);
 
                 await Task.WhenAll(menuFadeOut, menuSlideOut, menuScaleOut);
 
-                // Animar el overlay (fondo)
                 await overlayContainer.FadeTo(0, 150, Easing.CubicIn);
 
                 overlayContainer.IsVisible = false;
                 _isMenuOpen = false;
-
-                System.Diagnostics.Debug.WriteLine("[TopBar] Overlay menu hidden successfully");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine($"[TopBar] Error hiding overlay menu: {ex}");
+                // Hide menu error handled silently
             }
         }
 
@@ -216,11 +193,10 @@ namespace AutogestionSenaMaui.ContentViews
             {
                 _autoHideTimer?.Stop();
                 _autoHideTimer?.Start();
-                System.Diagnostics.Debug.WriteLine($"[TopBar] Auto-hide timer started ({AUTO_HIDE_DELAY}ms)");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine($"[TopBar] Error starting auto-hide timer: {ex}");
+                // Timer start error handled silently
             }
         }
 
@@ -230,11 +206,10 @@ namespace AutogestionSenaMaui.ContentViews
             try
             {
                 _autoHideTimer?.Stop();
-                System.Diagnostics.Debug.WriteLine("[TopBar] Auto-hide timer stopped");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine($"[TopBar] Error stopping auto-hide timer: {ex}");
+                // Timer stop error handled silently
             }
         }
 
@@ -243,9 +218,6 @@ namespace AutogestionSenaMaui.ContentViews
         {
             try
             {
-                System.Diagnostics.Debug.WriteLine("[TopBar] Auto-hide timer elapsed, hiding overlay menu...");
-
-                // Ejecutar en el hilo principal
                 await MainThread.InvokeOnMainThreadAsync(async () =>
                 {
                     if (_isMenuOpen)
@@ -254,9 +226,9 @@ namespace AutogestionSenaMaui.ContentViews
                     }
                 });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine($"[TopBar] Error en auto-hide timer: {ex}");
+                // Auto-hide timer error handled silently
             }
         }
 
@@ -265,33 +237,26 @@ namespace AutogestionSenaMaui.ContentViews
         {
             try
             {
-                System.Diagnostics.Debug.WriteLine("[TopBar] Notifications tapped");
-
-                // Ocultar el menú primero
                 if (_isMenuOpen)
                 {
                     await HideOverlayMenu();
                 }
 
-                // Breve delay para que la animación se complete
                 await Task.Delay(100);
 
-                // Intentar navegar usando Shell route registrada
                 try
                 {
                     if (Shell.Current != null)
                     {
-                        System.Diagnostics.Debug.WriteLine("[TopBar] Intentando Shell navigation to 'notifications'");
                         await Shell.Current.GoToAsync("notifications");
                         return;
                     }
                 }
-                catch (Exception exNav)
+                catch (Exception)
                 {
-                    System.Diagnostics.Debug.WriteLine($"[TopBar] Shell navigation failed: {exNav.Message}");
+                    // Shell navigation failed, try fallback
                 }
 
-                // Fallback: push page directamente en la pila de navegación
                 try
                 {
                     var page = new NotificacionesApp();
@@ -304,14 +269,14 @@ namespace AutogestionSenaMaui.ContentViews
                         await Application.Current.MainPage.Navigation.PushAsync(page);
                     }
                 }
-                catch (Exception exPush)
+                catch (Exception)
                 {
-                    System.Diagnostics.Debug.WriteLine($"[TopBar] Push navigation failed: {exPush}");
+                    // Push navigation failed
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine($"[TopBar] Error navegando a notificaciones: {ex}");
+                // Navigation error handled silently
             }
         }
 
@@ -320,18 +285,13 @@ namespace AutogestionSenaMaui.ContentViews
         {
             try
             {
-                System.Diagnostics.Debug.WriteLine("[TopBar] Logout tapped");
-
-                // Ocultar el menú primero
                 if (_isMenuOpen)
                 {
                     await HideOverlayMenu();
                 }
 
-                // Breve delay para que la animación se complete
                 await Task.Delay(200);
 
-                // Mostrar diálogo de confirmación
                 bool confirmLogout = await Application.Current.MainPage.DisplayAlert(
                     "Cerrar Sesión",
                     "¿Estás seguro que deseas cerrar sesión?",
@@ -343,9 +303,8 @@ namespace AutogestionSenaMaui.ContentViews
                     await PerformLogout();
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine($"[TopBar] Error en OnLogoutTapped: {ex}");
                 await Application.Current.MainPage.DisplayAlert("Error", "Ocurrió un error al cerrar sesión.", "Aceptar");
             }
         }
@@ -355,33 +314,23 @@ namespace AutogestionSenaMaui.ContentViews
         {
             try
             {
-                System.Diagnostics.Debug.WriteLine("[LOGOUT] Iniciando proceso de cierre de sesión...");
-
-                // 1. Limpiar todos los datos almacenados en Preferences
                 ClearPreferencesData();
 
-                // 2. Limpiar datos de SecureStorage
                 await ClearSecureStorageData();
 
-                // 3. Notificar a otros componentes del logout (si existe AuthEvents)
                 try
                 {
                     AuthEvents.NotifyUserLoggedOut();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    System.Diagnostics.Debug.WriteLine($"[LOGOUT] Error notificando logout: {ex}");
+                    // Logout notification error handled silently
                 }
 
-                // 4. Navegar al login
-                System.Diagnostics.Debug.WriteLine("[LOGOUT] Redirigiendo al login...");
                 await Shell.Current.GoToAsync("///LoginPage");
-
-                System.Diagnostics.Debug.WriteLine("[LOGOUT] Proceso de cierre de sesión completado exitosamente");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine($"[LOGOUT] Error durante PerformLogout: {ex}");
                 throw;
             }
         }
@@ -391,9 +340,6 @@ namespace AutogestionSenaMaui.ContentViews
         {
             try
             {
-                System.Diagnostics.Debug.WriteLine("[LOGOUT] Limpiando datos de Preferences...");
-
-                // Lista de todas las keys que se usan en la aplicación
                 string[] preferencesKeys = {
                     "AuthToken",
                     "RefreshToken", 
@@ -408,17 +354,14 @@ namespace AutogestionSenaMaui.ContentViews
                     if (Preferences.ContainsKey(key))
                     {
                         Preferences.Remove(key);
-                        System.Diagnostics.Debug.WriteLine($"[LOGOUT] Eliminada key de Preferences: {key}");
                     }
                 }
 
-                // Limpiar todas las preferences (método alternativo más seguro)
                 Preferences.Clear();
-                System.Diagnostics.Debug.WriteLine("[LOGOUT] Todas las Preferences limpiadas");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine($"[LOGOUT] Error limpiando Preferences: {ex}");
+                // Preferences clear error handled silently
             }
         }
 
@@ -427,9 +370,6 @@ namespace AutogestionSenaMaui.ContentViews
         {
             try
             {
-                System.Diagnostics.Debug.WriteLine("[LOGOUT] Limpiando datos de SecureStorage...");
-
-                // Lista de todas las keys que se usan en SecureStorage
                 string[] secureStorageKeys = {
                     "user_data",
                     "AuthToken",
@@ -441,21 +381,18 @@ namespace AutogestionSenaMaui.ContentViews
                     try
                     {
                         SecureStorage.Remove(key);
-                        System.Diagnostics.Debug.WriteLine($"[LOGOUT] Eliminada key de SecureStorage: {key}");
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
-                        System.Diagnostics.Debug.WriteLine($"[LOGOUT] Error eliminando key {key} de SecureStorage: {ex}");
+                        // Individual key removal error handled silently
                     }
                 }
 
-                // Limpiar todo el SecureStorage (método alternativo)
                 SecureStorage.RemoveAll();
-                System.Diagnostics.Debug.WriteLine("[LOGOUT] Todos los datos de SecureStorage limpiados");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine($"[LOGOUT] Error limpiando SecureStorage: {ex}");
+                // SecureStorage clear error handled silently
             }
         }
 
@@ -466,10 +403,8 @@ namespace AutogestionSenaMaui.ContentViews
             
             if (Handler == null)
             {
-                // El control se está destruyendo, limpiar el timer
                 _autoHideTimer?.Dispose();
                 _autoHideTimer = null;
-                System.Diagnostics.Debug.WriteLine("[TopBar] Timer disposed on handler change");
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿namespace AutogestionSena.MAUI
+﻿
+namespace AutogestionSena.MAUI
 {
     public partial class MainPage : ContentPage
     {
@@ -7,5 +8,4 @@
             InitializeComponent();
         }
     }
-
 }

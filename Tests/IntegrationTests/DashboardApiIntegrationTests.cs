@@ -15,7 +15,7 @@ namespace AutogestionSena.Tests.IntegrationTests
     public class DashboardApiIntegrationTests : IDisposable
     {
         private readonly HttpClient _httpClient;
-        private const string BASE_URL = "http://10.3.234.91:8001/api/";
+        private const string BASE_URL = "http://167.114.98.199/api/";
         
         // IDs de prueba (existentes en el sistema)
         private const int TEST_APPRENTICE_ID = 1;

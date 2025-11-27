@@ -4,18 +4,6 @@ namespace AutogestionSena.MAUI.Api.Dtos
 {
     /// <summary>
     /// DTO para el registro de aprendices
-    /// Estructura del API:
-    /// {
-    ///   "first_name": "string",
-    ///   "second_name": "string",
-    ///   "first_last_name": "string",
-    ///   "second_last_name": "string",
-    ///   "phone_number": 9223372036854776000,
-    ///   "type_identification": 0,
-    ///   "number_identification": 2147483647,
-    ///   "active": true,
-    ///   "email": "user@example.com"
-    /// }
     /// </summary>
     public class RegisterPayloadDto
     {

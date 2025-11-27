@@ -56,7 +56,6 @@ namespace AutogestionSenaMaui.Views
                 // Verificar si el usuario está autenticado
                 if (!NavigationHelper.IsUserAuthenticated())
                 {
-                    System.Diagnostics.Debug.WriteLine($"[PROTECTED] Usuario no autenticado en {GetType().Name}");
                     await OnUnauthorizedAccess();
                     return false;
                 }
@@ -66,20 +65,15 @@ namespace AutogestionSenaMaui.Views
                 // Si hay roles permitidos definidos, verificar permisos
                 if (AllowedRoles.Length > 0 && !Array.Exists(AllowedRoles, r => r == userRole))
                 {
-                    System.Diagnostics.Debug.WriteLine(
-                        $"[PROTECTED] Usuario rol={userRole} no autorizado para {GetType().Name}. Roles permitidos: {string.Join(", ", AllowedRoles)}"
-                    );
                     await OnForbiddenAccess(userRole);
                     return false;
                 }
 
-                System.Diagnostics.Debug.WriteLine($"[PROTECTED] Acceso autorizado a {GetType().Name} para rol={userRole}");
                 await OnAuthorizedAccess(userRole);
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine($"[PROTECTED] Error validando acceso: {ex}");
                 return false;
             }
         }

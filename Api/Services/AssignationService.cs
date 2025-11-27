@@ -24,58 +24,31 @@ namespace AutogestionSena.MAUI.Api.Services
             try
             {
                 var endpoint = $"assign/request_asignation/aprendiz-dashboard/?aprendiz_id={apprenticeId}";
-  
-                System.Diagnostics.Debug.WriteLine($"");
-                System.Diagnostics.Debug.WriteLine($"🎯 [AssignationService] ===== INICIANDO PETICIÓN DASHBOARD =====");
-                System.Diagnostics.Debug.WriteLine($"📅 [AssignationService] Timestamp: {DateTime.Now:yyyy-MM-dd HH:mm:ss.fff}");
-                System.Diagnostics.Debug.WriteLine($"📋 [AssignationService] Endpoint: {endpoint}");
-                System.Diagnostics.Debug.WriteLine($"👤 [AssignationService] Apprentice ID: {apprenticeId}");
 
-                // Primero obtener el JSON raw para detectar el tipo de respuesta
                 var jsonResponse = await _apiService.GetRawAsync(endpoint);
                 
                 if (string.IsNullOrEmpty(jsonResponse))
                 {
-                    System.Diagnostics.Debug.WriteLine($"⚠️ [AssignationService] Respuesta vacía del servidor");
                     return CreateEmptyDashboard();
                 }
 
-                System.Diagnostics.Debug.WriteLine($"📄 [AssignationService] JSON recibido: {jsonResponse.Substring(0, Math.Min(200, jsonResponse.Length))}...");
-
-                // Detectar si es array o objeto
                 var trimmedJson = jsonResponse.Trim();
                 
                 if (trimmedJson.StartsWith("["))
                 {
-                    // Es un ARRAY - formato sin instructor (PRE-APROBADO, etc.)
-                    System.Diagnostics.Debug.WriteLine($"📦 [AssignationService] Detectado formato ARRAY (sin instructor)");
                     return await ProcessArrayResponse(trimmedJson);
                 }
                 else if (trimmedJson.StartsWith("{"))
                 {
-                    // Es un OBJETO - formato con instructor (VERIFICANDO, etc.)
-                    System.Diagnostics.Debug.WriteLine($"📦 [AssignationService] Detectado formato OBJETO (con instructor)");
                     return await ProcessObjectResponse(trimmedJson);
                 }
                 else
                 {
-                    System.Diagnostics.Debug.WriteLine($"❌ [AssignationService] Formato de respuesta desconocido");
                     return CreateEmptyDashboard();
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine($"");
-                System.Diagnostics.Debug.WriteLine($"❌ [AssignationService] ===== ERROR EN PETICIÓN =====");
-                System.Diagnostics.Debug.WriteLine($"🚨 [AssignationService] Exception Type: {ex.GetType().Name}");
-                System.Diagnostics.Debug.WriteLine($"💬 [AssignationService] Error Message: {ex.Message}");
-                
-                if (ex.InnerException != null)
-                {
-                    System.Diagnostics.Debug.WriteLine($"🔗 [AssignationService] Inner Exception: {ex.InnerException.Message}");
-                }
-                
-                System.Diagnostics.Debug.WriteLine($"❌ [AssignationService] ===== FIN ERROR =====");
                 throw;
             }
         }
@@ -92,11 +65,9 @@ namespace AutogestionSena.MAUI.Api.Services
                 
                 if (responses == null || responses.Count == 0)
                 {
-                    System.Diagnostics.Debug.WriteLine($"⚠️ [AssignationService] Array vacío - sin solicitudes");
                     return CreateEmptyDashboard();
                 }
 
-                // Tomar la primera solicitud (o la más reciente si hay varias)
                 var response = responses.FirstOrDefault();
                 
                 if (response == null)
@@ -104,16 +75,10 @@ namespace AutogestionSena.MAUI.Api.Services
                     return CreateEmptyDashboard();
                 }
 
-                System.Diagnostics.Debug.WriteLine($"✅ [AssignationService] Procesando solicitud básica ID: {response.Id}");
-                System.Diagnostics.Debug.WriteLine($"   📊 Estado: {response.RequestState}");
-                System.Diagnostics.Debug.WriteLine($"   🏢 Enterprise ID: {response.Enterprise}");
-                System.Diagnostics.Debug.WriteLine($"   📋 Modality ID: {response.ModalityProductiveStage}");
-
                 return await MapBasicDashboardResponse(response);
             }
-            catch (JsonException ex)
+            catch (JsonException)
             {
-                System.Diagnostics.Debug.WriteLine($"❌ [AssignationService] Error deserializando array: {ex.Message}");
                 return CreateEmptyDashboard();
             }
         }
@@ -130,19 +95,13 @@ namespace AutogestionSena.MAUI.Api.Services
                 
                 if (response == null)
                 {
-                    System.Diagnostics.Debug.WriteLine($"⚠️ [AssignationService] Objeto null después de deserializar");
                     return CreateEmptyDashboard();
                 }
 
-                System.Diagnostics.Debug.WriteLine($"✅ [AssignationService] Procesando solicitud con instructor ID: {response.Id}");
-                System.Diagnostics.Debug.WriteLine($"   📊 Estado: {response.RequestState}");
-                System.Diagnostics.Debug.WriteLine($"   👨‍🏫 Instructor: {response.InstructorFirstName} {response.InstructorFirstLastName}");
-
                 return await MapRealDashboardResponse(response);
             }
-            catch (JsonException ex)
+            catch (JsonException)
             {
-                System.Diagnostics.Debug.WriteLine($"❌ [AssignationService] Error deserializando objeto: {ex.Message}");
                 return CreateEmptyDashboard();
             }
         }
@@ -165,35 +124,29 @@ namespace AutogestionSena.MAUI.Api.Services
         /// </summary>
         private async Task<ApprenticeDashboardDto> MapBasicDashboardResponse(ApprenticeDashboardBasicApiResponse response)
         {
-            System.Diagnostics.Debug.WriteLine($"📦 [AssignationService] ===== MAPEANDO RESPUESTA BÁSICA =====");
-
-            // Obtener datos de empresa
             EnterpriseDto? enterprise = null;
             if (response.Enterprise > 0)
             {
                 try
                 {
                     enterprise = await GetEnterpriseAsync(response.Enterprise);
-                    System.Diagnostics.Debug.WriteLine($"🏢 [AssignationService] Empresa: {enterprise?.Name ?? "NULL"}");
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    System.Diagnostics.Debug.WriteLine($"❌ [AssignationService] Error empresa: {ex.Message}");
+                    // Ignore enterprise fetch errors
                 }
             }
 
-            // Obtener datos de modalidad
             ModalityProductiveStageDto? modality = null;
             if (response.ModalityProductiveStage > 0)
             {
                 try
                 {
                     modality = await GetModalityByIdAsync(response.ModalityProductiveStage);
-                    System.Diagnostics.Debug.WriteLine($"📋 [AssignationService] Modalidad: {modality?.Name ?? "NULL"}");
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    System.Diagnostics.Debug.WriteLine($"❌ [AssignationService] Error modalidad: {ex.Message}");
+                    // Ignore modality fetch errors
                 }
             }
 
@@ -214,12 +167,6 @@ namespace AutogestionSena.MAUI.Api.Services
                 StateCode = response.RequestState
             };
 
-            System.Diagnostics.Debug.WriteLine($"📝 [AssignationService] Request mapeado:");
-            System.Diagnostics.Debug.WriteLine($"   🏢 Empresa: {request.EnterpriseName}");
-            System.Diagnostics.Debug.WriteLine($"   📋 Modalidad: {request.Modality}");
-            System.Diagnostics.Debug.WriteLine($"   🎯 Estado: {request.RequestState}");
-            System.Diagnostics.Debug.WriteLine($"   👨‍🏫 Instructor: NO ASIGNADO");
-
             return new ApprenticeDashboardDto
             {
                 HasRequest = true,
@@ -235,13 +182,10 @@ namespace AutogestionSena.MAUI.Api.Services
 /// </summary>
      private async Task<ApprenticeDashboardDto> MapRealDashboardResponse(ApprenticeDashboardRealApiResponse? response)
      {
-          System.Diagnostics.Debug.WriteLine($"📦 [AssignationService] ===== INICIANDO MAPEO REAL =====");
-          
   const string defaultState = "Sin solicitudes registradas";
 
       if (response == null)
             {
-  System.Diagnostics.Debug.WriteLine($"⚠️ [AssignationService] Response es null - Retornando estado vacío");
  return new ApprenticeDashboardDto
           {
     HasRequest = false,
@@ -249,8 +193,6 @@ namespace AutogestionSena.MAUI.Api.Services
         ShowInstructor = false
          };
             }
-
-     System.Diagnostics.Debug.WriteLine($"✅ [AssignationService] Mapeando datos reales...");
       
       // Obtener datos adicionales de empresa si es necesario
         EnterpriseDto? enterprise = null;
@@ -258,13 +200,11 @@ namespace AutogestionSena.MAUI.Api.Services
       {
             try
        {
-       System.Diagnostics.Debug.WriteLine($"🏢 [AssignationService] Obteniendo datos de empresa ID: {response.Enterprise}");
        enterprise = await GetEnterpriseAsync(response.Enterprise);
-       System.Diagnostics.Debug.WriteLine($"🏢 [AssignationService] Empresa obtenida: {enterprise?.Name ?? "NULL"}");
        }
-     catch (Exception ex)
+     catch (Exception)
         {
-       System.Diagnostics.Debug.WriteLine($"❌ [AssignationService] Error obteniendo empresa: {ex.Message}");
+       // Ignore enterprise fetch errors
   }
     }
 
@@ -274,13 +214,11 @@ namespace AutogestionSena.MAUI.Api.Services
       {
           try
           {
-              System.Diagnostics.Debug.WriteLine($"📋 [AssignationService] Obteniendo modalidad ID: {response.ModalityProductiveStage}");
               modality = await GetModalityByIdAsync(response.ModalityProductiveStage);
-              System.Diagnostics.Debug.WriteLine($"📋 [AssignationService] Modalidad obtenida: {modality?.Name ?? "NULL"}");
           }
-          catch (Exception ex)
+          catch (Exception)
           {
-              System.Diagnostics.Debug.WriteLine($"❌ [AssignationService] Error obteniendo modalidad: {ex.Message}");
+              // Ignore modality fetch errors
           }
       }
 
@@ -301,13 +239,6 @@ Id = response.Id,
              StateColor = GetStateColor(response.RequestState),
 StateCode = response.RequestState
       };
-
-      System.Diagnostics.Debug.WriteLine($"📝 [AssignationService] Request creado:");
-      System.Diagnostics.Debug.WriteLine($"   🏢 EnterpriseName: {request.EnterpriseName}");
-      System.Diagnostics.Debug.WriteLine($"   👔 BossName: {request.BossName}");
-      System.Diagnostics.Debug.WriteLine($"   📋 Modality: {request.Modality}");
-      System.Diagnostics.Debug.WriteLine($"   📍 CityName: {request.CityName}");
-      System.Diagnostics.Debug.WriteLine($"   🎯 RequestState: {request.RequestState}");
 
     // Crear el DTO de instructor si existe
  DashboardInstructorDto? instructor = null;
@@ -337,7 +268,6 @@ StateCode = response.RequestState
          ShowInstructor = instructor != null
      };
 
-         System.Diagnostics.Debug.WriteLine($"✅ [AssignationService] Mapeo real completado exitosamente");
             return result;
         }
 
@@ -351,9 +281,8 @@ StateCode = response.RequestState
                 var modalities = await GetModalityProductiveStagesAsync();
                 return modalities?.FirstOrDefault(m => m.Id == modalityId);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine($"❌ [AssignationService] Error buscando modalidad {modalityId}: {ex.Message}");
                 return null;
             }
         }
@@ -412,13 +341,11 @@ StateCode = response.RequestState
     {
      try
    {
-    System.Diagnostics.Debug.WriteLine($"?? [AssignationService] Obteniendo datos de empresa ID: {enterpriseId}");
       var endpoint = Endpoints.Assignment.GetEnterprise(enterpriseId);
  return await _apiService.GetAsync<EnterpriseDto>(endpoint);
        }
-    catch (Exception ex)
+    catch (Exception)
      {
-      System.Diagnostics.Debug.WriteLine($"? [AssignationService] Error obteniendo empresa: {ex.Message}");
         throw;
          }
         }
@@ -431,13 +358,11 @@ StateCode = response.RequestState
   {
           try
          {
-  System.Diagnostics.Debug.WriteLine($"?? [AssignationService] Obteniendo modalidades de etapa productiva");
     var endpoint = Endpoints.Assignment.GetModalityProductiveStage;
       return await _apiService.GetAsync<List<ModalityProductiveStageDto>>(endpoint);
     }
- catch (Exception ex)
+ catch (Exception)
             {
-     System.Diagnostics.Debug.WriteLine($"? [AssignationService] Error obteniendo modalidades: {ex.Message}");
       throw;
   }
         }
@@ -450,13 +375,11 @@ StateCode = response.RequestState
         {
  try
         {
-     System.Diagnostics.Debug.WriteLine($"????? [AssignationService] Obteniendo datos de instructor ID: {instructorId}");
           var endpoint = Endpoints.Instructor.GetInstructor(instructorId);
    return await _apiService.GetAsync<InstructorDetailDto>(endpoint);
      }
-          catch (Exception ex)
+          catch (Exception)
     {
-     System.Diagnostics.Debug.WriteLine($"? [AssignationService] Error obteniendo instructor: {ex.Message}");
   throw;
          }
         }

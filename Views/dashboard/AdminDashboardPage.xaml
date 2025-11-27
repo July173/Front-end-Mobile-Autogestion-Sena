@@ -24,8 +24,8 @@
                                LineBreakMode="WordWrap" />
 
                         <!-- Botón de actualizar (colocado debajo del título, centrado y responsive) -->
-                        <Button Text="🔄 Actualizar"
-                                BackgroundColor="#FF9800"
+                        <Button Text="Actualizar"
+                                BackgroundColor="#43A047"
                                 TextColor="White"
                                 CornerRadius="8"
                                 Clicked="OnReloadStatistics"

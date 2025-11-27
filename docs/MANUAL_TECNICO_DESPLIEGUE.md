@@ -1,4 +1,4 @@
-# 📱 Manual Técnico de Despliegue - AutoGestión SENA
+#  Manual Técnico de Despliegue - AutoGestión SENA
 
 ## .NET MAUI - Generación de APK para Android
 
@@ -9,15 +9,17 @@
 1. [Requisitos Previos](#1-requisitos-previos)
 2. [Configuración del Entorno](#2-configuración-del-entorno)
 3. [Estructura del Proyecto](#3-estructura-del-proyecto)
-4. [Entornos de Despliegue](#12-entornos-de-despliegue)
+4. [Entornos de Despliegue](#121-entornos-de-despliegue)
 5. [Ejecución en Modo Desarrollo](#122-ejecución-en-modo-desarrollo)
 6. [Compilación APK de Pruebas](#123-compilación-apk-de-pruebas)
 7. [Compilación APK de Producción](#124-compilación-apk-de-producción)
-8. [Firma de la Aplicación](#8-firma-de-la-aplicación)
-9. [Instalación de APK en Dispositivo](#125-instalación-de-apk-en-dispositivo)
-10. [Versionamiento](#126-versionamiento)
+8. [Firma de la Aplicación](#125-firma-de-la-aplicación)
+9. [Instalación de APK en Dispositivo](#126-instalación-de-apk-en-dispositivo)
+10. [Versionamiento](#127-versionamiento)
 11. [Solución de Problemas Comunes](#11-solución-de-problemas-comunes)
 12. [Comandos de Referencia Rápida](#12-comandos-de-referencia-rápida)
+
+>  **Nota:** Para una guía detallada de compilación e instalación de APK, consultar: [GUIA_COMPILACION_INSTALACION_APK.md](./GUIA_COMPILACION_INSTALACION_APK.md)
 
 ---
 
@@ -38,12 +40,12 @@
 Al instalar Visual Studio 2022, asegúrate de seleccionar:
 
 ```
-☑️ Desarrollo de .NET Multi-platform App UI
-☑️ Desarrollo móvil con .NET
-☑️ SDK de Android (API 33, 34)
-☑️ Android SDK Build-Tools
-☑️ Android Emulator
-☑️ Intel HAXM (para emuladores x86)
+ Desarrollo de .NET Multi-platform App UI
+ Desarrollo móvil con .NET
+ SDK de Android (API 33, 34)
+ Android SDK Build-Tools
+ Android Emulator
+ Intel HAXM (para emuladores x86)
 ```
 
 ### 1.3 Verificar Instalación
@@ -139,14 +141,14 @@ namespace AutogestionSenaMaui.Api.Config
 
 ```
 Front-end-Mobile-Autogestion-Sena/
-├── 📁 Api/                          # Servicios y configuración de API
+├──  Api/                          # Servicios y configuración de API
 │   ├── config/                      # Configuración de endpoints
 │   ├── Dtos/                        # Data Transfer Objects
 │   └── Services/                    # Servicios de consumo API
-├── 📁 ContentViews/                 # Componentes reutilizables
-├── 📁 Converters/                   # Value Converters para XAML
-├── 📁 Helpers/                      # Clases de utilidad
-├── 📁 Platforms/                    # Código específico por plataforma
+├──  ContentViews/                 # Componentes reutilizables
+├──  Converters/                   # Value Converters para XAML
+├──  Helpers/                      # Clases de utilidad
+├──  Platforms/                    # Código específico por plataforma
 │   ├── Android/                     # Configuración Android
 │   │   ├── AndroidManifest.xml      # Permisos y configuración
 │   │   ├── MainActivity.cs          # Actividad principal
@@ -154,22 +156,22 @@ Front-end-Mobile-Autogestion-Sena/
 │   ├── iOS/                         # Configuración iOS
 │   ├── MacCatalyst/                 # Configuración Mac
 │   └── Windows/                     # Configuración Windows
-├── 📁 Resources/                    # Recursos de la aplicación
+├──  Resources/                    # Recursos de la aplicación
 │   ├── AppIcon/                     # Íconos de la app
 │   ├── Fonts/                       # Fuentes personalizadas
 │   ├── Images/                      # Imágenes
 │   ├── Splash/                      # Pantalla de inicio
 │   └── Styles/                      # Estilos XAML
-├── 📁 Services/                     # Servicios locales
-├── 📁 Validators/                   # Validadores de formularios
-├── 📁 ViewModels/                   # ViewModels (MVVM)
-├── 📁 Views/                        # Vistas XAML
-├── 📁 Tests/                        # Proyecto de pruebas
-├── 📄 App.xaml                      # Recursos globales
-├── 📄 App.xaml.cs                   # Clase Application
-├── 📄 AppShell.xaml                 # Navegación Shell
-├── 📄 MauiProgram.cs                # Punto de entrada
-└── 📄 AutogestionSenaMaui.csproj    # Archivo de proyecto
+├──  Services/                     # Servicios locales
+├──  Validators/                   # Validadores de formularios
+├──  ViewModels/                   # ViewModels (MVVM)
+├──  Views/                        # Vistas XAML
+├──  Tests/                        # Proyecto de pruebas
+├──  App.xaml                      # Recursos globales
+├──  App.xaml.cs                   # Clase Application
+├──  AppShell.xaml                 # Navegación Shell
+├──  MauiProgram.cs                # Punto de entrada
+└──  AutogestionSenaMaui.csproj    # Archivo de proyecto
 ```
 
 ---
@@ -201,16 +203,16 @@ namespace AutogestionSenaMaui.Api.Config
         // Descomentar la línea del entorno deseado
         // ============================================
         
-        // 🔧 DESARROLLO (Dev)
+        //  DESARROLLO (Dev)
         public static string BaseUrl => "http://10.3.234.91:8001/api/";
         
-        // 🧪 QA (Testing)
+        //  QA (Testing)
         // public static string BaseUrl => "http://10.3.234.91:8002/api/";
         
-        // 🎭 STAGING (Pre-producción)
+        //  STAGING (Pre-producción)
         // public static string BaseUrl => "http://10.3.234.91:8003/api/";
         
-        // 🚀 PRODUCCIÓN
+        //  PRODUCCIÓN
         // public static string BaseUrl => "https://api.autogestion.sena.edu.co/api/";
         
         public static int TimeoutSeconds => 30;
@@ -332,7 +334,7 @@ dotnet clean -f net8.0-android
 dotnet build -f net8.0-android -c Debug
 
 # La APK se genera en:
-# bin\Debug\net8.0-android\com.companyname.autogestionsenaMaui-Signed.apk
+# bin\Debug\net8.0-android\com.companyname.autogestionsena.maui-Signed.apk
 ```
 
 ### 12.3.2 Verificar APK Generada
@@ -342,7 +344,7 @@ dotnet build -f net8.0-android -c Debug
 Get-ChildItem -Path "bin\Debug\net8.0-android\" -Filter "*.apk" -Recurse
 
 # Ver tamaño del archivo
-$apk = Get-Item "bin\Debug\net8.0-android\com.companyname.autogestionsenaMaui-Signed.apk"
+$apk = Get-Item "bin\Debug\net8.0-android\com.companyname.autogestionsena.maui-Signed.apk"
 Write-Host "Tamaño: $([math]::Round($apk.Length / 1MB, 2)) MB"
 ```
 
@@ -350,18 +352,75 @@ Write-Host "Tamaño: $([math]::Round($apk.Length / 1MB, 2)) MB"
 
 | Característica | Debug | Release |
 |----------------|-------|---------|
-| Optimización | ❌ No | ✅ Sí |
-| Símbolos de depuración | ✅ Incluidos | ❌ Removidos |
-| Logging | ✅ Habilitado | ⚠️ Reducido |
+| Optimización |  No |  Sí |
+| Símbolos de depuración |  Incluidos |  Removidos |
+| Logging |  Habilitado |  Reducido |
 | Tamaño | ~80-120 MB | ~40-60 MB |
 | Velocidad | Más lenta | Más rápida |
 | Uso | Desarrollo/Testing | Producción |
 
+> 📘 **Para guía detallada de compilación:** Ver [GUIA_COMPILACION_INSTALACION_APK.md](./GUIA_COMPILACION_INSTALACION_APK.md)
+
 ---
 
-## 12.4 Compilación APK de Producción
+## 12.4 Instalación de APK en Dispositivo
 
-### 12.4.1 APK de Release (Producción)
+### 12.4.1 Método 1: Usando ADB (Recomendado)
+
+```powershell
+# Verificar dispositivo conectado
+adb devices
+
+# Instalar APK (reemplaza si existe)
+adb install -r "bin\Debug\net8.0-android\com.companyname.autogestionsena.maui-Signed.apk"
+
+# Instalar y otorgar todos los permisos
+adb install -r -g "bin\Debug\net8.0-android\com.companyname.autogestionsena.maui-Signed.apk"
+
+# Desinstalar aplicación anterior (si hay conflictos)
+adb uninstall com.companyname.autogestionsena.maui
+```
+
+### 12.4.2 Método 2: Transferencia Manual
+
+1. **Copiar APK al dispositivo:**
+   ```powershell
+   adb push "bin\Debug\net8.0-android\com.companyname.autogestionsena.maui-Signed.apk" /sdcard/Download/
+   ```
+
+2. **En el dispositivo:**
+   - Abrir `Archivos` o `Gestor de archivos`
+   - Navegar a `Descargas`
+   - Tocar el archivo `.apk`
+   - Permitir instalación de fuentes desconocidas (si se solicita)
+   - Instalar
+
+### 12.4.3 Habilitar "Orígenes Desconocidos"
+
+En Android 8.0+:
+
+1. Ir a `Configuración > Aplicaciones`
+2. Buscar la app desde donde instalas (Chrome, Archivos, etc.)
+3. Activar `Instalar aplicaciones desconocidas`
+
+### 12.4.4 Solución a Errores de Instalación
+
+| Error | Causa | Solución |
+|-------|-------|----------|
+| `INSTALL_FAILED_UPDATE_INCOMPATIBLE` | Firma diferente | Desinstalar app anterior: `adb uninstall com.companyname.autogestionsena.maui` |
+| `INSTALL_FAILED_VERSION_DOWNGRADE` | Versión menor | Incrementar `ApplicationVersion` en `.csproj` |
+| `INSTALL_PARSE_FAILED_NO_CERTIFICATES` | APK no firmada | Usar APK `-Signed.apk` |
+| `INSTALL_FAILED_INSUFFICIENT_STORAGE` | Sin espacio | Liberar espacio en dispositivo |
+
+> 📘 **Para guía detallada de instalación:** Ver [GUIA_COMPILACION_INSTALACION_APK.md](./GUIA_COMPILACION_INSTALACION_APK.md)
+
+---
+
+## 12.5 Compilación APK de Producción (Release)
+
+Esta sección cubre la compilación de la APK optimizada para distribución.
+
+### 12.5.1 APK de Release (Producción)
 
 ```powershell
 # Navegar al proyecto
@@ -377,10 +436,10 @@ dotnet restore
 dotnet publish -f net8.0-android -c Release
 
 # La APK se genera en:
-# bin\Release\net8.0-android\publish\com.companyname.autogestionsenaMaui-Signed.apk
+# bin\Release\net8.0-android\publish\com.companyname.autogestionsena.maui-Signed.apk
 ```
 
-### 12.4.2 Opciones Adicionales de Compilación
+### 12.5.2 Opciones Adicionales de Compilación
 
 ```powershell
 # Compilar con optimizaciones específicas
@@ -394,7 +453,7 @@ dotnet publish -f net8.0-android -c Release `
     /p:AndroidPackageFormat=aab
 ```
 
-### 12.4.3 Tabla de Parámetros de Compilación
+### 12.5.3 Tabla de Parámetros de Compilación
 
 | Parámetro | Valores | Descripción |
 |-----------|---------|-------------|
@@ -407,16 +466,16 @@ dotnet publish -f net8.0-android -c Release `
 
 ---
 
-## 8. Firma de la Aplicación
+## 12.6 Firma de la Aplicación
 
-### 8.1 ¿Por qué Firmar la APK?
+### 12.6.1 ¿Por qué Firmar la APK?
 
-- ✅ **Requerido** para instalar en dispositivos sin depuración
-- ✅ **Requerido** para publicar en Google Play Store
-- ✅ Garantiza la **integridad** de la aplicación
-- ✅ Identifica al **desarrollador/organización**
+-  **Requerido** para instalar en dispositivos sin depuración
+-  **Requerido** para publicar en Google Play Store
+-  Garantiza la **integridad** de la aplicación
+-  Identifica al **desarrollador/organización**
 
-### 8.2 Crear Keystore (Solo una vez)
+### 12.6.2 Crear Keystore (Solo una vez)
 
 ```powershell
 # Crear directorio para el keystore
@@ -440,7 +499,7 @@ keytool -genkey -v `
 # - Código de país (CO)
 ```
 
-### 8.3 Configurar Firma en el Proyecto
+### 12.6.3 Configurar Firma en el Proyecto
 
 Agrega al archivo `AutogestionSenaMaui.csproj`:
 
@@ -465,7 +524,7 @@ Agrega al archivo `AutogestionSenaMaui.csproj`:
 </Project>
 ```
 
-### 8.4 Compilar con Firma
+### 12.6.4 Compilar con Firma
 
 ```powershell
 # Opción 1: Usar configuración del .csproj
@@ -480,26 +539,26 @@ dotnet publish -f net8.0-android -c Release `
     /p:AndroidSigningStorePass=TU_PASSWORD
 ```
 
-### 8.5 Verificar Firma de la APK
+### 12.6.5 Verificar Firma de la APK
 
 ```powershell
 # Verificar que la APK está firmada correctamente
-jarsigner -verify -verbose -certs "bin\Release\net8.0-android\publish\com.companyname.autogestionsenaMaui-Signed.apk"
+jarsigner -verify -verbose -certs "bin\Release\net8.0-android\publish\com.companyname.autogestionsena.maui-Signed.apk"
 
 # Debería mostrar:
 # jar verified.
 ```
 
-### 8.6 ⚠️ Seguridad del Keystore
+### 12.6.6  Seguridad del Keystore
 
 > **IMPORTANTE:** El keystore es como una contraseña maestra. Si lo pierdes, **no podrás actualizar** tu aplicación en Google Play.
 
 **Buenas prácticas:**
 
-1. ✅ **Respalda** el keystore en un lugar seguro (no en el repositorio)
-2. ✅ **No incluyas** el keystore en Git (añadir a `.gitignore`)
-3. ✅ **Guarda** las contraseñas en un gestor de contraseñas
-4. ✅ **Documenta** la información del keystore en un lugar seguro
+1.  **Respalda** el keystore en un lugar seguro (no en el repositorio)
+2.  **No incluyas** el keystore en Git (añadir a `.gitignore`)
+3.  **Guarda** las contraseñas en un gestor de contraseñas
+4.  **Documenta** la información del keystore en un lugar seguro
 
 Agregar a `.gitignore`:
 
@@ -512,67 +571,9 @@ Platforms/Android/Keystore/
 
 ---
 
-## 12.5 Instalación de APK en Dispositivo
+## 12.7 Versionamiento
 
-### 12.5.1 Método 1: Usando ADB (Recomendado)
-
-```powershell
-# Verificar dispositivo conectado
-adb devices
-
-# Instalar APK (reemplaza si existe)
-adb install -r "bin\Release\net8.0-android\publish\com.companyname.autogestionsenaMaui-Signed.apk"
-
-# Instalar y otorgar todos los permisos
-adb install -r -g "bin\Release\net8.0-android\publish\com.companyname.autogestionsenaMaui-Signed.apk"
-
-# Desinstalar aplicación anterior (si hay conflictos)
-adb uninstall com.companyname.autogestionsenaMaui
-```
-
-### 12.5.2 Método 2: Transferencia Manual
-
-1. **Copiar APK al dispositivo:**
-   ```powershell
-   adb push "bin\Release\net8.0-android\publish\com.companyname.autogestionsenaMaui-Signed.apk" /sdcard/Download/
-   ```
-
-2. **En el dispositivo:**
-   - Abrir `Archivos` o `Gestor de archivos`
-   - Navegar a `Descargas`
-   - Tocar el archivo `.apk`
-   - Permitir instalación de fuentes desconocidas (si se solicita)
-   - Instalar
-
-### 12.5.3 Método 3: Compartir por Red/Nube
-
-1. Subir la APK a Google Drive, OneDrive, o servidor interno
-2. Enviar el enlace por correo o chat
-3. Descargar en el dispositivo
-4. Instalar
-
-### 12.5.4 Habilitar "Orígenes Desconocidos"
-
-En Android 8.0+:
-
-1. Ir a `Configuración > Aplicaciones`
-2. Buscar la app desde donde instalas (Chrome, Archivos, etc.)
-3. Activar `Instalar aplicaciones desconocidas`
-
-### 12.5.5 Solución a Errores de Instalación
-
-| Error | Causa | Solución |
-|-------|-------|----------|
-| `INSTALL_FAILED_UPDATE_INCOMPATIBLE` | Firma diferente | Desinstalar app anterior: `adb uninstall com.companyname.autogestionsenaMaui` |
-| `INSTALL_FAILED_VERSION_DOWNGRADE` | Versión menor | Incrementar `ApplicationVersion` en `.csproj` |
-| `INSTALL_PARSE_FAILED_NO_CERTIFICATES` | APK no firmada | Usar APK `-Signed.apk` |
-| `INSTALL_FAILED_INSUFFICIENT_STORAGE` | Sin espacio | Liberar espacio en dispositivo |
-
----
-
-## 12.6 Versionamiento
-
-### 12.6.1 Esquema de Versiones
+### 12.7.1 Esquema de Versiones
 
 El proyecto sigue **Semantic Versioning (SemVer)**:
 
@@ -584,7 +585,7 @@ MINOR: Nuevas funcionalidades compatibles
 PATCH: Corrección de errores
 ```
 
-### 12.6.2 Configurar Versión en el Proyecto
+### 12.7.2 Configurar Versión en el Proyecto
 
 Editar `AutogestionSenaMaui.csproj`:
 
@@ -617,7 +618,7 @@ Editar `AutogestionSenaMaui.csproj`:
 </Project>
 ```
 
-### 12.6.3 Historial de Versiones
+### 12.7.3 Historial de Versiones
 
 | Versión | Código | Fecha | Cambios Principales |
 |---------|--------|-------|---------------------|
@@ -626,7 +627,7 @@ Editar `AutogestionSenaMaui.csproj`:
 | 1.1.1 | 3 | YYYY-MM-DD | Corrección de errores |
 | 1.2.0 | 4 | YYYY-MM-DD | Dashboard mejorado |
 
-### 12.6.4 Proceso de Release
+### 12.7.4 Proceso de Release
 
 ```powershell
 # 1. Actualizar versión en .csproj
@@ -648,11 +649,11 @@ dotnet publish -f net8.0-android -c Release
 
 # 6. Renombrar APK con versión
 $version = "1.1.0"
-Copy-Item "bin\Release\net8.0-android\publish\com.companyname.autogestionsenaMaui-Signed.apk" `
+Copy-Item "bin\Release\net8.0-android\publish\com.companyname.autogestionsena.maui-Signed.apk" `
           "releases\AutoGestion-SENA-v$version.apk"
 ```
 
-### 12.6.5 Script de Versionamiento Automático
+### 12.7.5 Script de Versionamiento Automático
 
 Crear archivo `scripts\bump-version.ps1`:
 
@@ -694,7 +695,7 @@ $content = $content -replace '<ApplicationDisplayVersion>\d+\.\d+\.\d+</Applicat
 $content = $content -replace '<ApplicationVersion>\d+</ApplicationVersion>', "<ApplicationVersion>$code</ApplicationVersion>"
 $content | Set-Content $csprojPath -NoNewline
 
-Write-Host "✅ Versión actualizada en $csprojPath" -ForegroundColor Cyan
+Write-Host " Versión actualizada en $csprojPath" -ForegroundColor Cyan
 ```
 
 Uso:
@@ -784,7 +785,7 @@ adb logcat *:E | Select-String "AutogestionSena|MAUI|Mono"
 
 ### Compilación
 
-```powershell
+```powershel
 # Debug (desarrollo)
 dotnet build -f net8.0-android -c Debug
 
@@ -863,12 +864,11 @@ dotnet test --filter "FullyQualifiedName~IntegrationTests"
 
 ---
 
-## 📞 Soporte
+## Soporte
 
 Para dudas o problemas con el despliegue:
 
 - **Repositorio:** https://github.com/July173/Front-end-Mobile-Autogestion-Sena
-- **Rama actual:** `HU-14-dev`
 - **Documentación .NET MAUI:** https://learn.microsoft.com/dotnet/maui/
 
 ---

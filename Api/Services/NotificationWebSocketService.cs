@@ -52,7 +52,7 @@ namespace AutogestionSena.MAUI.Api.Services
         }
 
         /// <summary>
-        /// Inicia la conexión websocket. Se toma el token de Preferences("AuthToken") y se lo envía como query param token.
+        /// Inicia la conexiï¿½n websocket. Se toma el token de Preferences("AuthToken") y se lo envï¿½a como query param token.
         /// </summary>
         public async Task StartAsync()
         {
@@ -76,20 +76,16 @@ namespace AutogestionSena.MAUI.Api.Services
                         wsUrl = wsUrl + separator + "token=" + Uri.EscapeDataString(token);
                     }
 
-                    System.Diagnostics.Debug.WriteLine($"[WS] Conectando a: {wsUrl}");
                     await _socket.ConnectAsync(new Uri(wsUrl), _cts.Token);
 
                     if (_socket.State == WebSocketState.Open)
                     {
-                        System.Diagnostics.Debug.WriteLine("[WS] Conexión WebSocket abierta");
-                        // lanzar loop de recepción
                         _receivingTask = Task.Run(() => ReceiveLoopAsync(_socket, _cts.Token));
                         return;
                     }
                 }
                 catch (Exception ex)
                 {
-                    System.Diagnostics.Debug.WriteLine($"[WS] Error conectando: {ex.Message}");
                     ErrorOccurred?.Invoke(this, ex.Message);
                 }
 
@@ -113,7 +109,6 @@ namespace AutogestionSena.MAUI.Api.Services
                         result = await socket.ReceiveAsync(segment, ct);
                         if (result.MessageType == WebSocketMessageType.Close)
                         {
-                            System.Diagnostics.Debug.WriteLine("[WS] Server requested close");
                             await socket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Closing", ct);
                             break;
                         }
@@ -125,7 +120,7 @@ namespace AutogestionSena.MAUI.Api.Services
                     string message = Encoding.UTF8.GetString(ms.ToArray());
                     System.Diagnostics.Debug.WriteLine($"[WS] Mensaje recibido: {message}");
 
-                    // Intentar deserializar a NotificationDto (si el backend envía otro formato, ajustar)
+                    // Intentar deserializar a NotificationDto (si el backend envï¿½a otro formato, ajustar)
                     try
                     {
                         var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
@@ -152,14 +147,9 @@ namespace AutogestionSena.MAUI.Api.Services
                         {
                             NotificationReceived?.Invoke(this, dto);
                         }
-                        else
-                        {
-                            System.Diagnostics.Debug.WriteLine("[WS] Mensaje recibido no es NotificationDto");
-                        }
                     }
                     catch (JsonException jex)
                     {
-                        System.Diagnostics.Debug.WriteLine($"[WS] JSON parse error: {jex.Message}");
                         ErrorOccurred?.Invoke(this, jex.Message);
                     }
                 }
@@ -167,7 +157,6 @@ namespace AutogestionSena.MAUI.Api.Services
             catch (OperationCanceledException) { }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"[WS] ReceiveLoop error: {ex}");
                 ErrorOccurred?.Invoke(this, ex.Message);
             }
             finally
@@ -179,10 +168,9 @@ namespace AutogestionSena.MAUI.Api.Services
                 }
                 catch { }
 
-                // intentar reconectar automáticamente si no se canceló explícitamente
-                if (_cts != null && !_cts.IsCancellationRequested)
+                // intentar reconectar automï¿½ticamente si no se cancelï¿½ explï¿½citamente
+if (_cts != null && !_cts.IsCancellationRequested)
                 {
-                    System.Diagnostics.Debug.WriteLine("[WS] Conexión cerrada, reintentando en breve...");
                     await Task.Delay(_reconnectDelay);
                     await StartAsync();
                 }
@@ -203,9 +191,9 @@ namespace AutogestionSena.MAUI.Api.Services
                     _socket = null;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine($"[WS] Error stopping: {ex}");
+                // Ignore stop errors
             }
         }
 

@@ -22,7 +22,7 @@ namespace AutogestionSena.MAUI.Api.Services
         }
 
         /// <summary>
-        /// Obtiene las notificaciones según rol y id de usuario
+        /// Obtiene las notificaciones segï¿½n rol y id de usuario
         /// roleQueryName debe ser uno de: apprentice_id, instructor_id, coordinator_id, sofia_operator_id, admin_id
         /// </summary>
         public async Task<List<NotificationDto>?> GetNotificationsAsync(string roleQueryName, int userId)
@@ -32,15 +32,14 @@ namespace AutogestionSena.MAUI.Api.Services
                 var endpoint = $"{Endpoints.Notification.GetNotifications}?{roleQueryName}={userId}";
                 return await _apiService.GetAsync<List<NotificationDto>>(endpoint);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine($"[NotificationService] Error GetNotificationsAsync: {ex}");
                 throw;
             }
         }
 
         /// <summary>
-        /// Elimina (desactiva) una notificación por id
+        /// Elimina (desactiva) una notificaciï¿½n por id
         /// </summary>
         public async Task<bool> DeleteNotificationByIdAsync(int notificationId)
         {
@@ -50,15 +49,14 @@ namespace AutogestionSena.MAUI.Api.Services
                 var resp = await _apiService.DeleteAsync(endpoint);
                 return resp.IsSuccessStatusCode;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine($"[NotificationService] Error DeleteNotificationByIdAsync: {ex}");
                 throw;
             }
         }
 
         /// <summary>
-        /// Desactiva (elimina) todas las notificaciones de un usuario según rol
+        /// Desactiva (elimina) todas las notificaciones de un usuario segï¿½n rol
         /// roleQueryName debe ser admin_id, apprentice_id, etc.
         /// </summary>
         public async Task<bool> DeleteNotificationsByUserAsync(string roleQueryName, int userId)
@@ -69,15 +67,14 @@ namespace AutogestionSena.MAUI.Api.Services
                 var resp = await _apiService.DeleteAsync(endpoint);
                 return resp.IsSuccessStatusCode;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine($"[NotificationService] Error DeleteNotificationsByUserAsync: {ex}");
                 throw;
             }
         }
 
         /// <summary>
-        /// Marca como leída una notificación solicitando GET al recurso /general/notifications/{id}/
+        /// Marca como leï¿½da una notificaciï¿½n solicitando GET al recurso /general/notifications/{id}/
         /// </summary>
         public async Task<NotificationDto?> MarkAsReadAsync(int notificationId)
         {
@@ -86,9 +83,8 @@ namespace AutogestionSena.MAUI.Api.Services
                 var endpoint = Endpoints.Notification.GetById(notificationId);
                 return await _apiService.GetAsync<NotificationDto>(endpoint);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine($"[NotificationService] Error MarkAsReadAsync: {ex}");
                 throw;
             }
         }

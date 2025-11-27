@@ -29,7 +29,7 @@ public class DashboardCardsViewModel : BindableObject
         IsLoading = true;
         try
         {
-            // Configurar token de autenticación si existe
+            // Configurar token de autenticaciï¿½n si existe
             var authToken = Preferences.Get("AuthToken", string.Empty);
             if (!string.IsNullOrEmpty(authToken))
             {
@@ -68,9 +68,8 @@ public class DashboardCardsViewModel : BindableObject
                 AssignedRequestsCount = 0;
             }
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            System.Diagnostics.Debug.WriteLine($"[DashboardCards] Error cargando datos: {ex.Message}");
             ApprenticesCount = 0;
             UnassignedRequestsCount = 0;
             AssignedRequestsCount = 0;

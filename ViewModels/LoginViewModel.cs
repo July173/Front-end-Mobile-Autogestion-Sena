@@ -75,27 +75,19 @@ namespace AutogestionSena.MAUI.ViewModels
 
                     try
             {
-                System.Diagnostics.Debug.WriteLine($"[LOGIN] Intentando login para: {Username}");
-                
                 var response = await _apiService.ValidateLoginAsync(Username, Password);
 
-                System.Diagnostics.Debug.WriteLine($"[LOGIN] Respuesta recibida");
-
-                // Si hay token en la respuesta, es porque no requiere 2FA (no debería pasar)
                 if (response != null && !string.IsNullOrEmpty(response.Access))
                 {
                     SaveUserDataAndNavigate(response);
                 }
                 else
                 {
-                    // Login exitoso, mostrar modal 2FA
                     await Show2FAModal(Username);
                 }
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"[LOGIN ERROR] {ex}");
-                
                 await Application.Current?.MainPage?.DisplayAlert(
                     "Error",
                     $"Error al iniciar sesión: {ex.Message}",
@@ -130,8 +122,6 @@ namespace AutogestionSena.MAUI.ViewModels
             IsBusy = true;
             try
             {
-                System.Diagnostics.Debug.WriteLine($"[2FA] Verificando código para: {email}");
-                
                 var request = new SecondFactorRequest
                 {
                     Email = email,
@@ -142,18 +132,6 @@ namespace AutogestionSena.MAUI.ViewModels
 
                 if (response != null && !string.IsNullOrEmpty(response.Access))
                 {
-                    System.Diagnostics.Debug.WriteLine("===========================================");
-                    System.Diagnostics.Debug.WriteLine($"[2FA] ✅ Código verificado exitosamente");
-                    System.Diagnostics.Debug.WriteLine($"[2FA] 📦 RESPUESTA DEL API:");
-                    System.Diagnostics.Debug.WriteLine($"[2FA]   response.User == null? {response.User == null}");
-                    if (response.User != null)
-                    {
-                        System.Diagnostics.Debug.WriteLine($"[2FA]   response.User.Id = {response.User.Id}");
-                        System.Diagnostics.Debug.WriteLine($"[2FA]   response.User.Email = {response.User.Email}");
-                        System.Diagnostics.Debug.WriteLine($"[2FA]   response.User.Role = {response.User.Role}");
-                        System.Diagnostics.Debug.WriteLine($"[2FA]   response.User.Person = {response.User.Person}");
-                    }
-                    System.Diagnostics.Debug.WriteLine("===========================================");
                     SaveUserDataAndNavigate(response);
                 }
                 else
@@ -167,7 +145,6 @@ namespace AutogestionSena.MAUI.ViewModels
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"[2FA ERROR] {ex}");
                 await Application.Current?.MainPage?.DisplayAlert(
                     "Error",
                     $"Error al verificar código: {ex.Message}",
@@ -182,35 +159,20 @@ namespace AutogestionSena.MAUI.ViewModels
 
         private async void SaveUserDataAndNavigate(ValidateLoginResponse response)
         {
-            // Guardar tokens
             Preferences.Set("AuthToken", response.Access ?? "");
             Preferences.Set("RefreshToken", response.Refresh ?? "");
             
-            // Guardar datos del usuario
             if (response.User != null)
             {
-                  
                 Preferences.Set("UserEmail", response.User.Email ?? "");
                 Preferences.Set("UserId", response.User.Id);
                 Preferences.Set("UserRole", response.User.Role);
                 Preferences.Set("UserPerson", response.User.Person);
                 Preferences.Set("UserRegistered", response.User.Registered);
-                
-                // Verificar que se guardó correctamente
-                var savedUserId = Preferences.Get("UserId", 0);
-            }
-            else
-            {
-                System.Diagnostics.Debug.WriteLine("[LOGIN] ⚠️ WARNING: response.User es NULL!");
             }
 
-            System.Diagnostics.Debug.WriteLine($"[LOGIN] Access Token: {response.Access?.Substring(0, 20)}...");
-            System.Diagnostics.Debug.WriteLine($"[LOGIN] Tokens guardados - Navegando a HomePage");
-
-            // Configurar el token en el servicio
             _apiService.SetAuthToken(response.Access ?? "");
 
-            // Guardar en SecureStorage tambien para consistencia con la lectura del menú
             try
             {
                 var userToSave = new { firstName = response.User?.Email ?? string.Empty, roleId = response.User?.Role ?? 0 };
@@ -218,9 +180,9 @@ namespace AutogestionSena.MAUI.ViewModels
                 Preferences.Set("user_data", userJson);
                 await SecureStorage.SetAsync("user_data", userJson);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine($"[LOGIN] Error guardando user_data en SecureStorage: {ex}");
+                // SecureStorage save error handled silently
             }
 
             await Application.Current?.MainPage?.DisplayAlert(
@@ -229,7 +191,6 @@ namespace AutogestionSena.MAUI.ViewModels
                 "Continuar"
             )!;
 
-            // Determinar ruta según rol y navegar
             int navigateRoleId = 0;
             if (response.User != null) navigateRoleId = response.User.Role;
             else if (response.Role != null) navigateRoleId = response.Role.Value;
@@ -238,9 +199,9 @@ namespace AutogestionSena.MAUI.ViewModels
             {
                 Preferences.Set("UserRole", navigateRoleId);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine($"[LOGIN] No se pudo guardar UserRole en Preferences: {ex}");
+                // Preferences save error handled silently
             }
 
             string route = "HomePage";
@@ -266,24 +227,21 @@ namespace AutogestionSena.MAUI.ViewModels
                     break;
             }
 
-            System.Diagnostics.Debug.WriteLine($"[LOGIN] Navegando a {route} por role {navigateRoleId}");
-
-            // Notificar a subscriptores que el usuario ha iniciado sesión
             try
             {
                 AuthEvents.NotifyUserLoggedIn(navigateRoleId, response.User?.Email ?? string.Empty, response.Access ?? string.Empty);
             }
-            catch (Exception exEvent)
+            catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine($"[LOGIN] AuthEvents.NotifyUserLoggedIn failed: {exEvent}");
+                // AuthEvents notification error handled silently
             }
             try
             {
                 await Shell.Current?.GoToAsync($"///{route}")!;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine($"[NAV] Error navegando a {route}: {ex}");
+                // Navigation error handled silently
             }
         }
     }
