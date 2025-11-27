@@ -2,6 +2,7 @@ using AutogestionSenaMaui.ViewModels;
 using Microsoft.Maui.Controls;
 using AutogestionSenaMaui.Helpers;
 using System.Timers;
+using AutogestionSena.MAUI.Views.notificaciones;
 
 namespace AutogestionSenaMaui.ContentViews
 {
@@ -275,10 +276,37 @@ namespace AutogestionSenaMaui.ContentViews
                 // Breve delay para que la animación se complete
                 await Task.Delay(100);
 
-                // Navegar a notificaciones
-                if (Shell.Current != null)
+                // Intentar navegar usando Shell route registrada
+                try
                 {
-                    await Shell.Current.GoToAsync("//notifications");
+                    if (Shell.Current != null)
+                    {
+                        System.Diagnostics.Debug.WriteLine("[TopBar] Intentando Shell navigation to 'notifications'");
+                        await Shell.Current.GoToAsync("notifications");
+                        return;
+                    }
+                }
+                catch (Exception exNav)
+                {
+                    System.Diagnostics.Debug.WriteLine($"[TopBar] Shell navigation failed: {exNav.Message}");
+                }
+
+                // Fallback: push page directamente en la pila de navegación
+                try
+                {
+                    var page = new NotificacionesApp();
+                    if (Application.Current?.MainPage is Shell shell && shell.CurrentPage != null)
+                    {
+                        await shell.CurrentPage.Navigation.PushAsync(page);
+                    }
+                    else if (Application.Current?.MainPage != null)
+                    {
+                        await Application.Current.MainPage.Navigation.PushAsync(page);
+                    }
+                }
+                catch (Exception exPush)
+                {
+                    System.Diagnostics.Debug.WriteLine($"[TopBar] Push navigation failed: {exPush}");
                 }
             }
             catch (Exception ex)

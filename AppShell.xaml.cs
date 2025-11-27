@@ -1,6 +1,7 @@
 ﻿using AutogestionSenaMaui.Views;
 using AutogestionSena.MAUI.Views;
 using AutogestionSenaMaui.Helpers;
+using AutogestionSena.MAUI.Views.notificaciones;
 
 namespace AutogestionSena.MAUI
 {
@@ -18,6 +19,9 @@ namespace AutogestionSena.MAUI
             Routing.RegisterRoute(nameof(CodeVerificationPage), typeof(CodeVerificationPage));
             Routing.RegisterRoute(nameof(PasswordResetPage), typeof(PasswordResetPage));
             Routing.RegisterRoute(nameof(AdminDashboardPage), typeof(AdminDashboardPage));
+            // Ruta para la página de notificaciones
+            Routing.RegisterRoute("notifications", typeof(NotificacionesApp));
+
             // Dashboards de rol están definidos como ShellContent en AppShell.xaml
 
             // Suscribirse al evento de navegación para validar acceso

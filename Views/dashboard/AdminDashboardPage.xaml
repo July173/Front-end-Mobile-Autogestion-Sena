@@ -14,12 +14,25 @@
                                    <VerticalStackLayout Spacing="20" Padding="20">
                     
                     <!-- Título Principal -->
-                    <Label Text="BIENVENIDO A AUTOGESTIÓN SENA" 
-                           FontSize="22" 
-                           FontAttributes="Bold" 
-                           HorizontalTextAlignment="Center"
-                           TextColor="#43A047"
-                           Margin="0,10,0,20"/>
+                    <VerticalStackLayout Spacing="8" HorizontalOptions="Fill" VerticalOptions="Start">
+                        <Label Text="BIENVENIDO A AUTOGESTIÓN SENA"
+                               FontSize="{OnIdiom Phone=18, Default=22}"
+                               FontAttributes="Bold"
+                               HorizontalTextAlignment="Center"
+                               TextColor="#43A047"
+                               Margin="0,6,0,0"
+                               LineBreakMode="WordWrap" />
+
+                        <!-- Botón de actualizar (colocado debajo del título, centrado y responsive) -->
+                        <Button Text="🔄 Actualizar"
+                                BackgroundColor="#FF9800"
+                                TextColor="White"
+                                CornerRadius="8"
+                                Clicked="OnReloadStatistics"
+                                HorizontalOptions="Center"
+                                WidthRequest="{OnIdiom Phone=140, Default=180}"
+                                HeightRequest="40"/>
+                    </VerticalStackLayout>
 
                     <!-- Tarjetas de Estadísticas Principales -->
                     <Grid ColumnDefinitions="*,*,*" ColumnSpacing="12">
@@ -55,7 +68,7 @@
                                        HorizontalTextAlignment="Center"/>
                                 <Label x:Name="TotalApprenticesLabel" 
                                        Text="{Binding ApprenticesCount, StringFormat='{0:N0}'}" 
-                                       FontSize="20" 
+                                       FontSize="{OnIdiom Phone=18, Default=20}"
                                        FontAttributes="Bold"
                                        TextColor="#4CAF50"
                                        HorizontalTextAlignment="Center"
@@ -105,7 +118,7 @@
                                        Margin="0,-4,0,0"/>
                                 <Label x:Name="UnassignedCountLabel" 
                                        Text="{Binding UnassignedRequestsCount}" 
-                                       FontSize="20" 
+                                       FontSize="{OnIdiom Phone=18, Default=20}"
                                        FontAttributes="Bold"
                                        TextColor="#4CAF50"
                                        HorizontalTextAlignment="Center"
@@ -155,7 +168,7 @@
                                        Margin="0,-4,0,0"/>
                                 <Label x:Name="TotalAssignmentsLabel" 
                                        Text="{Binding AssignedRequestsCount}" 
-                                       FontSize="20" 
+                                       FontSize="{OnIdiom Phone=18, Default=20}"
                                        FontAttributes="Bold"
                                        TextColor="#4CAF50"
                                        HorizontalTextAlignment="Center"
@@ -236,108 +249,6 @@
                             </VerticalStackLayout>
                         </Frame>
                     </Grid>
-
-                    <!-- Panel de Depuración de Datos del Backend -->
-                    <Frame BackgroundColor="#FFF3CD" 
-                           BorderColor="#FFB74D" 
-                           CornerRadius="8" 
-                           Padding="16"
-                           Margin="0,20,0,0">
-                        <VerticalStackLayout Spacing="12">
-                            <Label Text="🔍 DATOS DEL BACKEND (Debug)" 
-                                   FontSize="16" 
-                                   FontAttributes="Bold"
-                                   TextColor="#333"
-                                   HorizontalTextAlignment="Center"/>
-
-                            <!-- Estado de Carga -->
-                            <Label x:Name="LoadingStatusLabel" 
-                                   Text="Estado: Esperando carga..." 
-                                   FontSize="13" 
-                                   TextColor="#666"
-                                   FontAttributes="Bold"/>
-
-                            <!-- Información de Aprendices -->
-                            <Frame BackgroundColor="White" 
-                                   CornerRadius="6" 
-                                   Padding="12"
-                                   HasShadow="False"
-                                   BorderColor="#E0E0E0">
-                                <VerticalStackLayout Spacing="6">
-                                    <Label Text="📊 APRENDICES" 
-                                           FontSize="14" 
-                                           FontAttributes="Bold"
-                                           TextColor="#4CAF50"/>
-                                    <Label x:Name="ApprenticesEndpointLabel" 
-                                           Text="Endpoint: -" 
-                                           FontSize="11" 
-                                           TextColor="#666"/>
-                                    <Label x:Name="ApprenticesTotalLabel" 
-                                           Text="Total recibidos: -" 
-                                           FontSize="12" 
-                                           TextColor="#333"/>
-                                    <Label x:Name="ApprenticesActiveLabel" 
-                                           Text="Activos: -" 
-                                           FontSize="12" 
-                                           TextColor="#333"/>
-                                    <Label x:Name="ApprenticesInactiveLabel" 
-                                           Text="Inactivos: -" 
-                                           FontSize="12" 
-                                           TextColor="#333"/>
-                                    <Label x:Name="ApprenticeSampleLabel" 
-                                           Text="Ejemplo: -" 
-                                           FontSize="10" 
-                                           TextColor="#666"
-                                           LineBreakMode="WordWrap"/>
-                                </VerticalStackLayout>
-                            </Frame>
-
-                            <!-- Información de Asignaciones -->
-                            <Frame BackgroundColor="White" 
-                                   CornerRadius="6" 
-                                   Padding="12"
-                                   HasShadow="False"
-                                   BorderColor="#E0E0E0">
-                                <VerticalStackLayout Spacing="6">
-                                    <Label Text="📋 ASIGNACIONES" 
-                                           FontSize="14" 
-                                           FontAttributes="Bold"
-                                           TextColor="#2196F3"/>
-                                    <Label x:Name="AssignmentsEndpointLabel" 
-                                           Text="Endpoint: -" 
-                                           FontSize="11" 
-                                           TextColor="#666"/>
-                                    <Label x:Name="AssignmentsTotalLabel" 
-                                           Text="Total recibidas: -" 
-                                           FontSize="12" 
-                                           TextColor="#333"/>
-                                    <Label x:Name="AssignmentsSuccessLabel" 
-                                           Text="Success: -" 
-                                           FontSize="12" 
-                                           TextColor="#333"/>
-                                    <Label x:Name="AssignmentsByStateLabel" 
-                                           Text="Por estado: -" 
-                                           FontSize="12" 
-                                           TextColor="#333"
-                                           LineBreakMode="WordWrap"/>
-                                    <Label x:Name="AssignmentSampleLabel" 
-                                           Text="Ejemplo: -" 
-                                           FontSize="10" 
-                                           TextColor="#666"
-                                           LineBreakMode="WordWrap"/>
-                                </VerticalStackLayout>
-                            </Frame>
-
-                            <!-- Botón de Recargar -->
-                            <Button Text="🔄 Recargar Datos" 
-                                    BackgroundColor="#FF9800"
-                                    TextColor="White"
-                                    CornerRadius="8"
-                                    Clicked="OnReloadStatistics"
-                                    Margin="0,8,0,0"/>
-
-                        </VerticalStackLayout>
-                    </Frame>
 
                                    </VerticalStackLayout>
                             </ScrollView>

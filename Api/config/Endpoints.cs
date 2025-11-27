@@ -16,7 +16,7 @@ namespace AutogestionSena.MAUI.Api
         // private const string BASE_PORT = "8000";
         
         // 🚀 PRODUCCIÓN: Servidor desplegado
-        private const string BASE_IP = "167.114.98.199";
+        private const string BASE_IP = "10.3.233.236";
         private const string BASE_PORT = "8000";  // Puerto del backend Django
         // ============================================
         
@@ -29,13 +29,13 @@ namespace AutogestionSena.MAUI.Api
         {
 #if ANDROID
             // Para Android usamos la IP directa
-            return $"http://{BASE_IP}/api/";
+            return $"http://{BASE_IP}:{BASE_PORT}/api/";
 #elif IOS
             // Para iOS usamos la IP de la red local
-            return $"http://{BASE_IP}/api/";
+            return $"http://{BASE_IP}:{BASE_PORT}/api/";
 #else
             // Para Windows y otras plataformas
-            return $"http://{BASE_IP}/api/";
+            return $"http://{BASE_IP}:{BASE_PORT}/api/";
 #endif
         }
 
@@ -191,5 +191,14 @@ namespace AutogestionSena.MAUI.Api
         {
             public static string GetAllApprenticesSimple => $"{API_BASE_URL}general/aprendices/";
         }
+
+        // NOTIFICATIONS
+        public static class Notification
+        {
+            public static string GetNotifications => $"{API_BASE_URL}general/notifications/";
+            public static string DeleteById => $"{API_BASE_URL}general/notifications/delete-by-id/";
+            public static string DeleteByUser => $"{API_BASE_URL}general/notifications/delete-by-user/";
+            public static string GetById(int id) => $"{API_BASE_URL}general/notifications/{id}/";
+        }
     }
-  }
+}
