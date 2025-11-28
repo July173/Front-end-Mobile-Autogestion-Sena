@@ -243,7 +243,7 @@ namespace AutogestionSena.MAUI.Views
         {
             try
             {
-                PrivacyModalView.Show("privacy");
+                new PrivacyModalView().Show("privacy");
             }
             catch (Exception ex)
             {
