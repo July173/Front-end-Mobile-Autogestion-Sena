@@ -17,7 +17,11 @@ namespace AutogestionSena.MAUI
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-                    fonts.AddFont("bootstrap-icons.woff", "BootstrapIcons");
+
+                    // FontAwesome fonts (registrar según archivos en Resources/Fonts)
+                    fonts.AddFont("fa-solid-900.ttf", "FA_Solid");
+                    fonts.AddFont("fa-regular-400.ttf", "FA_Regular");
+                    fonts.AddFont("fa-brands-400.ttf", "FA_Brands");
                 })
                 .UseMicrocharts();
 

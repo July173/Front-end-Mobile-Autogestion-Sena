@@ -1,9 +1,7 @@
-﻿using System;
-using Microsoft.Maui.Controls;
 using AutogestionSena.MAUI.Api.Dtos;
 using AutogestionSenaMaui.Helpers;
 using AutogestionSena.MAUI.Api.Services;
-using AutogestionSena.MAUI.Views;
+
 
 namespace AutogestionSena.MAUI.Views
 {
@@ -214,6 +212,43 @@ namespace AutogestionSena.MAUI.Views
             IsEnabled = true;
             _currentEmail = string.Empty;
             _currentPassword = string.Empty;
+        }
+
+        // Nuevo: handlers para Soporte y Legales
+        private void OnSupportTapped(object sender, EventArgs e)
+        {
+            try
+            {
+                SupportModalView.Show();
+            }
+            catch (Exception ex)
+            {
+                DisplayAlert("Error", $"No se pudo abrir soporte: {ex.Message}", "Aceptar");
+            }
+        }
+
+        private void OnTermsTapped(object sender, EventArgs e)
+        {
+            try
+            {
+                LegalModalView.Show("terms");
+            }
+            catch (Exception ex)
+            {
+                DisplayAlert("Error", $"No se pudo abrir términos: {ex.Message}", "Aceptar");
+            }
+        }
+
+        private void OnPrivacyTapped(object sender, EventArgs e)
+        {
+            try
+            {
+                PrivacyModalView.Show("privacy");
+            }
+            catch (Exception ex)
+            {
+                DisplayAlert("Error", $"No se pudo abrir política de privacidad: {ex.Message}", "Aceptar");
+            }
         }
     }
 }

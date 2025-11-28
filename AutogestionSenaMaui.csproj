@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFrameworks>net8.0-android</TargetFrameworks>
@@ -106,6 +106,15 @@
 	  <MauiXaml Update="Views\LoginPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\login\Terms-condicion-suport\LegalModal.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+  	  <MauiXaml Update="Views\login\Terms-condicion-suport\SupportModal.xaml">
+  	    <Generator>MSBuild:Compile</Generator>
+  	  </MauiXaml>
+  	  <MauiXaml Update="Views\login\Terms-condicion-suport\PrivacyModal.xaml">
+  	    <Generator>MSBuild:Compile</Generator>
+  	  </MauiXaml>
 	  <MauiXaml Update="Views\ProfilePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

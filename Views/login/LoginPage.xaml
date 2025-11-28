@@ -88,14 +88,40 @@
             </HorizontalStackLayout>
             <!-- Soporte, Términos, Privacidad -->
             <HorizontalStackLayout HorizontalOptions="Center" Spacing="20" Margin="0,20,0,0">
-                <Label Text="Soporte" FontSize="12" TextColor="#9E9E9E" FontFamily="Roboto-Regular"/>
-                <Label Text="Términos de Uso" FontSize="12" TextColor="#9E9E9E" FontFamily="Roboto-Regular"/>
-                <Label Text="Política de Privacidad" FontSize="12" TextColor="#9E9E9E" FontFamily="Roboto-Regular"/>
+                <HorizontalStackLayout Spacing="6">
+                    <Label Text="&#xf1cd;" FontFamily="FA_Solid" FontSize="12" TextColor="#9E9E9E" VerticalOptions="Center" />
+                    <Label Text="Soporte" FontSize="12" TextColor="#9E9E9E" FontFamily="Roboto-Regular">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnSupportTapped"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                </HorizontalStackLayout>
+
+                <HorizontalStackLayout Spacing="6">
+                    <Label Text="&#xf15c;" FontFamily="FA_Solid" FontSize="12" TextColor="#9E9E9E" VerticalOptions="Center" />
+                    <Label Text="Términos de Uso" FontSize="12" TextColor="#9E9E9E" FontFamily="Roboto-Regular">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnTermsTapped"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                </HorizontalStackLayout>
+
+                <HorizontalStackLayout Spacing="6">
+                    <Label Text="&#xf023;" FontFamily="FA_Solid" FontSize="12" TextColor="#9E9E9E" VerticalOptions="Center" />
+                    <Label Text="Política de Privacidad" FontSize="12" TextColor="#9E9E9E" FontFamily="Roboto-Regular">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnPrivacyTapped"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                </HorizontalStackLayout>
             </HorizontalStackLayout>
         </VerticalStackLayout>
     </ScrollView>
         
         <!-- Modal de segundo factor -->
         <local:TwoFactorModal x:Name="TwoFactorModal" />
+        <local:SupportModalView x:Name="SupportModalView" />
+        <local:LegalModalView x:Name="LegalModalView" />
+        <local:PrivacyModalView x:Name="PrivacyModalView" />
     </Grid>
 </ContentPage>
