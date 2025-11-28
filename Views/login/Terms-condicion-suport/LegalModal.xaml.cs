@@ -82,10 +82,10 @@ namespace AutogestionSena.MAUI.Views
                                 // Secci�n principal en un cuadro
                                 var sectionFrame = new Frame { CornerRadius = 8, Padding = 12, BackgroundColor = Colors.White, BorderColor = Color.FromArgb("#e5e7eb"), HasShadow = true };
                                 var sectionStack = new VerticalStackLayout { Spacing = 8 };
-                                sectionStack.Children.Add(new Label { Text = sec.Title, FontAttributes = FontAttributes.Bold, FontSize = 16 });
+                                sectionStack.Children.Add(new Label { Text = sec.Title, FontAttributes = FontAttributes.Bold, FontSize = 16, TextColor = Colors.Black });
                                 if (!string.IsNullOrEmpty(sec.Content))
                                 {
-                                    sectionStack.Children.Add(new Label { Text = sec.Content, LineBreakMode = LineBreakMode.WordWrap, FontSize = 14 });
+                                    sectionStack.Children.Add(new Label { Text = sec.Content, LineBreakMode = LineBreakMode.WordWrap, FontSize = 14, TextColor = Colors.Black });
                                 }
 
                                 // Hijos
@@ -94,10 +94,10 @@ namespace AutogestionSena.MAUI.Views
                                 {
                                     var childFrame = new Frame { CornerRadius = 6, Padding = 10, BackgroundColor = Color.FromArgb("#f9fafb"), BorderColor = Color.FromArgb("#e5e7eb"), HasShadow = false, Margin = new Thickness(0, 6, 0, 0) };
                                     var childStack = new VerticalStackLayout { Spacing = 4 };
-                                    childStack.Children.Add(new Label { Text = (!string.IsNullOrEmpty(child.Code) ? child.Code + " " : string.Empty) + child.Title, FontAttributes = FontAttributes.Bold });
+                                    childStack.Children.Add(new Label { Text = (!string.IsNullOrEmpty(child.Code) ? child.Code + " " : string.Empty) + child.Title, FontAttributes = FontAttributes.Bold, TextColor = Colors.Black });
                                     if (!string.IsNullOrEmpty(child.Content))
                                     {
-                                        childStack.Children.Add(new Label { Text = child.Content, LineBreakMode = LineBreakMode.WordWrap, FontSize = 13 });
+                                        childStack.Children.Add(new Label { Text = child.Content, LineBreakMode = LineBreakMode.WordWrap, FontSize = 13, TextColor = Colors.Black });
                                     }
                                     childFrame.Content = childStack;
                                     sectionStack.Children.Add(childFrame);

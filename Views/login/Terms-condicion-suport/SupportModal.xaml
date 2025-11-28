@@ -14,8 +14,8 @@
  </Frame>
 
  <VerticalStackLayout Grid.Column="1" Spacing="2" HorizontalOptions="CenterAndExpand">
- <Label x:Name="TitleLabel" Text="Centro de soporte" FontSize="20" FontAttributes="Bold" TextColor="#2e2e2e" HorizontalOptions="Center" />
- <Label x:Name="SubtitleLabel" Text="Estamos aquí para ayudarte. Encuentra respuestas rápidas o contáctanos directamente." FontSize="13" TextColor="#757575" HorizontalOptions="Center" HorizontalTextAlignment="Center" />
+ <Label x:Name="TitleLabel" Text="Centro de soporte" FontSize="20" FontAttributes="Bold" TextColor="#000000" HorizontalOptions="Center" />
+ <Label x:Name="SubtitleLabel" Text="Estamos aquí para ayudarte. Encuentra respuestas rápidas o contáctanos directamente." FontSize="13" TextColor="#000000" HorizontalOptions="Center" HorizontalTextAlignment="Center" />
 </VerticalStackLayout>
 
  <Button Grid.Column="2" Text="✕" BackgroundColor="Transparent" TextColor="#616161" FontSize="18" WidthRequest="40" HeightRequest="40" Clicked="OnCloseClicked" />
@@ -30,7 +30,7 @@
 
  <!-- Pie: botón cerrar pequeño para accesibilidad -->
  <HorizontalStackLayout HorizontalOptions="End">
- <Button Text="Cerrar" BackgroundColor="Transparent" TextColor="#757575" Clicked="OnCloseClicked" />
+ <Button Text="Cerrar" BackgroundColor="Transparent" TextColor="#000000" Clicked="OnCloseClicked" />
  </HorizontalStackLayout>
  </VerticalStackLayout>
  </Frame>

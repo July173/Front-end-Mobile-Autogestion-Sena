@@ -11,8 +11,8 @@
  <Image Source="{x:Static helpers:IconPaths.Lock}" WidthRequest="20" HeightRequest="20" />
  </Frame>
  <VerticalStackLayout Grid.Column="1" Spacing="2" HorizontalOptions="CenterAndExpand">
- <Label x:Name="TitleLabel" Text="Política de privacidad" FontSize="24" FontAttributes="Bold" TextColor="#111827" HorizontalOptions="Center" />
- <Label x:Name="SubtitleLabel" Text="Cómo el SENA protege y utiliza su información personal" FontSize="12" TextColor="#6B7280" HorizontalOptions="Center" HorizontalTextAlignment="Center" />
+ <Label x:Name="TitleLabel" Text="Política de privacidad" FontSize="24" FontAttributes="Bold" TextColor="#000000" HorizontalOptions="Center" />
+ <Label x:Name="SubtitleLabel" Text="Cómo el SENA protege y utiliza su información personal" FontSize="12" TextColor="#000000" HorizontalOptions="Center" HorizontalTextAlignment="Center" />
  </VerticalStackLayout>
  <Button Grid.Column="2" Text="✕" BackgroundColor="Transparent" TextColor="#616161" FontSize="18" WidthRequest="40" HeightRequest="40" Clicked="OnCloseClicked" />
  </Grid>
@@ -21,7 +21,7 @@
  <VerticalStackLayout x:Name="ContentStack" Spacing="12" />
  </ScrollView>
  <HorizontalStackLayout Grid.Row="2" HorizontalOptions="End" Padding="8">
- <Button Text="Cerrar" BackgroundColor="Transparent" TextColor="#6B7280" Clicked="OnCloseClicked" />
+ <Button Text="Cerrar" BackgroundColor="Transparent" TextColor="#000000" Clicked="OnCloseClicked" />
  </HorizontalStackLayout>
  </Grid>
  </Frame>

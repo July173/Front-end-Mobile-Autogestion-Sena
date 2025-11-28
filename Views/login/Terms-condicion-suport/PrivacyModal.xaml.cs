@@ -81,10 +81,10 @@ namespace AutogestionSena.MAUI.Views
                             {
                                 var sectionFrame = new Frame { CornerRadius = 8, Padding = 12, BackgroundColor = Colors.White, BorderColor = Color.FromArgb("#e5e7eb"), HasShadow = true };
                                 var sectionStack = new VerticalStackLayout { Spacing = 8 };
-                                sectionStack.Children.Add(new Label { Text = sec.Title, FontAttributes = FontAttributes.Bold, FontSize = 18 });
+                                sectionStack.Children.Add(new Label { Text = sec.Title, FontAttributes = FontAttributes.Bold, FontSize = 18, TextColor = Colors.Black });
                                 if (!string.IsNullOrEmpty(sec.Content))
                                 {
-                                    sectionStack.Children.Add(new Label { Text = sec.Content, LineBreakMode = LineBreakMode.WordWrap, FontSize = 14 });
+                                    sectionStack.Children.Add(new Label { Text = sec.Content, LineBreakMode = LineBreakMode.WordWrap, FontSize = 14, TextColor = Colors.Black });
                                 }
 
                                 var children = sections.Where(s => s.Parent == sec.Id).OrderBy(s => s.Order);
@@ -92,10 +92,10 @@ namespace AutogestionSena.MAUI.Views
                                 {
                                     var childFrame = new Frame { CornerRadius = 6, Padding = 10, BackgroundColor = Color.FromArgb("#f9fafb"), BorderColor = Color.FromArgb("#e5e7eb"), HasShadow = false, Margin = new Thickness(0, 6, 0, 0) };
                                     var childStack = new VerticalStackLayout { Spacing = 4 };
-                                    childStack.Children.Add(new Label { Text = (!string.IsNullOrEmpty(child.Code) ? child.Code + " " : string.Empty) + child.Title, FontAttributes = FontAttributes.Bold });
+                                    childStack.Children.Add(new Label { Text = (!string.IsNullOrEmpty(child.Code) ? child.Code + " " : string.Empty) + child.Title, FontAttributes = FontAttributes.Bold, TextColor = Colors.Black });
                                     if (!string.IsNullOrEmpty(child.Content))
                                     {
-                                        childStack.Children.Add(new Label { Text = child.Content, LineBreakMode = LineBreakMode.WordWrap, FontSize = 13 });
+                                        childStack.Children.Add(new Label { Text = child.Content, LineBreakMode = LineBreakMode.WordWrap, FontSize = 13, TextColor = Colors.Black });
                                     }
                                     childFrame.Content = childStack;
                                     sectionStack.Children.Add(childFrame);
@@ -157,13 +157,13 @@ namespace AutogestionSena.MAUI.Views
         {
             var sectionFrame = new Frame { CornerRadius = 8, Padding = 12, BackgroundColor = Colors.White, BorderColor = Color.FromArgb("#e5e7eb"), HasShadow = true };
             var sectionStack = new VerticalStackLayout { Spacing = 8 };
-            sectionStack.Children.Add(new Label { Text = title, FontAttributes = FontAttributes.Bold, FontSize = 18 });
+            sectionStack.Children.Add(new Label { Text = title, FontAttributes = FontAttributes.Bold, FontSize = 18, TextColor = Colors.Black });
             foreach (var b in blocks)
             {
                 var childFrame = new Frame { CornerRadius = 6, Padding = 10, BackgroundColor = Color.FromArgb("#f9fafb"), BorderColor = Color.FromArgb("#e5e7eb"), HasShadow = false, Margin = new Thickness(0, 6, 0, 0) };
                 var childStack = new VerticalStackLayout { Spacing = 4 };
-                childStack.Children.Add(new Label { Text = b.subtitle, FontAttributes = FontAttributes.Bold });
-                childStack.Children.Add(new Label { Text = b.content, LineBreakMode = LineBreakMode.WordWrap, FontSize = 13 });
+                childStack.Children.Add(new Label { Text = b.subtitle, FontAttributes = FontAttributes.Bold, TextColor = Colors.Black });
+                childStack.Children.Add(new Label { Text = b.content, LineBreakMode = LineBreakMode.WordWrap, FontSize = 13, TextColor = Colors.Black });
                 childFrame.Content = childStack;
                 sectionStack.Children.Add(childFrame);
             }
@@ -175,8 +175,8 @@ namespace AutogestionSena.MAUI.Views
         {
             var sectionFrame = new Frame { CornerRadius = 8, Padding = 12, BackgroundColor = Colors.White, BorderColor = Color.FromArgb("#e5e7eb"), HasShadow = true };
             var sectionStack = new VerticalStackLayout { Spacing = 8 };
-            sectionStack.Children.Add(new Label { Text = title, FontAttributes = FontAttributes.Bold, FontSize = 18 });
-            sectionStack.Children.Add(new Label { Text = content, LineBreakMode = LineBreakMode.WordWrap, FontSize = 14 });
+            sectionStack.Children.Add(new Label { Text = title, FontAttributes = FontAttributes.Bold, FontSize = 18, TextColor = Colors.Black });
+            sectionStack.Children.Add(new Label { Text = content, LineBreakMode = LineBreakMode.WordWrap, FontSize = 14, TextColor = Colors.Black });
             sectionFrame.Content = sectionStack;
             ContentStack.Children.Add(sectionFrame);
         }

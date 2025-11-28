@@ -97,7 +97,7 @@ namespace AutogestionSena.MAUI.Views
 					{
 						var row = new Grid { ColumnDefinitions = { new ColumnDefinition(GridLength.Star), new ColumnDefinition(GridLength.Auto) } };
 						row.Add(new Label { Text = s.DayRange, FontSize = 14, TextColor = Colors.Black }, 0, 0);
-						row.Add(new Label { Text = s.Hours, FontSize = 14, TextColor = Color.FromArgb("#43A047") }, 1, 0);
+						row.Add(new Label { Text = s.Hours, FontSize = 14, TextColor = Colors.Black }, 1, 0);
 						schedulesList?.Children.Add(row);
 					}
 				}
@@ -131,7 +131,7 @@ namespace AutogestionSena.MAUI.Views
 						categoryPicker.ItemsSource = new List<string> { "Soporte Técnico", "Consulta Académica", "Problemas con la plataforma", "Otros" };
 					}
 				}
-				var link = new Label { Text = "Sofia Plus - Oferta Educativa", TextColor = Color.FromArgb("#374151") };
+					var link = new Label { Text = "Sofia Plus - Oferta Educativa", TextColor = Colors.Black };
 				var tap = new TapGestureRecognizer();
 				tap.Tapped += (s, e) => Launcher.OpenAsync(new Uri("https://betowa.sena.edu.co/"));
 				link.GestureRecognizers.Add(tap);
@@ -147,11 +147,11 @@ namespace AutogestionSena.MAUI.Views
 		{
 			var frame = new Frame { CornerRadius =8, Padding =12, BackgroundColor = Colors.White, BorderColor = Color.FromArgb("#f0f0f0"), HasShadow = false };
 			var vs = new VerticalStackLayout { Spacing =4 };
-			vs.Children.Add(new Label { Text = c.Label, FontAttributes = FontAttributes.Bold, FontSize =14 });
+			vs.Children.Add(new Label { Text = c.Label, FontAttributes = FontAttributes.Bold, FontSize =14, TextColor = Colors.Black });
 			// Mostrar tipo o informaci�n extra como subt�tulo
 			var subtitle = !string.IsNullOrEmpty(c.ExtraInfo) ? c.ExtraInfo : c.Type;
-			if (!string.IsNullOrEmpty(subtitle)) vs.Children.Add(new Label { Text = subtitle, FontSize =12, TextColor = Color.FromArgb("#757575") });
-			vs.Children.Add(new Label { Text = c.Value, FontSize =16, TextColor = Color.FromArgb("#f57c00") });
+			if (!string.IsNullOrEmpty(subtitle)) vs.Children.Add(new Label { Text = subtitle, FontSize =12, TextColor = Colors.Black });
+			vs.Children.Add(new Label { Text = c.Value, FontSize =16, TextColor = Colors.Black });
 			frame.Content = vs;
 			return frame;
 		}

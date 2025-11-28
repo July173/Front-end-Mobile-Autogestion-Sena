@@ -11,8 +11,8 @@
  <Image Source="{x:Static helpers:IconPaths.Lock}" Aspect="AspectFill" />
  </Frame>
  <VerticalStackLayout Grid.Column="1" Spacing="2" HorizontalOptions="CenterAndExpand">
- <Label x:Name="TitleLabel" Text="Documento Legal" FontSize="20" FontAttributes="Bold" TextColor="#2e2e2e" HorizontalOptions="Center" />
- <Label Text="Cómo el SENA protege y utiliza su información personal" FontSize="13" TextColor="#757575" HorizontalOptions="Center" HorizontalTextAlignment="Center" />
+ <Label x:Name="TitleLabel" Text="Documento Legal" FontSize="20" FontAttributes="Bold" TextColor="#000000" HorizontalOptions="Center" />
+ <Label Text="Cómo el SENA protege y utiliza su información personal" FontSize="13" TextColor="#000000" HorizontalOptions="Center" HorizontalTextAlignment="Center" />
  </VerticalStackLayout>
  <Button Grid.Column="2" Text="✕" BackgroundColor="Transparent" TextColor="#616161" FontSize="18" WidthRequest="40" HeightRequest="40" Clicked="OnCloseClicked" />
  </Grid>
