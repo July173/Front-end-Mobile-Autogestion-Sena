@@ -14,6 +14,7 @@ namespace AutogestionSena.MAUI.Views
 		{
 			InitializeComponent();
 			_generalService = new GeneralService();
+			SizeChanged += OnSizeChanged;
 		}
 
 		public void Show()
@@ -62,10 +63,14 @@ namespace AutogestionSena.MAUI.Views
 		{
 			try
 			{
-				ContactGrid.Children.Clear();
-				SchedulesList.Children.Clear();
-				LinksList.Children.Clear();
-				CategoryPicker.ItemsSource = null;
+				var contactGrid = FindByName("ContactGrid") as Grid;
+				var schedulesList = FindByName("SchedulesList") as VerticalStackLayout;
+				var linksList = FindByName("LinksList") as VerticalStackLayout;
+				var categoryPicker = FindByName("CategoryPicker") as Picker;
+				contactGrid?.Children.Clear();
+				schedulesList?.Children.Clear();
+				linksList?.Children.Clear();
+				if (categoryPicker != null) categoryPicker.ItemsSource = null;
 				var contacts = await _generalService.GetSupportContactsAsync();
 				var schedules = await _general_service_get_schedules_async();
 				var queries = await _general_service_get_queries_async();
@@ -75,7 +80,7 @@ namespace AutogestionSena.MAUI.Views
 					foreach (var c in contacts.Take(2))
 					{
 						var card = CreateContactCard(c);
-						ContactGrid.Add(card, col, 0);
+						contactGrid?.Add(card, col, 0);
 						col++;
 					}
 				}
@@ -83,8 +88,8 @@ namespace AutogestionSena.MAUI.Views
 				{
 					var emailCard = CreateContactCard(new SupportContactDto { Label = "Email", Type = "Soporte", Value = "servicio@sena.edu.co", ExtraInfo = "Respuesta en 24-48 horas" });
 					var phoneCard = CreateContactCard(new SupportContactDto { Label = "Teléfono", Type = "Línea gratuita", Value = "01 8000 910 270", ExtraInfo = "Lunes a viernes: 7:00 AM - 7:00 PM" });
-					ContactGrid.Add(emailCard, 0, 0);
-					ContactGrid.Add(phoneCard, 1, 0);
+					contactGrid?.Add(emailCard, 0, 0);
+					contactGrid?.Add(phoneCard, 1, 0);
 				}
 				if (schedules != null && schedules.Any())
 				{
@@ -93,7 +98,7 @@ namespace AutogestionSena.MAUI.Views
 						var row = new Grid { ColumnDefinitions = { new ColumnDefinition(GridLength.Star), new ColumnDefinition(GridLength.Auto) } };
 						row.Add(new Label { Text = s.DayRange, FontSize = 14, TextColor = Colors.Black }, 0, 0);
 						row.Add(new Label { Text = s.Hours, FontSize = 14, TextColor = Color.FromArgb("#43A047") }, 1, 0);
-						SchedulesList.Children.Add(row);
+						schedulesList?.Children.Add(row);
 					}
 				}
 				else
@@ -101,30 +106,36 @@ namespace AutogestionSena.MAUI.Views
 					var row1 = new Grid { ColumnDefinitions = { new ColumnDefinition(GridLength.Star), new ColumnDefinition(GridLength.Auto) } };
 					row1.Add(new Label { Text = "Lunes a Viernes", FontSize = 14, TextColor = Colors.Black }, 0, 0);
 					row1.Add(new Label { Text = "7:00 AM - 7:00 PM", FontSize = 14, TextColor = Color.FromArgb("#43A047") }, 1, 0);
-					SchedulesList.Children.Add(row1);
+					schedulesList?.Children.Add(row1);
 					var row2 = new Grid { ColumnDefinitions = { new ColumnDefinition(GridLength.Star), new ColumnDefinition(GridLength.Auto) } };
 					row2.Add(new Label { Text = "Sábados", FontSize = 14, TextColor = Colors.Black }, 0, 0);
 					row2.Add(new Label { Text = "8:00 AM - 4:00 PM", FontSize = 14, TextColor = Color.FromArgb("#43A047") }, 1, 0);
-					SchedulesList.Children.Add(row2);
+					schedulesList?.Children.Add(row2);
 					var row3 = new Grid { ColumnDefinitions = { new ColumnDefinition(GridLength.Star), new ColumnDefinition(GridLength.Auto) } };
 					row3.Add(new Label { Text = "Domingos y festivos", FontSize = 14, TextColor = Colors.Black }, 0, 0);
 					row3.Add(new Label { Text = "Cerrado", FontSize = 14, TextColor = Colors.Gray }, 1, 0);
-					SchedulesList.Children.Add(row3);
+					schedulesList?.Children.Add(row3);
 				}
 				if (queries != null && queries.Any())
 				{
-					CategoryPicker.ItemsSource = queries;
-					CategoryPicker.ItemDisplayBinding = new Binding("Name");
+					if (categoryPicker != null)
+					{
+						categoryPicker.ItemsSource = queries;
+						categoryPicker.ItemDisplayBinding = new Binding("Name");
+					}
 				}
 				else
 				{
-					CategoryPicker.ItemsSource = new List<string> { "Soporte Técnico", "Consulta Académica", "Problemas con la plataforma", "Otros" };
+					if (categoryPicker != null)
+					{
+						categoryPicker.ItemsSource = new List<string> { "Soporte Técnico", "Consulta Académica", "Problemas con la plataforma", "Otros" };
+					}
 				}
 				var link = new Label { Text = "Sofia Plus - Oferta Educativa", TextColor = Color.FromArgb("#374151") };
 				var tap = new TapGestureRecognizer();
 				tap.Tapped += (s, e) => Launcher.OpenAsync(new Uri("https://betowa.sena.edu.co/"));
 				link.GestureRecognizers.Add(tap);
-				LinksList.Children.Add(link);
+					linksList?.Children.Add(link);
 			}
 			catch (Exception ex)
 			{
@@ -162,15 +173,63 @@ namespace AutogestionSena.MAUI.Views
 
 		private void OnSubmitClicked(object sender, EventArgs e)
 		{
-			var name = NameEntry.Text;
-			var email = EmailEntry.Text;
-			var message = MessageEditor.Text;
+			var nameEntry = FindByName("NameEntry") as Entry;
+			var emailEntry = FindByName("EmailEntry") as Entry;
+			var messageEditor = FindByName("MessageEditor") as Editor;
+			var name = nameEntry?.Text;
+			var email = emailEntry?.Text;
+			var message = messageEditor?.Text;
 			if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(message))
 			{
 				Application.Current?.MainPage?.DisplayAlert("Error", "Completa todos los campos obligatorios", "Aceptar");
 				return;
 			}
 			Application.Current?.MainPage?.DisplayAlert("Enviado", "Tu mensaje ha sido enviado", "Aceptar");
+		}
+
+		private void OnSizeChanged(object? sender, EventArgs e)
+		{
+			try
+			{
+				var w = Width;
+				if (w <= 0) return;
+				var title = FindByName("TitleLabel") as Label;
+				var subtitle = FindByName("SubtitleLabel") as Label;
+				var frame = FindByName("ModalFrame") as Frame;
+				var scroll = FindByName("ContentScroll") as ScrollView;
+
+				if (w <= 360)
+				{
+					if (title != null) title.FontSize = 20;
+					if (subtitle != null) subtitle.FontSize = 12;
+					if (frame != null) frame.WidthRequest = 320;
+					if (scroll != null) scroll.HeightRequest = 420;
+				}
+				else if (w <= 420)
+				{
+					if (title != null) title.FontSize = 22;
+					if (subtitle != null) subtitle.FontSize = 12;
+					if (frame != null) frame.WidthRequest = 360;
+					if (scroll != null) scroll.HeightRequest = 480;
+				}
+				else if (w <= 760)
+				{
+					if (title != null) title.FontSize = 24;
+					if (subtitle != null) subtitle.FontSize = 13;
+					if (frame != null) frame.WidthRequest = 600;
+					if (scroll != null) scroll.HeightRequest = 520;
+				}
+				else
+				{
+					if (title != null) title.FontSize = 24;
+					if (subtitle != null) subtitle.FontSize = 13;
+					if (frame != null) frame.WidthRequest = 700;
+					if (scroll != null) scroll.HeightRequest = 520;
+				}
+			}
+			catch (Exception)
+			{
+			}
 		}
 	}
 }

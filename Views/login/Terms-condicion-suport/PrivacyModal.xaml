@@ -3,7 +3,7 @@
  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
  xmlns:helpers="clr-namespace:AutogestionSenaMaui.Helpers"
  x:Class="AutogestionSena.MAUI.Views.PrivacyModalView">
- <Grid x:Name="ModalContainer" BackgroundColor="#80000000" IsVisible="False" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+ <Grid x:Name="ModalContainer" BackgroundColor="#80000000" IsVisible="False" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" ZIndex="100">
  <Frame x:Name="ModalFrame" Padding="18" CornerRadius="10" BackgroundColor="White" HorizontalOptions="Center" VerticalOptions="Center" HasShadow="True" WidthRequest="760">
  <Grid RowDefinitions="Auto,*,Auto">
  <Grid Grid.Row="0" ColumnDefinitions="Auto,*,Auto" Padding="6">
@@ -17,7 +17,7 @@
  <Button Grid.Column="2" Text="✕" BackgroundColor="Transparent" TextColor="#616161" FontSize="18" WidthRequest="40" HeightRequest="40" Clicked="OnCloseClicked" />
  </Grid>
  <BoxView Grid.Row="0" HeightRequest="1" BackgroundColor="#e5e7eb" Margin="0,54,0,0" />
- <ScrollView Grid.Row="1" HeightRequest="520" Padding="12">
+ <ScrollView x:Name="ContentScroll" Grid.Row="1" HeightRequest="520" Padding="12">
  <VerticalStackLayout x:Name="ContentStack" Spacing="12" />
  </ScrollView>
  <HorizontalStackLayout Grid.Row="2" HorizontalOptions="End" Padding="8">

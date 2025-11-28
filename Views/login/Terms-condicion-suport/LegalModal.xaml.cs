@@ -15,6 +15,7 @@ namespace AutogestionSena.MAUI.Views
         {
             InitializeComponent();
             _generalService = new GeneralService();
+            SizeChanged += OnSizeChanged;
         }
 
         public async void Show(string docType)
@@ -118,6 +119,46 @@ namespace AutogestionSena.MAUI.Views
         private void OnCloseClicked(object sender, EventArgs e)
         {
             Hide();
+        }
+
+        private void OnSizeChanged(object? sender, EventArgs e)
+        {
+            try
+            {
+                var w = Width;
+                if (w <= 0) return;
+				var title = FindByName("TitleLabel") as Label;
+				var frame = FindByName("ModalFrame") as Frame;
+				var scroll = FindByName("ContentScroll") as ScrollView;
+
+                if (w <= 360)
+                {
+                    if (title != null) title.FontSize = 20;
+                    if (frame != null) frame.WidthRequest = 320;
+                    if (scroll != null) scroll.HeightRequest = 420;
+                }
+                else if (w <= 420)
+                {
+                    if (title != null) title.FontSize = 22;
+                    if (frame != null) frame.WidthRequest = 360;
+                    if (scroll != null) scroll.HeightRequest = 480;
+                }
+                else if (w <= 760)
+                {
+                    if (title != null) title.FontSize = 24;
+                    if (frame != null) frame.WidthRequest = 600;
+                    if (scroll != null) scroll.HeightRequest = 520;
+                }
+                else
+                {
+                    if (title != null) title.FontSize = 24;
+                    if (frame != null) frame.WidthRequest = 760;
+                    if (scroll != null) scroll.HeightRequest = 520;
+                }
+            }
+            catch (Exception)
+            {
+            }
         }
     }
 }

@@ -295,7 +295,7 @@ namespace AutogestionSena.MAUI.Views
         }
 
         private bool ValidateStoredCode(string inputCode)
-  {
+        {
        try
  {
       // Obtener los datos guardados del código
@@ -340,6 +340,42 @@ namespace AutogestionSena.MAUI.Views
     catch (Exception)
     {
         return false;
+            }
+        }
+
+        private void OnSupportTapped(object sender, EventArgs e)
+        {
+            try
+            {
+               new SupportModalView().Show();
+            }
+            catch (Exception ex)
+            {
+                DisplayAlert("Error", $"No se pudo abrir soporte: {ex.Message}", "Aceptar");
+            }
+        }
+
+        private void OnTermsTapped(object sender, EventArgs e)
+        {
+            try
+            {
+               new LegalModalView().Show("terms");
+            }
+            catch (Exception ex)
+            {
+                DisplayAlert("Error", $"No se pudo abrir términos: {ex.Message}", "Aceptar");
+            }
+        }
+
+        private void OnPrivacyTapped(object sender, EventArgs e)
+        {
+            try
+            {
+               new PrivacyModalView().Show("privacy");
+            }
+            catch (Exception ex)
+            {
+                DisplayAlert("Error", $"No se pudo abrir política de privacidad: {ex.Message}", "Aceptar");
             }
         }
     }

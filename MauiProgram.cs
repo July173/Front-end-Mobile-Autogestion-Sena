@@ -1,4 +1,4 @@
-﻿using AutogestionSena.MAUI;
+using AutogestionSena.MAUI;
 using AutogestionSena.MAUI.Services;
 using AutogestionSenaMaui.Helpers;
 using Microsoft.Extensions.Logging;
@@ -18,10 +18,10 @@ namespace AutogestionSena.MAUI
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 
-                    // FontAwesome fonts (registrar según archivos en Resources/Fonts)
-                    fonts.AddFont("fa-solid-900.ttf", "FA_Solid");
-                    fonts.AddFont("fa-regular-400.ttf", "FA_Regular");
-                    fonts.AddFont("fa-brands-400.ttf", "FA_Brands");
+                    // FontAwesome 7: usar los archivos reales presentes en Resources/Fonts
+                    fonts.AddFont("Font Awesome 7 Free-Solid-900.otf", "FA_Solid");
+                    fonts.AddFont("Font Awesome 7 Free-Regular-400.otf", "FA_Regular");
+                    fonts.AddFont("Font Awesome 7 Brands-Regular-400.otf", "FA_Brands");
                 })
                 .UseMicrocharts();
 

@@ -4,77 +4,35 @@
  x:Class="AutogestionSena.MAUI.Views.SupportModalView">
 
  <Grid x:Name="ModalContainer" BackgroundColor="#80000000" IsVisible="False" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+ <!-- Centro del modal -->
  <Frame x:Name="ModalFrame" Padding="18" CornerRadius="10" BackgroundColor="White" HorizontalOptions="Center" VerticalOptions="Center" HasShadow="True" WidthRequest="700">
- <Grid RowDefinitions="Auto, * , Auto" ColumnDefinitions="*">
- <Grid Grid.Row="0" ColumnDefinitions="Auto,*,Auto" Padding="6">
- <Frame WidthRequest="40" HeightRequest="40" CornerRadius="20" BackgroundColor="#43A047" HasShadow="False" VerticalOptions="Center" HorizontalOptions="Center">
- <Label Text="?" TextColor="White" FontSize="22" HorizontalOptions="Center" VerticalOptions="Center" />
+ <VerticalStackLayout Spacing="12">
+ <!-- Cabecera: icono + título + close -->
+ <Grid ColumnDefinitions="Auto,*,Auto" VerticalOptions="Center">
+ <Frame WidthRequest="44" HeightRequest="44" CornerRadius="22" BackgroundColor="#43A047" Padding="8" HasShadow="False" VerticalOptions="Center">
+ <Label Text="&#xf059;" FontFamily="FA_Solid" FontSize="20" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center" />
  </Frame>
+
  <VerticalStackLayout Grid.Column="1" Spacing="2" HorizontalOptions="CenterAndExpand">
- <Label Text="Centro de soporte" FontSize="24" FontAttributes="Bold" TextColor="#111827" HorizontalOptions="Center" />
- <Label Text="Estamos aquí para ayudarte. Encuentra respuestas rápidas o contáctanos directamente." FontSize="13" TextColor="#6B7280" HorizontalOptions="Center" HorizontalTextAlignment="Center" />
- </VerticalStackLayout>
+ <Label x:Name="TitleLabel" Text="Centro de soporte" FontSize="20" FontAttributes="Bold" TextColor="#2e2e2e" HorizontalOptions="Center" />
+ <Label x:Name="SubtitleLabel" Text="Estamos aquí para ayudarte. Encuentra respuestas rápidas o contáctanos directamente." FontSize="13" TextColor="#757575" HorizontalOptions="Center" HorizontalTextAlignment="Center" />
+</VerticalStackLayout>
+
  <Button Grid.Column="2" Text="✕" BackgroundColor="Transparent" TextColor="#616161" FontSize="18" WidthRequest="40" HeightRequest="40" Clicked="OnCloseClicked" />
  </Grid>
- <BoxView Grid.Row="0" HeightRequest="1" BackgroundColor="#e5e7eb" Margin="0,54,0,0" />
 
- <ScrollView Grid.Row="1" HeightRequest="520">
- <VerticalStackLayout Spacing="12" Padding="12">
- <Label Text="Formas de contactarnos" FontAttributes="Bold" FontSize="22" TextColor="#111827" HorizontalOptions="Center" />
- <Grid x:Name="ContactGrid" ColumnDefinitions="*,*" ColumnSpacing="12" RowSpacing="12">
- </Grid>
+ <BoxView HeightRequest="1" BackgroundColor="#eeeeee" />
 
- <Frame Padding="12" CornerRadius="10" HasShadow="False" BackgroundColor="White">
- <VerticalStackLayout>
- <HorizontalStackLayout Spacing="8">
- <Label Text="Horarios de atención" FontSize="18" FontAttributes="Bold" TextColor="#111827" />
- </HorizontalStackLayout>
- <VerticalStackLayout x:Name="SchedulesList" Spacing="6" />
- <Grid BackgroundColor="#fff7ed" Padding="8" Margin="0,8,0,0">
- <Label Text="Nota: Los tiempos de respuesta pueden variar durante períodos de alta demanda como matrículas masivas." TextColor="#9a3412" FontSize="12" />
- </Grid>
- </VerticalStackLayout>
- </Frame>
-
- <Frame Padding="12" CornerRadius="10" HasShadow="False" BackgroundColor="White">
- <VerticalStackLayout Spacing="8">
- <Label Text="Envíanos un mensaje" FontSize="18" FontAttributes="Bold" TextColor="#111827" />
- <Label Text="Complete el formulario y nos pondremos en contacto con usted dentro de 24 horas." FontSize="12" TextColor="#6B7280" />
- <VerticalStackLayout Spacing="10">
- <VerticalStackLayout>
- <Label Text="Nombre completo *" FontSize="12" TextColor="#374151" />
- <Entry x:Name="NameEntry" Placeholder="Ingresa tu nombre completo" />
- </VerticalStackLayout>
- <VerticalStackLayout>
- <Label Text="Correo electrónico *" FontSize="12" TextColor="#374151" />
- <Entry x:Name="EmailEntry" Placeholder="correo@soy.sena.edu.co" Keyboard="Email" />
- </VerticalStackLayout>
- <VerticalStackLayout>
- <Label Text="Categoría de Consulta *" FontSize="12" TextColor="#2D7430" />
- <Picker x:Name="CategoryPicker" Title="Selecciona una categoría" />
- </VerticalStackLayout>
- <VerticalStackLayout>
- <Label Text="Mensaje *" FontSize="12" TextColor="#374151" />
- <Editor x:Name="MessageEditor" Placeholder="Describe detalladamente tu consulta o problema..." AutoSize="TextChanges" />
- </VerticalStackLayout>
- <Button x:Name="SubmitButton" Text="Enviar Mensaje" BackgroundColor="#43A047" TextColor="White" Clicked="OnSubmitClicked" />
- </VerticalStackLayout>
- </VerticalStackLayout>
- </Frame>
-
- <Frame Padding="12" CornerRadius="10" HasShadow="False" BackgroundColor="White">
- <VerticalStackLayout Spacing="8">
- <Label Text="Enlaces útiles" FontSize="18" FontAttributes="Bold" TextColor="#111827" />
- <VerticalStackLayout x:Name="LinksList" Spacing="8" />
- </VerticalStackLayout>
- </Frame>
- </VerticalStackLayout>
+ <!-- Contenido principal -->
+ <ScrollView x:Name="ContentScroll" HeightRequest="420">
+ <VerticalStackLayout x:Name="ContentStack" Spacing="12" Padding="4" />
  </ScrollView>
 
- <HorizontalStackLayout Grid.Row="2" HorizontalOptions="End" Padding="8">
- <Button Text="Cerrar" BackgroundColor="Transparent" TextColor="#6B7280" Clicked="OnCloseClicked" />
+ <!-- Pie: botón cerrar pequeño para accesibilidad -->
+ <HorizontalStackLayout HorizontalOptions="End">
+ <Button Text="Cerrar" BackgroundColor="Transparent" TextColor="#757575" Clicked="OnCloseClicked" />
  </HorizontalStackLayout>
- </Grid>
+ </VerticalStackLayout>
  </Frame>
  </Grid>
 </ContentView>

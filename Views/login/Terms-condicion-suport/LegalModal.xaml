@@ -5,30 +5,25 @@
  x:Class="AutogestionSena.MAUI.Views.LegalModalView">
  <Grid x:Name="ModalContainer" BackgroundColor="#80000000" IsVisible="False" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
  <Frame x:Name="ModalFrame" Padding="18" CornerRadius="10" BackgroundColor="White" HorizontalOptions="Center" VerticalOptions="Center" HasShadow="True" WidthRequest="760">
- <Grid RowDefinitions="Auto,*,Auto">
- <!-- Header fijo -->
- <Grid Grid.Row="0" ColumnDefinitions="Auto,*,Auto" Padding="6">
- <Frame WidthRequest="40" HeightRequest="40" CornerRadius="20" BackgroundColor="#43A047" HasShadow="False" VerticalOptions="Center" HorizontalOptions="Center">
- <Image Source="{x:Static helpers:IconPaths.Lock}" WidthRequest="20" HeightRequest="20" />
+ <VerticalStackLayout Spacing="10">
+ <Grid ColumnDefinitions="Auto,*,Auto">
+ <Frame WidthRequest="44" HeightRequest="44" CornerRadius="22" BackgroundColor="#43A047" Padding="8" HasShadow="False" VerticalOptions="Center">
+ <Image Source="{x:Static helpers:IconPaths.Lock}" Aspect="AspectFill" />
  </Frame>
  <VerticalStackLayout Grid.Column="1" Spacing="2" HorizontalOptions="CenterAndExpand">
- <Label x:Name="TitleLabel" Text="Términos y condiciones" FontSize="24" FontAttributes="Bold" TextColor="#111827" HorizontalOptions="Center" />
- <Label Text="Condiciones de uso de los servicios del SENA - Servicio Nacional de Aprendizaje" FontSize="12" TextColor="#6B7280" HorizontalOptions="Center" HorizontalTextAlignment="Center" />
+ <Label x:Name="TitleLabel" Text="Documento Legal" FontSize="20" FontAttributes="Bold" TextColor="#2e2e2e" HorizontalOptions="Center" />
+ <Label Text="Cómo el SENA protege y utiliza su información personal" FontSize="13" TextColor="#757575" HorizontalOptions="Center" HorizontalTextAlignment="Center" />
  </VerticalStackLayout>
  <Button Grid.Column="2" Text="✕" BackgroundColor="Transparent" TextColor="#616161" FontSize="18" WidthRequest="40" HeightRequest="40" Clicked="OnCloseClicked" />
  </Grid>
- <BoxView Grid.Row="0" HeightRequest="1" BackgroundColor="#e5e7eb" Margin="0,54,0,0" />
-
- <!-- Contenido scrollable -->
- <ScrollView Grid.Row="1" HeightRequest="520" Padding="12">
- <VerticalStackLayout x:Name="ContentStack" Spacing="12" />
+ <BoxView HeightRequest="1" BackgroundColor="#eeeeee" />
+ <ScrollView x:Name="ContentScroll" HeightRequest="520">
+ <VerticalStackLayout x:Name="ContentStack" Spacing="12" Padding="6" />
  </ScrollView>
-
- <!-- Footer -->
- <HorizontalStackLayout Grid.Row="2" HorizontalOptions="End" Padding="8">
- <Button Text="Cerrar" BackgroundColor="Transparent" TextColor="#6B7280" Clicked="OnCloseClicked" />
+ <HorizontalStackLayout HorizontalOptions="End">
+ <Button Text="Cerrar" BackgroundColor="Transparent" TextColor="#757575" Clicked="OnCloseClicked" />
  </HorizontalStackLayout>
- </Grid>
+ </VerticalStackLayout>
  </Frame>
  </Grid>
 </ContentView>
