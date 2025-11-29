@@ -243,7 +243,8 @@ namespace AutogestionSena.MAUI.Views
         {
             try
             {
-                new PrivacyModalView().Show("privacy");
+                // Use the existing named PrivacyModalView instance defined in XAML
+                PrivacyModalView.Show("privacy");
             }
             catch (Exception ex)
             {

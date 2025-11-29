@@ -48,14 +48,13 @@
 
 	<ItemGroup>
 		<!-- App Icon -->
-		<MauiIcon Include="Resources\AppIcon\logosenaverdeicon.svg" Color="#39A900" />
+		<MauiIcon Include="Resources\AppIcon\logosenaverdeicon.png" Color="#ececebff" />
 
 		<!-- Splash Screen -->
-		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#39A900" BaseSize="128,128" />
+	<MauiSplashScreen Include="Resources\Splash\logosenaverdeicon.png" Color="#edf1eaff" BaseSize="128,128" />
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
-		<MauiImage Update="Resources\Images\dotnet_bot.png" Resize="True" BaseSize="300,185" />
 
 		<!-- Custom Fonts -->
 		<MauiFont Include="Resources\Fonts\*" />

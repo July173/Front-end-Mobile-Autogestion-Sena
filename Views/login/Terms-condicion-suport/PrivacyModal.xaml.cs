@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using Microsoft.Maui.Controls;
+using Microsoft.Maui.Graphics;
 using AutogestionSena.MAUI.Api.Services;
 using AutogestionSena.MAUI.Api.Dtos.General;
 using System.Collections.Generic;
@@ -192,38 +193,43 @@ namespace AutogestionSena.MAUI.Views
             {
                 var w = Width;
                 if (w <= 0) return;
-				var title = FindByName("TitleLabel") as Label;
-				var subtitle = FindByName("SubtitleLabel") as Label;
-				var frame = FindByName("ModalFrame") as Frame;
-				var scroll = FindByName("ContentScroll") as ScrollView;
 
+                // Adjust font sizes
                 if (w <= 360)
                 {
-                    if (title != null) title.FontSize = 20;
-                    if (subtitle != null) subtitle.FontSize = 11;
-                    if (frame != null) frame.WidthRequest = 320;
-                    if (scroll != null) scroll.HeightRequest = 420;
+                    TitleLabel.FontSize = 20;
+                    SubtitleLabel.FontSize = 11;
                 }
                 else if (w <= 420)
                 {
-                    if (title != null) title.FontSize = 22;
-                    if (subtitle != null) subtitle.FontSize = 12;
-                    if (frame != null) frame.WidthRequest = 360;
-                    if (scroll != null) scroll.HeightRequest = 480;
-                }
-                else if (w <= 760)
-                {
-                    if (title != null) title.FontSize = 24;
-                    if (subtitle != null) subtitle.FontSize = 12;
-                    if (frame != null) frame.WidthRequest = 600;
-                    if (scroll != null) scroll.HeightRequest = 520;
+                    TitleLabel.FontSize = 22;
+                    SubtitleLabel.FontSize = 12;
                 }
                 else
                 {
-                    if (title != null) title.FontSize = 24;
-                    if (subtitle != null) subtitle.FontSize = 12;
-                    if (frame != null) frame.WidthRequest = 760;
-                    if (scroll != null) scroll.HeightRequest = 520;
+                    TitleLabel.FontSize = 24;
+                    SubtitleLabel.FontSize = 12;
+                }
+
+                // Adjust modal proportional size using AbsoluteLayout bounds
+                if (ModalFrame != null)
+                {
+                    if (w <= 360)
+                    {
+                        AbsoluteLayout.SetLayoutBounds(ModalFrame, new Rect(0.5, 0.5, 0.95, 0.9));
+                    }
+                    else if (w <= 420)
+                    {
+                        AbsoluteLayout.SetLayoutBounds(ModalFrame, new Rect(0.5, 0.5, 0.9, 0.85));
+                    }
+                    else if (w <= 760)
+                    {
+                        AbsoluteLayout.SetLayoutBounds(ModalFrame, new Rect(0.5, 0.5, 0.8, 0.8));
+                    }
+                    else
+                    {
+                        AbsoluteLayout.SetLayoutBounds(ModalFrame, new Rect(0.5, 0.5, 0.7, 0.8));
+                    }
                 }
             }
             catch (Exception)
