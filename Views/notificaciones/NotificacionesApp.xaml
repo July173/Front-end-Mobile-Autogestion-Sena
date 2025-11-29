@@ -2,7 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:contentviews="clr-namespace:AutogestionSenaMaui.ContentViews"
              x:Class="AutogestionSena.MAUI.Views.notificaciones.NotificacionesApp"
-             >
+             BackgroundColor="#FFFFFF">
 
     <ContentPage.Resources>
         <Style x:Key="PillButton" TargetType="Button">
@@ -10,12 +10,12 @@
             <Setter Property="FontSize" Value="14"/>
             <Setter Property="HeightRequest" Value="36"/>
             <Setter Property="Padding" Value="12,0"/>
-            <Setter Property="BackgroundColor" Value="#EFEFEF"/>
+            <Setter Property="BackgroundColor" Value="#F5F5F5"/>
             <Setter Property="TextColor" Value="#222"/>
         </Style>
 
         <Style x:Key="DangerPill" TargetType="Button" BasedOn="{StaticResource PillButton}">
-            <Setter Property="BackgroundColor" Value="#FFDDE0"/>
+            <Setter Property="BackgroundColor" Value="#FFECEC"/>
             <Setter Property="TextColor" Value="#C33"/>
         </Style>
 
@@ -35,8 +35,8 @@
         <!-- Simple page title + back -->
         <Grid Grid.Row="1" Padding="12" ColumnDefinitions="*,Auto">
             <VerticalStackLayout HorizontalOptions="Start" Spacing="2">
-                <Label Text="Notificaciones" FontAttributes="Bold" FontSize="20" TextColor="#333"/>
-                <Label Text="{Binding SummaryText}" FontSize="13" TextColor="#666"/>
+                <Label Text="Notificaciones" FontAttributes="Bold" FontSize="20" TextColor="#333333"/>
+                <Label Text="{Binding SummaryText}" FontSize="13" TextColor="#666666"/>
             </VerticalStackLayout>
 
             <HorizontalStackLayout Grid.Column="1" HorizontalOptions="End" VerticalOptions="Center" Spacing="8">
@@ -45,9 +45,9 @@
         </Grid>
 
         <!-- Main content: tabs, actions and notifications list -->
-        <StackLayout Grid.Row="2" Padding="12" Spacing="12">
+        <StackLayout Grid.Row="2" Padding="12" Spacing="12" BackgroundColor="Transparent">
             <!-- Tabs -->
-            <Frame HasShadow="False" Padding="12" BackgroundColor="#FFFFFF" CornerRadius="8">
+            <Frame HasShadow="False" Padding="12" BackgroundColor="#FFFFFF" CornerRadius="8" BorderColor="#EFEFEF">
                 <HorizontalStackLayout Spacing="8">
                     <!-- Cada pestaña es un Frame que muestra sombra cuando está seleccionada -->
                     <Frame HasShadow="{Binding TabTodasHasShadow}" CornerRadius="8" Padding="0" BackgroundColor="Transparent" BorderColor="Transparent">
@@ -62,7 +62,7 @@
 
             <!-- Summary + actions (text first, actions to the right) -->
             <Grid ColumnDefinitions="*,Auto" Padding="0">
-                <Label Text="{Binding SummaryText}" VerticalOptions="Center" TextColor="#666" />
+                <Label Text="{Binding SummaryText}" VerticalOptions="Center" TextColor="#666666" />
 
                 <HorizontalStackLayout Grid.Column="1" Spacing="8" VerticalOptions="Center">
                     <Button Text="Marcar todas leídas" Style="{StaticResource PillButton}" Clicked="OnMarkAllReadClicked" IsEnabled="{Binding IsNotLoading}" />
@@ -75,7 +75,8 @@
                 <CollectionView ItemsSource="{Binding DisplayedNotifications}" SelectionMode="None" BackgroundColor="Transparent" VerticalOptions="FillAndExpand">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <Frame Margin="0,8" Padding="12" CornerRadius="10" HasShadow="False" BorderColor="{Binding BorderColor, Source={x:Reference Name=ThisPageBindingHelper}}" BackgroundColor="White">
+                            <!-- Light card for each notification -->
+                            <Frame Margin="0,8" Padding="12" CornerRadius="10" HasShadow="False" BorderColor="#EFEFEF" BackgroundColor="#FFFFFF">
                                 <Frame.GestureRecognizers>
                                     <TapGestureRecognizer Tapped="OnNotificationTapped" />
                                 </Frame.GestureRecognizers>
@@ -92,11 +93,11 @@
                                                 <ColumnDefinition Width="Auto"/>
                                             </Grid.ColumnDefinitions>
 
-                                            <Label Text="{Binding Title}" FontAttributes="Bold" FontSize="16" Grid.Column="0" LineBreakMode="TailTruncation"/>
-                                            <Label Text="{Binding TimestampText}" FontSize="12" TextColor="#A0A0A0" Grid.Column="1" HorizontalOptions="End"/>
+                                            <Label Text="{Binding Title}" FontAttributes="Bold" FontSize="16" Grid.Column="0" LineBreakMode="TailTruncation" TextColor="#222222"/>
+                                            <Label Text="{Binding TimestampText}" FontSize="12" TextColor="#999999" Grid.Column="1" HorizontalOptions="End"/>
                                         </Grid>
 
-                                        <Label Text="{Binding Message}" FontSize="14" TextColor="#555" Margin="0,6,0,0" LineBreakMode="TailTruncation"/>
+                                        <Label Text="{Binding Message}" FontSize="14" TextColor="#444444" Margin="0,6,0,0" LineBreakMode="TailTruncation"/>
                                     </StackLayout>
 
                                     <Button Text="Eliminar" FontSize="12" TextColor="#D33" BackgroundColor="Transparent" Grid.Column="1" VerticalOptions="Start" Clicked="OnDeleteItemClicked" CommandParameter="{Binding Id}" IsEnabled="{Binding Source={x:Reference ThisPageBindingHelper}, Path=BindingContext.IsNotLoading}"/>
@@ -116,10 +117,10 @@
 
         <!-- Loading overlay -->
         <Grid IsVisible="{Binding IsLoading}" BackgroundColor="#80000000" HorizontalOptions="Fill" VerticalOptions="Fill" Grid.RowSpan="4">
-            <Frame WidthRequest="220" HeightRequest="120" CornerRadius="12" BackgroundColor="White" HorizontalOptions="Center" VerticalOptions="Center">
+            <Frame WidthRequest="220" HeightRequest="120" CornerRadius="12" BackgroundColor="#FFFFFF" HorizontalOptions="Center" VerticalOptions="Center">
                 <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="12">
                     <ActivityIndicator IsRunning="{Binding IsLoading}" WidthRequest="40" HeightRequest="40" Color="#1976D2"/>
-                    <Label Text="Cargando notificaciones..." FontSize="14" TextColor="#333" HorizontalOptions="Center"/>
+                    <Label Text="Cargando notificaciones..." FontSize="14" TextColor="#333333" HorizontalOptions="Center"/>
                 </VerticalStackLayout>
             </Frame>
         </Grid>

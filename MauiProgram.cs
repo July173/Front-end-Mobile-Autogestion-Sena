@@ -1,6 +1,4 @@
-using AutogestionSena.MAUI;
 using AutogestionSena.MAUI.Services;
-using AutogestionSenaMaui.Helpers;
 using Microsoft.Extensions.Logging;
 using Microcharts.Maui;
 

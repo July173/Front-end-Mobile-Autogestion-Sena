@@ -24,8 +24,8 @@
  <BoxView HeightRequest="1" BackgroundColor="#eeeeee" />
 
  <!-- Contenido principal -->
- <ScrollView x:Name="ContentScroll" HeightRequest="420">
- <VerticalStackLayout x:Name="ContentStack" Spacing="12" Padding="4" />
+ <ScrollView x:Name="ContentScroll" HeightRequest="520">
+ <VerticalStackLayout x:Name="ContentStack" Spacing="12" Padding="12" />
  </ScrollView>
 
  <!-- Pie: botón cerrar pequeño para accesibilidad -->
